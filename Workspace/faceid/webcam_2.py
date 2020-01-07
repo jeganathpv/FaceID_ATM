@@ -26,8 +26,10 @@ while True:
 
     # Display the resulting frame
     cv2.imshow('Video', frame)
-
-    if cv2.waitKey(1) & 0xFF == ord('q'):
+    if cv2.waitKey(1) % 256 == 32 and len(faces)==1:
+        img_name = "opencv_frame.png"
+        cv2.imwrite('./camera/' + img_name, frame)
+        print("{} written!".format(img_name))
         break
 
 # When everything is done, release the capture
