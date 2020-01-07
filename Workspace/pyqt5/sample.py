@@ -8,7 +8,7 @@ def window():
    widget = QWidget()
 
    textLabel = QLabel(widget)
-   textLabel.setText("Welcome to XYZ Bank!")
+   textLabel.setText("Welcome to XYZ Bank")
    textLabel.move(110,85)
 
    widget.setGeometry(50,50,320,200)
