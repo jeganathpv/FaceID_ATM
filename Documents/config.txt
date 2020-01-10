@@ -1,0 +1,11 @@
+#Required Libraries
+dlib
+opencv2
+face_recognition
+
+#Database
+mongodb
+robo3t - mongodb gui
+
+#framework 
+PyQY5 
