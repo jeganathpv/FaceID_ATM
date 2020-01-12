@@ -2,3 +2,6 @@
 CNN 
 https://towardsdatascience.com/wtf-is-image-classification-8e78a8235acb
 https://medium.com/@ksusorokina/image-classification-with-convolutional-neural-networks-496815db12a8
+
+AWS
+https://aws.amazon.com/blogs/machine-learning/build-your-own-face-recognition-service-using-amazon-rekognition/
