@@ -1,0 +1,17 @@
+Face-Recognition Module
+1   Test boto3 clients for aws connection       Closed  @jeganathpv
+2   Add photos into S3Bucket                    Open    @jeganathpv
+3   Capture face using webcam                   Closed  @jeganathpv
+4   Train images in S3Bucket using Rekognition  Open    @jeganathpv
+5   Stored trained file in DynamoDB             Open    @jeganathpv
+6   Enhance Trained Model by Real-Time Training Open    @jeganathpv
+7   Recognize the captured face                 Open    @jeganathpv
+
+FingerPrint Module
+#Phases need to be discussed                    Open    @dorklabs
+
+ATM Working Module
+1   Design a POCO for MongoDB                   Open    
+2   Design a work flow in console app           Open
+3   Interconnect other Module                   Open
+4   Devolep UI (PyQt5)                          Open    @jeganathpv
