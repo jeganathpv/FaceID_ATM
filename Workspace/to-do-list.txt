@@ -2,8 +2,8 @@ Face-Recognition Module
 1   Test boto3 clients for aws connection       Closed  @jeganathpv
 2   Add photos into S3Bucket                    Closed  @jeganathpv
 3   Capture face using webcam                   Closed  @jeganathpv
-4   Train images in S3Bucket using Rekognition  Open    @jeganathpv
-5   Stored trained file in DynamoDB             Open    @jeganathpv
+4   Train images in S3Bucket using Rekognition  Closed  @jeganathpv
+5   Stored trained file in DynamoDB             Closed  @jeganathpv
 6   Enhance Trained Model by Real-Time Training Open    @jeganathpv 
 7   Recognize the captured face                 Open    @jeganathpv
 
