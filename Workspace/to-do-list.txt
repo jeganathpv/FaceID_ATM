@@ -5,7 +5,7 @@ Face-Recognition Module
 4   Train images in S3Bucket using Rekognition  Closed  @jeganathpv
 5   Stored trained file in DynamoDB             Closed  @jeganathpv
 6   Enhance Trained Model by Real-Time Training Open    @jeganathpv 
-7   Recognize the captured face                 Open    @jeganathpv
+7   Recognize the captured face                 Closed    @jeganathpv
 
 FingerPrint Module
 #Phases need to be discussed                    Open    @dorklabs
