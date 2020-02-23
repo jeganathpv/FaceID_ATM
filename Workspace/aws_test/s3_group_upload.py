@@ -2,6 +2,7 @@ import csv_load as aws
 import list_images as ls
 import boto3
 
+#Add image into s3 bucket with user name as metadata
 
 s3 = boto3.resource('s3',aws_access_key_id = aws.access_key_id, aws_secret_access_key = aws.secret_access_key, region_name=aws.region)
 

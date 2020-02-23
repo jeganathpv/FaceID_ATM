@@ -6,6 +6,7 @@ rekognition = boto3.client('rekognition',aws_access_key_id = aws.access_key_id, 
 dynamodb = boto3.client('dynamodb',aws_access_key_id = aws.access_key_id, aws_secret_access_key = aws.secret_access_key, region_name=aws.region)
 
 
+#Identify face from S3 Bucket image
 def index_faces(bucket, key):
 
     response = rekognition.index_faces(
@@ -15,6 +16,7 @@ def index_faces(bucket, key):
             CollectionId="faceid")
     return response
 
+#Add users id and name in dynamo db
 def update_index(tableName,faceId, fullName):
     response = dynamodb.put_item(
         TableName=tableName,

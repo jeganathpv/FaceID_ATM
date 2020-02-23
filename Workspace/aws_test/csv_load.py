@@ -1,5 +1,6 @@
 import csv
 
+#Read Credentials from csv file
 with open('credentials.csv','r') as input:
     next(input)
     reader = csv.reader(input)
