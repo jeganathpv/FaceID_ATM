@@ -1,2 +1,3 @@
 credentials.csv
 *.pyc
+Workspace/.vscode/launch.json
