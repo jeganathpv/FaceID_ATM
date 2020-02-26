@@ -5,7 +5,7 @@ import base64
 
 # creating a Flask app
 app = Flask(__name__)
-# CORS(app, support_credentials=True)
+CORS(app, support_credentials=True)
 api = Api(app)
 
 
@@ -19,7 +19,7 @@ class SaveFile:
 class FileController(Resource):
 
     @app.route('/upload',methods = ['POST'])
-    # @cross_origin(supports_credentials=True)
+    @cross_origin(supports_credentials=True)
     def uploadFile():
         json_data = request.get_json(force = True)
         image_in_str = str(json_data['image'])
