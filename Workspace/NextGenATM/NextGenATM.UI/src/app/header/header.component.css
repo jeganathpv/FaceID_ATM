@@ -1,0 +1,9 @@
+.navbar {
+    background-color: black !important;
+    height : 100px;
+}
+
+.navbar-brand{
+    font-size: 50px;
+    color: white !important;
+}

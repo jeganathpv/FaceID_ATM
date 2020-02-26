@@ -1,0 +1,20 @@
+<!-- <div class="face-detection-container">
+    <div *ngIf='isLoading' class="face-detection-image-container">
+        <img id="face-detection-image" src="assets/images/facedetection.gif" alt="">
+    </div>
+    <div *ngIf='isLoading' class="message-container">
+        <p>Please wait while your facial profile is analyzed</p>
+        <div class="spinner-border text-light" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <app-photocapture></app-photocapture>
+</div> -->
+<div id="webcam">
+    <webcam [height]="768" [width]="1024" [trigger]="triggerObservable" (imageCapture)="handleImage($event)"
+        *ngIf="showWebcam" [videoOptions]="videoOptions" [imageQuality]="1"></webcam>
+    <div>Face Count{{faceCount}}</div>
+</div>
+<button class="actionBtn" (click)="triggerSnapshot();">Take A Snapshot</button>
+<button class="actionBtn" (click)="hideWebcam();">Hide Webcam</button>
+<button class="actionBtn" (click)="showWebcamfun();">Show Webcam</button>

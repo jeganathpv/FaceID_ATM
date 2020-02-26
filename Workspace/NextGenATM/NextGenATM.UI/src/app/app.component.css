@@ -1,0 +1,18 @@
+@font-face{
+    font-family: body-font;
+    src: url(../assets/fonts/main.ttf);
+}
+.app-base{
+    font-style: body-font;
+    height: 100vh;
+    width: 100%;
+}
+
+.header-wrapper{
+    height:100px;
+}
+
+.body-wrapper{
+    height: calc(100vh - 100px);
+}
+
