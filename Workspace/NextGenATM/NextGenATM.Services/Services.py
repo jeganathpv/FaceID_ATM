@@ -35,7 +35,7 @@ class S3Service():
         try:
             imageFile = open(path,'rb')
             s3obj = s3Resource.Object('faceid-atm','{}.jpg'.format(custId))
-            ret = s3obj.put(Body = imageFile, Metadata = {'CustomerID':custId})
+            s3obj.put(Body = imageFile, Metadata = {'CustomerID':custId})
             return True
         except:
             return False    
