@@ -1,0 +1,11 @@
+<div *ngIf="authStatus > 1">
+    <!-- login if user is not authenticated -->
+    <app-login (stateChange)="onstateChange()"></app-login>
+
+</div>
+
+<div *ngIf="authStatus == 1" class="enrollment-container">
+    <!-- show enrollment page -->
+    <p-dropdown [options]="bankSelectorList" [(ngModel)]="selectedCity1"></p-dropdown>
+
+</div>
