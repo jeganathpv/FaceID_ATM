@@ -10,8 +10,29 @@ export class MiddlewareService {
   imageObj = {
     image: ' '
   }
-  constructor(private http: HttpClient) { }
+  authStatus: any;
 
+
+  constructor(private http: HttpClient) {
+    enum AuthState {
+      authenticated,
+      invalidusername,
+      invalidpassword,
+      loggedout
+    }
+    this.authStatus = AuthState.loggedout;
+  }
+
+  login(userObj) {
+    return this.http.post("http://192.168.1.8:5000/auth", userObj)
+  }
+  getAuthStatus() {
+    return this.authStatus;
+  }
+
+  getBankDetails() {
+    return this.http.get("http://192.168.1.8:5000/bank/getdetails")
+  }
   uploadImage(image) {
     let promise = new Promise((resolve, reject) => {
       this.convertToBase64(image, (result) => {
