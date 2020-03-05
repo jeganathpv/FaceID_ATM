@@ -33,9 +33,14 @@ class BankDetails():
         bankdetailsInDb = self.mycoll.find()
         details = []
         for detail in bankdetailsInDb:
-            newDetail = str(DataMassager.massageDataDocument(detail))
+            newDetail = DataMassager.massageDataDocument(detail)
             details.append(newDetail)
         return details
+    
+    def updateLastAccountNo(self,branchCode,acNo):
+        query = { "branchCode" : branchCode }
+        value = { "$set" : { "lastAddedAcNo" : acNo }}
+        self.mycoll.update_one(query,value)
 
 
 
@@ -46,7 +51,7 @@ class CustomerRepository():
         self.mycoll = self.mydb[collections_list['Collection2']]
 
     def addCustomer(self,CustomerObject):
-        mycoll.insert_one(CustomerIDDetail.__dict__)
+        self.mycoll.insert_one(CustomerObject.__dict__)
 
 
 class FaceIDDetails():
@@ -59,9 +64,15 @@ class CustomerIDDetail():
     def __init__(self):
         self.conn = pymongo.MongoClient(mongourl)
         self.mydb = self.conn[database]
-        self.mycoll = self.mydb[collections_list['Collection3']]
+        self.mycoll = self.mydb[collections_list['Collection4']]
 
     def getLastCustID(self):
         custId = self.mycoll.find_one()
+        print(custId,type(custId))
         return custId['lastCustomerID']
+
+    def updateLastCustID(self,custID):
+        query = { "lastCustomerID" : self.getLastCustID() }
+        value = { "$set" : { "lastCustomerID" : custID }}
+        self.mycoll.update_one(query,value)
 

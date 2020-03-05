@@ -18,6 +18,3 @@ class CustomerObject:
         self.accountNo = accountNo
         self.name = name
         self.balance = balance
-
-    def set_customerID(self,customerID):
-        self.customerID = customerID

@@ -41,18 +41,39 @@ class BankService:
 
 class AccountService:
     @staticmethod
-    def generateCustomerID(CustomerObject):
+    def generateCustomerID():
         try:
             connector = CustomerIDDetail()
             lastCustId = int(connector.getLastCustID())
             newCustID = lastCustId + 1
             date = datetime.datetime.now()
             series = date.strftime("%y%m")
-            custId = series+str(newCustID)
-            CustomerObject.set_customerID(custID) 
+            custId = str(series)+str(newCustID).zfill(3)
+            return custId 
+        except Exception as e:
+            if hasattr(e, 'message'):
+                print(e.message)
+            else:
+                print(e)
+
+    @staticmethod
+    def addCustomerDetails(CustomerObject):
+        try:
             connector = CustomerRepository()
             connector.addCustomer(CustomerObject)
-            return custID 
+        except Exception as e:
+            if hasattr(e, 'message'):
+                print(e.message)
+            else:
+                print(e)
+
+    @staticmethod
+    def updateExistingDetails(custId,branchCode,lastAddedAcNo):
+        try:
+            connector = CustomerIDDetail()
+            connector.updateLastCustID(custId)
+            connector = BankDetails()
+            connector.updateLastAccountNo(branchCode,lastAddedAcNo)
         except Exception as e:
             if hasattr(e, 'message'):
                 print(e.message)
@@ -61,26 +82,41 @@ class AccountService:
 
 
 
-
 class FaceDetection:
     #Count no. of faces found in image
     @staticmethod
     def locateFacesInImage(img):
-        image = face_recognition.load_image_file(img)
-        faceLocation = face_recognition.face_locations(image)
-        return len(faceLocation)
+        try:
+            image = face_recognition.load_image_file(img)
+            faceLocation = face_recognition.face_locations(image)
+            count = len(faceLocation)
+            if count == 0:
+                return FaceCount.NotFound.value
+            elif count == 1:
+                return FaceCount.Success.value
+            else:
+                return FaceCount.MoreThanOne.value
+        except Exception as e:
+            return FaceCount.NotFound.value
+            if hasattr(e, 'message'):
+                print(e.message)
+            else:
+                print(e)
 
     #To save file from the string
     @staticmethod
-    def saveFile(image_in_str,mode):
-        if mode == "enroll":
-            path = "../StorageHub/Enroll/image.jpg"
-        elif mode == "testing":
-            path = "../StorageHub/Testing/test.jpg"
-        img = open(path,'wb')
-        img.write(base64.b64decode(image_in_str))
-        img.close()
-        return path
+    def saveFile(image_in_str):
+        try:
+            path = "test.jpg"
+            img = open(path,'wb')
+            img.write(base64.b64decode(image_in_str))
+            img.close()
+            return path
+        except Exception as e:
+            if hasattr(e, 'message'):
+                print(e.message)
+            else:
+                print(e)
 
 s3Resource = boto3.resource('s3',aws_access_key_id = aws.access_key_id, aws_secret_access_key = aws.secret_access_key, region_name=aws.region)
 

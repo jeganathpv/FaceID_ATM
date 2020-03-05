@@ -31,16 +31,31 @@ class AccountController(Resource):
     @app.route('/account/generatecustid',methods = ['POST'])
     @cross_origin(support_credentials = True)
     def generateCustId():
+        custId = AccountService.generateCustomerID()
         json_data = request.get_json(force = True)
         branchCode = json_data['branchCode']
         accountNo = json_data['accountNo']
         name = json_data['name']
         balance = json_data['balance']
-        custObj = CustomerObject("",branchCode,accountNo,name,balance)
-        custId = AccountService.generateCustomerID(custObj)
-        return jsonify({'Status':'true','CustomerID':custId})
+        custObj = CustomerObject(custId,branchCode,accountNo,name,balance)
+        AccountService.addCustomerDetails(custObj)
+        AccountService.updateExistingDetails(custId[-3:],branchCode,accountNo)
+        return jsonify({'Status':True,'CustomerID':custId})
 
+class FaceIDController(Resource):
+    @app.route('/faceid/detectface',methods = ['POST'])
+    @cross_origin(support_credentials = True)
+    def detectFace():
+        json_data = request.get_json(force = True)
+        image_str = json_data['image']
+        path = FaceDetection.saveFile(image_str)
+        status = FaceDetection.locateFacesInImage(path)
+        return jsonify({'Status':status})
+
+        
 if __name__ == "__main__":
     api.add_resource(LoginController)
     api.add_resource(BankController)
+    api.add_resource(AccountController)
+    api.add_resource(FaceIDController)
     app.run(host= '0.0.0.0')
