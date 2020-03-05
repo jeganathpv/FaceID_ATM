@@ -6,6 +6,61 @@ import base64
 import csv_load as aws 
 import boto3
 
+import datetime
+
+#Import models,enums,repository
+from Models import *
+from StaticStatus import *
+from Repository import *
+
+class LoginUser:
+    @staticmethod 
+    def validateUser(UserObject):
+        try:
+            connector = RootUser()
+            userInfoInDb = connector.getRootUserDetails()
+            if userInfoInDb.username != UserObject.username:
+                return Login.NotFound.value
+            else:
+                if userInfoInDb.password == UserObject.password:
+                    return Login.Success.value
+                else:
+                    return Login.WrongPassword.value
+        except:
+            print(str(Exception))
+
+class BankService:
+    @staticmethod
+    def getBankDetails():
+        try:
+            connector = BankDetails()
+            bankDetails = connector.getBankDetails()
+            return bankDetails
+        except:
+            print(str(Exception))    
+
+class AccountService:
+    @staticmethod
+    def generateCustomerID(CustomerObject):
+        try:
+            connector = CustomerIDDetail()
+            lastCustId = int(connector.getLastCustID())
+            newCustID = lastCustId + 1
+            date = datetime.datetime.now()
+            series = date.strftime("%y%m")
+            custId = series+str(newCustID)
+            CustomerObject.set_customerID(custID) 
+            connector = CustomerRepository()
+            connector.addCustomer(CustomerObject)
+            return custID 
+        except Exception as e:
+            if hasattr(e, 'message'):
+                print(e.message)
+            else:
+                print(e)
+
+
+
 
 class FaceDetection:
     #Count no. of faces found in image
