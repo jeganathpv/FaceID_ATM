@@ -5,13 +5,16 @@ import base64
 #AWS Lambda
 import csv_load as aws 
 import boto3
-
+import json
 import datetime
 
 #Import models,enums,repository
 from Models import *
 from StaticStatus import *
 from Repository import *
+
+with open('appsettings.json','r') as json_file:
+    appsettings = json.load(json_file)
 
 class LoginUser:
     @staticmethod 
@@ -131,30 +134,23 @@ class S3Service():
         except:
             return False    
 
-s3Client = boto3.client('s3',aws_access_key_id = aws.access_key_id, aws_secret_access_key = aws.secret_access_key, region_name=aws.region)
 rekognitionClient = boto3.client('rekognition',aws_access_key_id = aws.access_key_id, aws_secret_access_key = aws.secret_access_key, region_name=aws.region)
-dynamodbClient = boto3.client('dynamodb',aws_access_key_id = aws.access_key_id, aws_secret_access_key = aws.secret_access_key, region_name=aws.region)
 
 class FaceID():
     #Identify face from S3 Bucket image
     @staticmethod
-    def index_faces(bucket, key):
+    def index_faces(image_str):
+        image_bytes = base64.b64decode(image_str)
         response = rekognitionClient.index_faces(
-            Image={"S3Object":
-                {"Bucket": bucket,
-                "Name": key}},
-                CollectionId="faceid")
-        return response
+            Image={"Bytes":image_bytes},
+                CollectionId=appsettings["Rekognition"])
+        if response['ResponseMetadata']['HTTPStatusCode'] == 200:
+            faceId = response['FaceRecords'][0]['Face']['FaceId']
+            return [ FaceIndex.Success,faceId]
+        else:
+            return [FaceIndex.Failure]
 
-    #Add users id and name in dynamo db
     @staticmethod
-    def update_index(tableName,faceId, fullName):
-        response = dynamodbClient.put_item(
-            TableName=tableName,
-            Item={
-                'RekognitionId': {'S': faceId},
-                'FullName': {'S': fullName}
-                }
-            ) 
-        return response
-
+    def addIndexinDB(FaceIndexObject):
+        connector = FaceIDDetails()
+        connector.addFaceIndex(FaceIndexObject)

@@ -52,7 +52,22 @@ class FaceIDController(Resource):
         status = FaceDetection.locateFacesInImage(path)
         return jsonify({'Status':status})
 
-        
+    @app.route('/faceid/indexface',methods = ['POST'])
+    @cross_origin(support_credentials = True)
+    def indexFace():
+        json_data = request.get_json(force =True)
+        customerID = json_data['customerID']
+        image_str = json_data['image']
+        status = FaceID.index_faces(image_str)
+        if status[0]== FaceIndex.Success:
+            faceIndexObj = FaceIndexObject(customerID,status[1])
+            FaceID.addIndexinDB(faceIndexObj)
+            return jsonify({'Status':FaceIndex.Success.value})
+        else:
+            return jsonify({'Status':FaceIndex.Failure.value})
+
+
+
 if __name__ == "__main__":
     api.add_resource(LoginController)
     api.add_resource(BankController)

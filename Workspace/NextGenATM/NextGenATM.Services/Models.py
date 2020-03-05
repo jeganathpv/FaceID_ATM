@@ -18,3 +18,9 @@ class CustomerObject:
         self.accountNo = accountNo
         self.name = name
         self.balance = balance
+
+
+class FaceIndexObject:
+    def __init__(self,customerID,faceID):
+        self.customerID = customerID
+        self.faceID = faceID

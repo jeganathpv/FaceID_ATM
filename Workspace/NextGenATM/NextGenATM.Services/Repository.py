@@ -60,6 +60,9 @@ class FaceIDDetails():
         self.mydb = self.conn[database]
         self.mycoll = self.mydb[collections_list['Collection3']]
 
+    def addFaceIndex(self,FaceIndexObject):
+        self.mycoll.insert_one(FaceIndexObject.__dict__)
+
 class CustomerIDDetail():
     def __init__(self):
         self.conn = pymongo.MongoClient(mongourl)
