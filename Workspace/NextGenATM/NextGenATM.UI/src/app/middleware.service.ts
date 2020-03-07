@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { resolve } from 'url';
+import { AuthState } from './models';
 
 @Injectable({
   providedIn: 'root'
@@ -11,47 +11,73 @@ export class MiddlewareService {
     image: ' '
   }
   authStatus: any;
-
-
+  baseurl: string;
   constructor(private http: HttpClient) {
-    enum AuthState {
-      authenticated,
-      invalidusername,
-      invalidpassword,
-      loggedout
-    }
+    this.baseurl = "http://192.168.137.81:5000"
     this.authStatus = AuthState.loggedout;
   }
 
   login(userObj) {
-    return this.http.post("http://192.168.1.8:5000/auth", userObj)
+    return this.http.post(this.baseurl + "/auth", userObj)
   }
   getAuthStatus() {
     return this.authStatus;
   }
 
   getBankDetails() {
-    return this.http.get("http://192.168.1.8:5000/bank/getdetails")
+    return this.http.get(this.baseurl + "/bank/getdetails")
   }
   uploadImage(image) {
     let promise = new Promise((resolve, reject) => {
       this.convertToBase64(image, (result) => {
         this.imageObj.image = result;
-        this.http.post("http://192.168.1.5:5444/upload", this.imageObj).subscribe(response => {
+        this.http.post(this.baseurl + "/upload", this.imageObj).subscribe(response => {
           resolve(response)
         })
       });
     });
   }
 
+  createAccount(userDetails) {
+    return new Promise((resolve, reject) => {
+      this.http.post(this.baseurl + "/account/generatecustid", userDetails).subscribe(response => {
+        resolve(response)
+      })
+    })
+  }
+
   getFaceCount(base64string) {
     let promise = new Promise((resolve, reject) => {
       this.imageObj.image = base64string;
-      this.http.post("http://192.168.1.5:5444/detectface", this.imageObj).subscribe(response => {
+      this.http.post(this.baseurl + "/detectface", this.imageObj).subscribe(response => {
         resolve(response)
       })
     })
     return promise;
+  }
+
+  detectFace(base64string) {
+    return new Promise((resolve, reject) => {
+      this.http.post(this.baseurl + "/faceid/detectface", { "image": base64string }).subscribe(res => {
+        resolve(res)
+      })
+    })
+  }
+
+  indexFace(customerId, base64string) {
+    return new Promise((resolve, reject) => {
+      this.http.post(this.baseurl + "/faceid/indexface", { "customerID": customerId, "image": base64string }).subscribe(res => {
+        resolve(res)
+      })
+    })
+  }
+
+  getQrDetails(customerID) {
+    return this.http.post(this.baseurl + "/account/generateqrdetails", { "customerID": customerID })
+  }
+
+  generateQrCode(customerId) {
+    return this.http.get("https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + customerId);
   }
 
   convertToBase64(image, callback) {
