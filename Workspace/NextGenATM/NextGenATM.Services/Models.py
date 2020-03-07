@@ -19,7 +19,11 @@ class CustomerObject:
         self.name = name
         self.balance = balance
 
-
+class CustomerQRObject:
+    def __init__(self,customerID,accountNo,name):
+        self.customerID = customerID
+        self.accountNo = accountNo
+        self.name = name 
 class FaceIndexObject:
     def __init__(self,customerID,faceID):
         self.customerID = customerID

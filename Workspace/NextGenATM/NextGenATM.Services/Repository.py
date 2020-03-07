@@ -36,7 +36,7 @@ class BankDetails():
             newDetail = DataMassager.massageDataDocument(detail)
             details.append(newDetail)
         return details
-    
+
     def updateLastAccountNo(self,branchCode,acNo):
         query = { "branchCode" : branchCode }
         value = { "$set" : { "lastAddedAcNo" : acNo }}
@@ -53,6 +53,13 @@ class CustomerRepository():
     def addCustomer(self,CustomerObject):
         self.mycoll.insert_one(CustomerObject.__dict__)
 
+    def getBankDetail(self,customerID):
+        query = {"customerID": customerID}
+        customerDetail = {}
+        for x in self.mycoll.find(query):
+            customerDetail = DataMassager.massageDataDocument(x)
+        return customerDetail
+        
 
 class FaceIDDetails():
     def __init__(self):

@@ -83,7 +83,18 @@ class AccountService:
             else:
                 print(e)
 
-
+    @staticmethod
+    def generateQRDetails(customerID):
+        try:
+            connector = CustomerRepository()
+            customerDetail = connector.getBankDetail(customerID)
+            qrObject = CustomerQRObject(customerDetail['customerID'],customerDetail['accountNo'],customerDetail['name'])
+            return qrObject
+        except Exception as e:
+            if hasattr(e, 'message'):
+                print(e.message)
+            else:
+                print(e)
 
 class FaceDetection:
     #Count no. of faces found in image
@@ -120,19 +131,6 @@ class FaceDetection:
                 print(e.message)
             else:
                 print(e)
-
-s3Resource = boto3.resource('s3',aws_access_key_id = aws.access_key_id, aws_secret_access_key = aws.secret_access_key, region_name=aws.region)
-
-class S3Service():
-    @staticmethod
-    def uploadFileIntoS3(path, custId):
-        try:
-            imageFile = open(path,'rb')
-            s3obj = s3Resource.Object('faceid-atm','{}.jpg'.format(custId))
-            s3obj.put(Body = imageFile, Metadata = {'CustomerID':custId})
-            return True
-        except:
-            return False    
 
 rekognitionClient = boto3.client('rekognition',aws_access_key_id = aws.access_key_id, aws_secret_access_key = aws.secret_access_key, region_name=aws.region)
 

@@ -42,6 +42,15 @@ class AccountController(Resource):
         AccountService.updateExistingDetails(custId[-3:],branchCode,accountNo)
         return jsonify({'Status':True,'CustomerID':custId})
 
+    @app.route('/account/generateqrdetails',methods = ['POST'])
+    @cross_origin(support_credentials = True)
+    def generateQRDetails():
+        json_data = request.get_json(force =True)
+        customerID = json_data['customerID']
+        qrDetail = AccountService.generateQRDetails(customerID)
+        return jsonify(qrDetail.__dict__)
+
+
 class FaceIDController(Resource):
     @app.route('/faceid/detectface',methods = ['POST'])
     @cross_origin(support_credentials = True)
@@ -65,6 +74,8 @@ class FaceIDController(Resource):
             return jsonify({'Status':FaceIndex.Success.value})
         else:
             return jsonify({'Status':FaceIndex.Failure.value})
+
+
 
 
 
