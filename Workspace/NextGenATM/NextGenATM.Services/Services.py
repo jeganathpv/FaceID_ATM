@@ -29,8 +29,11 @@ class LoginUser:
                     return Login.Success.value
                 else:
                     return Login.WrongPassword.value
-        except:
-            print(str(Exception))
+        except Exception as e:
+            if hasattr(e, 'message'):
+                print(e.message)
+            else:
+                print(e)
 
 class BankService:
     @staticmethod
@@ -39,8 +42,11 @@ class BankService:
             connector = BankDetails()
             bankDetails = connector.getBankDetails()
             return bankDetails
-        except:
-            print(str(Exception))    
+        except Exception as e:
+            if hasattr(e, 'message'):
+                print(e.message)
+            else:
+                print(e)  
 
 class AccountService:
     @staticmethod
@@ -63,7 +69,9 @@ class AccountService:
     def addCustomerDetails(CustomerObject):
         try:
             connector = CustomerRepository()
+            CustomerObject.accountNo = CustomerObject.accountNo[:10] + str(int(CustomerObject.accountNo[10:])+1).zfill(5)
             connector.addCustomer(CustomerObject)
+            return CustomerObject.accountNo
         except Exception as e:
             if hasattr(e, 'message'):
                 print(e.message)

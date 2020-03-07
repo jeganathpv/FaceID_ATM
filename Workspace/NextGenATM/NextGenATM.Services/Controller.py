@@ -38,9 +38,9 @@ class AccountController(Resource):
         name = json_data['name']
         balance = json_data['balance']
         custObj = CustomerObject(custId,branchCode,accountNo,name,balance)
-        AccountService.addCustomerDetails(custObj)
+        accountNo = AccountService.addCustomerDetails(custObj)
         AccountService.updateExistingDetails(custId[-3:],branchCode,accountNo)
-        return jsonify({'Status':True,'CustomerID':custId})
+        return jsonify({'Status':True,'customerID':custId})
 
     @app.route('/account/generateqrdetails',methods = ['POST'])
     @cross_origin(support_credentials = True)

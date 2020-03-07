@@ -78,7 +78,6 @@ class CustomerIDDetail():
 
     def getLastCustID(self):
         custId = self.mycoll.find_one()
-        print(custId,type(custId))
         return custId['lastCustomerID']
 
     def updateLastCustID(self,custID):
