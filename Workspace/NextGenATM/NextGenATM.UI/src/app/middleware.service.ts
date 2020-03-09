@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { AuthState } from './models';
+import { resolve } from 'url';
 
 @Injectable({
   providedIn: 'root'
@@ -11,9 +11,16 @@ export class MiddlewareService {
     image: ' '
   }
   authStatus: any;
+
   baseurl: string;
   constructor(private http: HttpClient) {
     this.baseurl = "http://192.168.137.81:5000"
+    enum AuthState {
+      authenticated,
+      invalidusername,
+      invalidpassword,
+      loggedout
+    }
     this.authStatus = AuthState.loggedout;
   }
 

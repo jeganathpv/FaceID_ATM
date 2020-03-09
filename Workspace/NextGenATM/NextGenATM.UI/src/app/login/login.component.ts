@@ -9,7 +9,7 @@ import { MiddlewareService } from '../middleware.service';
 })
 export class LoginComponent implements OnInit {
 
-  @Output() stateChange = new EventEmitter();
+  @Output() stateChange = new EventEmitter;
   username: string;
   password: string;
   constructor(private middlewareService: MiddlewareService) { }
@@ -19,9 +19,11 @@ export class LoginComponent implements OnInit {
 
   submitForm() {
     this.middlewareService.login({ "username": this.username, "password": this.password }).subscribe((data: any) => {
-      this.middlewareService.authStatus = data.Status;
+      console.log(data)
+      this.middlewareService.authStatus = data.Status
       this.stateChange.emit();
     })
-  }
 
+    console.log("statis" + this.username, this.password)
+  }
 }

@@ -1,1 +1,67 @@
-<app-login *ngIf="authStatus > 0"> </app-login>
+<!-- <div *ngIf="authStatus > 1"> -->
+<!-- login if user is not authenticated -->
+<!-- <app-login (stateChange)="onstateChange()"></app-login> -->
+
+<!-- </div> -->
+
+<app-login *ngIf="authStatus > 1" (stateChange)="onstateChange()"></app-login>
+
+
+<!-- <h3>Please follow the below wizard</h3>
+    <div class="wizard-container">
+        <p-steps [model]="wizardSteps" [(activeIndex)]="wizardCurrentIndex" [readonly]="false">
+        </p-steps>
+    </div> -->
+<div *ngIf="!isDetecting">
+
+    <div class="branch-selector" *ngIf="authStatus == 1">
+        <!-- show enrollment page -->
+        <h4>Please select a branch to continue</h4>
+        <p-dropdown [options]="bankSelectorList" [(ngModel)]="selectedBankDetails"></p-dropdown>
+
+    </div>
+    <div class="user-details-container" *ngIf="selectedBankDetails && authStatus == 1">
+
+        <div class="user-details">
+            <input type="text" name="customername" id="" [(ngModel)]="username">
+            <input type="number" name="balance" id="" [(ngModel)]="balance">
+            <input type="submit" name="" id="" (click)="createAccount()">
+        </div>
+
+    </div>
+
+    <div class="faceDetection" *ngIf="authStatus == 1 &&  selectedBankDetails && selectedBankDetails.customerId">
+        <webcam [height]="768" [width]="1024" [trigger]="triggerObservable" (imageCapture)="handleImage($event)"
+            *ngIf="showWebcam" [videoOptions]="videoOptions" [imageQuality]="1" (imageClick)="triggerSnapshot()">
+        </webcam>
+    </div>
+
+</div>
+
+<div *ngIf="isDetecting">
+    <img id="face-detection-image" src="assets/images/facedetection.gif" alt="">
+</div>
+
+<div #generateButton *ngIf="selectedBankDetails?.isAccountComplete">
+    All set its time to generate your qr code
+    <button (click)="generateQrDetails(generateButton)">Generate QR</button>
+</div>
+
+<div *ngIf="hasGenerated">
+    <div class="card">
+        <div class="bank-name" title="BestBank">BestBank</div>
+        <div class="chip">
+            <!-- <div class="side left"></div>
+            <div class="side right"></div>
+            <div class="vertical top"></div>
+            <div class="vertical bottom"></div> -->
+        </div>
+        <div class="data">
+            <div class="pan" title="4123 4567 8910 1112">{{selectedBankDetails?.accountNo}}</div>
+
+            <div class="name-on-card">{{selectedBankDetails?.name}}</div>
+        </div>
+        <div class="lines-down"></div>
+        <div class="lines-up"></div>
+    </div>
+</div>

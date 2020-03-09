@@ -1,35 +1,37 @@
-import { Component, OnInit, Output, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { HelperService } from '../helper.service';
+import { MiddlewareService } from '../middleware.service';
 import { Subject, Observable } from 'rxjs';
 import { WebcamImage } from 'ngx-webcam';
-import { EventEmitter } from 'protractor';
 
 @Component({
   selector: 'app-facedetection',
   templateUrl: './facedetection.component.html',
   styleUrls: ['./facedetection.component.css']
 })
-
 export class FacedetectionComponent implements OnInit {
-  @Input() isLoading: boolean;
-  @Output() imageinBase64 = new EventEmitter();
-  @Input() showWebcam: boolean;
-  @Input() enableButtonControls: boolean = false
 
+  constructor(private helperService: HelperService, private middlewareService: MiddlewareService) { }
+  isLoading: boolean;
+  public showWebcam = false;
+  public allowCameraSwitch = true;
+  public multipleWebcamsAvailable = false;
   public deviceId: string;
+  public faceCount: number;
   public videoOptions: MediaTrackConstraints = {
     width: 1024,
     height: 768
   }
-
   // latest snapshot
   public webcamImage: WebcamImage = null;
 
   // webcam snapshot trigger
   private trigger: Subject<void> = new Subject<void>();
 
-  constructor() { }
-
   ngOnInit() {
+    this.helperService.isLoading$.subscribe((value) => {
+      this.isLoading = value
+    })
   }
 
   public triggerSnapshot(): void {
@@ -37,7 +39,10 @@ export class FacedetectionComponent implements OnInit {
   }
 
   public handleImage(webcamImage: WebcamImage): void {
-    this.imageinBase64.emit(webcamImage.imageAsBase64.split(',')[0])
+    console.info('received webcam image', webcamImage);
+    this.webcamImage = webcamImage;
+    console.log(webcamImage);
+    this.getFaceCount();
   }
 
   public get triggerObservable(): Observable<void> {
@@ -51,4 +56,12 @@ export class FacedetectionComponent implements OnInit {
   showWebcamfun() {
     this.showWebcam = true;
   }
+
+  getFaceCount() {
+    this.middlewareService.getFaceCount(this.webcamImage.imageAsDataUrl.split(',')[1]).then((res: any) => {
+      console.log(res);
+      this.faceCount = res.faceCount;
+    })
+  }
+
 }
