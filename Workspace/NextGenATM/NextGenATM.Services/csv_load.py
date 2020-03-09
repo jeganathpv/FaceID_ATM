@@ -1,7 +1,7 @@
 import csv
 
 #Read Credentials from csv file
-with open('StorageHub/credentials.csv','r') as input:
+with open('credentials.csv','r') as input:
     next(input)
     reader = csv.reader(input)
     for line in reader:
