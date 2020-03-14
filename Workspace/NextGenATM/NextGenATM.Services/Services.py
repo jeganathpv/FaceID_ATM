@@ -201,7 +201,6 @@ class FaceID():
             )
             faceMatch = False
             connector = FaceIDDetails()
-            print(response['FaceMatches'])
             for match in response['FaceMatches']:
                 faceDetails = connector.getFaceIdDetails()
                 faceid = match['Face']['FaceId']
