@@ -47,7 +47,7 @@ class AccountController(Resource):
     def generateQRDetails():
         json_data = request.get_json(force =True)
         customerID = json_data['customerID']
-        qrDetail = AccountService.generateQRDetails(customerID)
+        qrDetail = AccountService.fetchCustomerDetail(customerID)
         return jsonify(qrDetail.__dict__)
 
 
@@ -84,4 +84,4 @@ if __name__ == "__main__":
     api.add_resource(BankController)
     api.add_resource(AccountController)
     api.add_resource(FaceIDController)
-    app.run(host= '0.0.0.0')
+    app.run(host= '0.0.0.0',port=5000)

@@ -70,6 +70,12 @@ class FaceIDDetails():
     def addFaceIndex(self,FaceIndexObject):
         self.mycoll.insert_one(FaceIndexObject.__dict__)
 
+    def getFaceIdDetails(self):
+        faceIdDetails = []
+        for x in self.mycoll.find():
+            faceIdDetails.append(DataMassager.massageDataDocument(x))
+        return faceIdDetails
+
 class CustomerIDDetail():
     def __init__(self):
         self.conn = pymongo.MongoClient(mongourl)
