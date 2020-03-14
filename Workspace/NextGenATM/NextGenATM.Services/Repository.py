@@ -59,6 +59,11 @@ class CustomerRepository():
         for x in self.mycoll.find(query):
             customerDetail = DataMassager.massageDataDocument(x)
         return customerDetail
+
+    def updateCustomerBalance(self,customerID,balance):
+        query = {"customerID": customerID}
+        value = { "$set" : { "balance" : balance }}
+        self.mycoll.update_one(query,value)
         
 
 class FaceIDDetails():

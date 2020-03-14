@@ -126,7 +126,34 @@ class AccountService:
 
     @staticmethod
     def fetchAccountBalance(customerID):
-
+        try:
+            connector = CustomerRepository()
+            customerDetail = connector.getCustomerDetail(customerID)
+            return customerDetail['balance']
+        except Exception as e:
+            if hasattr(e, 'message'):
+                print(e.message)
+            else:
+                print(e)
+        
+    @staticmethod
+    def cashWithdrawal(customerID,amount):
+        try:
+            connector = CustomerRepository()
+            customerDetail = connector.getCustomerDetail(customerID)
+            availableBalance = int(customerDetail['balance'])
+            if availableBalance>amount:
+                balance = availableBalance - amount
+                connector.updateCustomerBalance(customerID,str(balance))
+                return CashWithdrawal.Success.value
+            else:
+                return CashWithdrawal.InsufficientBalance.value
+        except Exception as e:
+            if hasattr(e, 'message'):
+                print(e.message)
+            else:
+                print(e)
+                
 class FaceDetection:
     # Count no. of faces found in image
     @staticmethod

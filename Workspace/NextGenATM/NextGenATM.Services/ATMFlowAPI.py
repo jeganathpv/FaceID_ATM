@@ -32,6 +32,22 @@ class AccountController(Resource):
         custDetail = AccountService.fetchCustomerDetail(customerID)
         return jsonify(custDetail.__dict__)
 
+    @app.route('/account/getbalance',methods=['POST'])
+    @cross_origin(support_credentials = True)
+    def fetchBalance():
+        json_data = request.get_json(force = True)
+        customerID = json_data['customerID']
+        return jsonify({"balance":AccountService.fetchAccountBalance(customerID)})
+
+    @app.route('/account/withdrawcash',methods=['POST'])
+    @cross_origin(support_credentials=True)
+    def cashWithdraw():
+        json_data = request.get_json(force = True)
+        customerID = json_data['customerID']
+        amount = int(json_data['amount'])
+        return jsonify({"Status":AccountService.cashWithdrawal(customerID,amount)})
+
+
 class FaceIDController(Resource):
     @app.route('/faceid/detectface',methods = ['POST'])
     @cross_origin(support_credentials = True)
