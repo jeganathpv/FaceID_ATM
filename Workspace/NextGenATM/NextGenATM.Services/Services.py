@@ -99,7 +99,7 @@ class AccountService:
     def fetchCustomerDetail(customerID):
         try:
             connector = CustomerRepository()
-            customerDetail = connector.getBankDetail(customerID)
+            customerDetail = connector.getCustomerDetail(customerID)
             custObj = CustomerQRObject(
                 customerDetail['customerID'], customerDetail['accountNo'], customerDetail['name'])
             return custObj
@@ -113,7 +113,7 @@ class AccountService:
     def matchQrCodeWithAccount(qrCode):
         try:
             connector = CustomerRepository()
-            customerDetail = connector.getBankDetail(qrCode)
+            customerDetail = connector.getCustomerDetail(qrCode)
             if customerDetail['customerID'] == qrCode:
                 return True
             else:
@@ -124,6 +124,8 @@ class AccountService:
             else:
                 print(e)
 
+    @staticmethod
+    def fetchAccountBalance(customerID):
 
 class FaceDetection:
     # Count no. of faces found in image

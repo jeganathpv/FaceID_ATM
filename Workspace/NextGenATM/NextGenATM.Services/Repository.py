@@ -53,7 +53,7 @@ class CustomerRepository():
     def addCustomer(self,CustomerObject):
         self.mycoll.insert_one(CustomerObject.__dict__)
 
-    def getBankDetail(self,customerID):
+    def getCustomerDetail(self,customerID):
         query = {"customerID": customerID}
         customerDetail = {}
         for x in self.mycoll.find(query):
