@@ -27,6 +27,12 @@ def update_index(tableName,faceId, fullName):
         ) 
     return response
 
+def index_face_bytes(image_bytes):
+    response = rekognition.index_faces(
+        Image={"Bytes":image_bytes},
+            CollectionId="faceid")
+    return response
+
 
 try:
     bucket = "faceid-atm"

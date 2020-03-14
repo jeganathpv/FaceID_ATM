@@ -5,7 +5,7 @@ import boto3
 rekognition = boto3.client('rekognition',aws_access_key_id = aws.access_key_id, aws_secret_access_key = aws.secret_access_key, region_name=aws.region)
 dynamodb = boto3.client('dynamodb',aws_access_key_id = aws.access_key_id, aws_secret_access_key = aws.secret_access_key, region_name=aws.region)
 
-image = "testing/test.png"
+image = "testing/test.jpg"
 with open(image,"rb") as img:
     image_binary = img.read()
 
@@ -23,6 +23,8 @@ for match in response['FaceMatches']:
         Key={'RekognitionId': {'S': match['Face']['FaceId']}}
         )
     
+    print(face)
+
     if 'Item' in face:
         print (face['Item']['FullName']['S'])
     else:

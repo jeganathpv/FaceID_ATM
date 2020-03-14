@@ -14,7 +14,7 @@ def create_collection(collection_id):
     print('Done...')
     
 def main():
-    collection_id='faceid'
+    collection_id='faceid-atm'
     create_collection(collection_id)
 
 if __name__ == "__main__":
