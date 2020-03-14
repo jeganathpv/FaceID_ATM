@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { resolve } from 'url';
+import { Bank } from './models';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class MiddlewareService {
 
   baseurl: string;
   constructor(private http: HttpClient) {
-    this.baseurl = "http://192.168.137.81:5000"
+    this.baseurl = "http://192.168.1.30:5000"
     enum AuthState {
       authenticated,
       invalidusername,
@@ -32,8 +33,13 @@ export class MiddlewareService {
   }
 
   getBankDetails() {
-    return this.http.get(this.baseurl + "/bank/getdetails")
+    return new Promise((resolve, reject) => {
+      this.http.get<Bank[]>(this.baseurl + "/bank/getdetails").subscribe((res: Bank[]) => {
+        resolve(res)
+      })
+    })
   }
+
   uploadImage(image) {
     let promise = new Promise((resolve, reject) => {
       this.convertToBase64(image, (result) => {

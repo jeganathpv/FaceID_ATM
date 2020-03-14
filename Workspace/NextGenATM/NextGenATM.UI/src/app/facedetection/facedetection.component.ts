@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
 import { HelperService } from '../helper.service';
 import { MiddlewareService } from '../middleware.service';
 import { Subject, Observable } from 'rxjs';
 import { WebcamImage } from 'ngx-webcam';
+
+
 
 @Component({
   selector: 'app-facedetection',
@@ -10,14 +12,14 @@ import { WebcamImage } from 'ngx-webcam';
   styleUrls: ['./facedetection.component.css']
 })
 export class FacedetectionComponent implements OnInit {
+  @Input() buttonControlEnabled: boolean = false;
+  @Input() isLoading: string;
+  // outputs image as base64 string
+  @Output() image = new EventEmitter();
 
   constructor(private helperService: HelperService, private middlewareService: MiddlewareService) { }
-  isLoading: boolean;
-  public showWebcam = false;
-  public allowCameraSwitch = true;
-  public multipleWebcamsAvailable = false;
+  public showWebcam = true;
   public deviceId: string;
-  public faceCount: number;
   public videoOptions: MediaTrackConstraints = {
     width: 1024,
     height: 768
@@ -29,9 +31,7 @@ export class FacedetectionComponent implements OnInit {
   private trigger: Subject<void> = new Subject<void>();
 
   ngOnInit() {
-    this.helperService.isLoading$.subscribe((value) => {
-      this.isLoading = value
-    })
+
   }
 
   public triggerSnapshot(): void {
@@ -39,10 +39,8 @@ export class FacedetectionComponent implements OnInit {
   }
 
   public handleImage(webcamImage: WebcamImage): void {
-    console.info('received webcam image', webcamImage);
     this.webcamImage = webcamImage;
-    console.log(webcamImage);
-    this.getFaceCount();
+    this.image.emit(webcamImage.imageAsBase64);
   }
 
   public get triggerObservable(): Observable<void> {
@@ -55,13 +53,6 @@ export class FacedetectionComponent implements OnInit {
 
   showWebcamfun() {
     this.showWebcam = true;
-  }
-
-  getFaceCount() {
-    this.middlewareService.getFaceCount(this.webcamImage.imageAsDataUrl.split(',')[1]).then((res: any) => {
-      console.log(res);
-      this.faceCount = res.faceCount;
-    })
   }
 
 }

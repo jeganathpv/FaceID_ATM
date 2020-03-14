@@ -14,6 +14,8 @@ import { DropdownModule } from 'primeng/dropdown';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CardModule } from 'primeng/card';
 import { StepsModule } from 'primeng/steps';
+import { CarouselModule } from 'primeng/carousel';
+import { QRCodeModule } from 'angularx-qrcode';
 
 
 @NgModule({
@@ -34,8 +36,9 @@ import { StepsModule } from 'primeng/steps';
     DropdownModule,
     BrowserAnimationsModule,
     CardModule,
-    StepsModule
-
+    StepsModule,
+    CarouselModule,
+    QRCodeModule
   ],
   providers: [],
   bootstrap: [AppComponent]

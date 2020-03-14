@@ -19,11 +19,10 @@ export class LoginComponent implements OnInit {
 
   submitForm() {
     this.middlewareService.login({ "username": this.username, "password": this.password }).subscribe((data: any) => {
-      console.log(data)
-      this.middlewareService.authStatus = data.Status
-      this.stateChange.emit();
+      // update the authstatus in middlewareseervice
+      this.middlewareService.authStatus = data.Status;
+      if (data.Status == 1)
+        this.stateChange.emit();
     })
-
-    console.log("statis" + this.username, this.password)
   }
 }

@@ -1,67 +1,66 @@
-<!-- <div *ngIf="authStatus > 1"> -->
-<!-- login if user is not authenticated -->
-<!-- <app-login (stateChange)="onstateChange()"></app-login> -->
-
-<!-- </div> -->
-
 <app-login *ngIf="authStatus > 1" (stateChange)="onstateChange()"></app-login>
 
-
-<!-- <h3>Please follow the below wizard</h3>
-    <div class="wizard-container">
-        <p-steps [model]="wizardSteps" [(activeIndex)]="wizardCurrentIndex" [readonly]="false">
-        </p-steps>
-    </div> -->
-<div *ngIf="!isDetecting">
-
-    <div class="branch-selector" *ngIf="authStatus == 1">
-        <!-- show enrollment page -->
-        <h4>Please select a branch to continue</h4>
-        <p-dropdown [options]="bankSelectorList" [(ngModel)]="selectedBankDetails"></p-dropdown>
-
+<div *ngIf="authStatus == 1" class="enrollment">
+    <div *ngIf="enrollmentStep == 0" class="branch-selector">
+        <h3>Select the branch</h3>
+        <p-dropdown [options]="cities1" [(ngModel)]="selectedBank" (onChange)="dropDownChange($event)"></p-dropdown>
     </div>
-    <div class="user-details-container" *ngIf="selectedBankDetails && authStatus == 1">
-
-        <div class="user-details">
-            <input type="text" name="customername" id="" [(ngModel)]="username">
-            <input type="number" name="balance" id="" [(ngModel)]="balance">
-            <input type="submit" name="" id="" (click)="createAccount()">
-        </div>
-
+    <div *ngIf="enrollmentStep == 1" class="customer-details">
+        <form class="customerDetailsForm">
+            <div class="form-group">
+                <label for="name">Customer Name</label>
+                <input required name="name" type="text" class="form-control" [(ngModel)]="customer.name" id="name"
+                    aria-describedby="nameHelp" placeholder="Enter name">
+                <small id="nameHelp" class="form-text text-muted">Ensure the name matches your Identity proof</small>
+            </div>
+            <div class="form-group">
+                <label for="balance">Balance</label>
+                <input type="text" name="balance" class="form-control" required id="balance"
+                    [(ngModel)]="customer.balance" placeholder="Balance">
+            </div>
+            <button type="submit" class="btn btn-primary" (click)="formSubmit(customerDetailsForm)">Submit</button>
+        </form>
     </div>
-
-    <div class="faceDetection" *ngIf="authStatus == 1 &&  selectedBankDetails && selectedBankDetails.customerId">
-        <webcam [height]="768" [width]="1024" [trigger]="triggerObservable" (imageCapture)="handleImage($event)"
-            *ngIf="showWebcam" [videoOptions]="videoOptions" [imageQuality]="1" (imageClick)="triggerSnapshot()">
-        </webcam>
+    <div *ngIf="enrollmentStep == 2 && !imageLoading">
+        <app-facedetection [isLoading]="imageLoading" (image)="imageCaptured($event)"></app-facedetection>
     </div>
+    <div *ngIf="enrollmentStep == 3" class="details-view">
+        <h1 class="title">Here's your card!</h1>
 
-</div>
 
-<div *ngIf="isDetecting">
-    <img id="face-detection-image" src="assets/images/facedetection.gif" alt="">
-</div>
+        <div class="card">
+            <div class="card__front card__part">
+                <img class="card__front-square card__square" src="https://image.ibb.co/cZeFjx/little_square.png">
+                <img class="card__front-logo card__logo"
+                    src="https://www.fireeye.com/partners/strategic-technology-partners/visa-fireeye-cyber-watch-program/_jcr_content/content-par/grid_20_80_full/grid-20-left/image.img.png/1505254557388.png">
+                <p class="card_numer">**** **** **** 6258</p>
+                <div class="card__space-75">
+                    <span class="card__label">Card holder</span>
+                    <p class="card__info">John Doe</p>
+                </div>
+                <div class="card__space-25">
+                    <span class="card__label">Expires</span>
+                    <p class="card__info">10/25</p>
+                </div>
+            </div>
 
-<div #generateButton *ngIf="selectedBankDetails?.isAccountComplete">
-    All set its time to generate your qr code
-    <button (click)="generateQrDetails(generateButton)">Generate QR</button>
-</div>
+            <div class="card__back card__part">
+                <h4>Scan here</h4>
+                <div class="qr">
+                    <qrcode [qrdata]="'Your data string'" [width]="140" [errorCorrectionLevel]="'M'"
+                        [colorLight]="'none'">
+                    </qrcode>
+                </div>
 
-<div *ngIf="hasGenerated">
-    <div class="card">
-        <div class="bank-name" title="BestBank">BestBank</div>
-        <div class="chip">
-            <!-- <div class="side left"></div>
-            <div class="side right"></div>
-            <div class="vertical top"></div>
-            <div class="vertical bottom"></div> -->
+            </div>
+
         </div>
-        <div class="data">
-            <div class="pan" title="4123 4567 8910 1112">{{selectedBankDetails?.accountNo}}</div>
-
-            <div class="name-on-card">{{selectedBankDetails?.name}}</div>
+    </div>
+    <div *ngIf="imageLoading" class="loadingimage">
+        <img src="assets/images/facedetection.gif" alt="">
+        <h4 class="statusMsg">{{statusMsg}}</h4>
+        <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
         </div>
-        <div class="lines-down"></div>
-        <div class="lines-up"></div>
     </div>
 </div>
