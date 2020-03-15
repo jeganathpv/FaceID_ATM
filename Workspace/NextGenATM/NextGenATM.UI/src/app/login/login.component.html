@@ -7,27 +7,27 @@
 
 </div> -->
 
-<div class="wrapper fadeInDown">
+<div class="wrapper">
     <div id="formContent">
         <!-- Tabs Titles -->
 
         <!-- Icon -->
-        <div class="fadeIn first">
-            <img src="http://danielzawadzki.com/codepen/01/icon.svg" id="icon" alt="User Icon" />
+        <div class="first">
+            <img src="../../assets/faceidatm-logo.svg" id="icon" alt="User Icon" />
         </div>
 
         <!-- Login Form -->
-        <form>
-            <input type="text" id="login" class="fadeIn second" name="login" placeholder="login" [(ngModel)]="username">
-            <input type="password" id="password" class="fadeIn third" name="login" placeholder="password"
+        <form class="formPadding">
+            <input type="text" id="login" class="second" name="login" placeholder="Enter username" [(ngModel)]="username">
+            <input type="password" id="password" class="third" name="login" placeholder="Enter password"
                 [(ngModel)]="password">
-            <input type="submit" class="fadeIn fourth" value="Log In" (click)="submitForm()">
+            <input type="submit" class="fourth" value="Log In" (click)="submitForm()">
         </form>
 
         <!-- Remind Passowrd -->
-        <div id=" formFooter">
+        <!-- <div id=" formFooter">
             <a class="underlineHover" href="#">Forgot Password?</a>
-        </div>
+        </div> -->
 
     </div>
 </div>

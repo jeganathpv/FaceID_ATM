@@ -1,1 +1,22 @@
 /* You can add global styles to this file, and also import other style files */
+body{
+    background-color: aqua !important;
+}
+
+.card-material {
+    background: #fff;
+    border-radius: 2px;
+    display: inline-block;
+    margin: 1rem;
+    position: relative;
+  }
+
+.card-material:hover{
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+
+.formPadding{
+    padding: 10px;
+    margin: 20px;
+  }
+  
