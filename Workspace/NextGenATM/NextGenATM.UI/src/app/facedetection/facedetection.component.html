@@ -1,0 +1,9 @@
+<div id="webcam">
+    <webcam [height]="768" [width]="1024" [trigger]="triggerObservable" (imageCapture)="handleImage($event)"
+        (imageClick)="triggerSnapshot()" *ngIf="showWebcam" [videoOptions]="videoOptions" [imageQuality]="1"></webcam>
+</div>
+<div class="button-controls" *ngIf="buttonControlEnabled">
+    <button class="actionBtn" (click)="triggerSnapshot();">Take A Snapshot</button>
+    <button class="actionBtn" (click)="hideWebcam();">Hide Webcam</button>
+    <button class="actionBtn" (click)="showWebcamfun();">Show Webcam</button>
+</div>
