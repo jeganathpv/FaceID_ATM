@@ -1,7 +1,6 @@
 <div id="webcam">
     <webcam [height]="768" [width]="1024" [trigger]="triggerObservable" (imageCapture)="handleImage($event)"
         (imageClick)="triggerSnapshot()" *ngIf="showWebcam" [videoOptions]="videoOptions" [imageQuality]="1"></webcam>
-    <div>Face Count{{faceCount}}</div>
 </div>
 <div class="button-controls" *ngIf="buttonControlEnabled">
     <button class="actionBtn" (click)="triggerSnapshot();">Take A Snapshot</button>

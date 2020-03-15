@@ -10,15 +10,16 @@ import { SelectItem } from 'primeng/api/selectitem';
   styleUrls: ['./enrollment.component.css'],
 })
 export class EnrollmentComponent implements OnInit {
-  authStatus = 1;
-  enrollmentStep: number = 2;
+  authStatus;
+  enrollmentStep: number;
   availableBanksList: Bank[];
   selectedBank: Bank;
-  bankSelectionList: SelectItem[];
+  bankSelectionList: SelectItem[] = [];
   customer: Customer;
   validForm: boolean = true;
   imageLoading: boolean = false;
   statusMsg: string = "Please wait";
+
   constructor(private middlewareService: MiddlewareService) {
 
   }
@@ -27,26 +28,28 @@ export class EnrollmentComponent implements OnInit {
 
 
     this.authStatus = this.middlewareService.getAuthStatus();
-    this.authStatus = 1;
-    this.enrollmentStep = 3;
+    // this.authStatus = 1;
+    this.enrollmentStep = 0;
     this.middlewareService.getBankDetails().then((res: Bank[]) => {
-      this.availableBanksList = res['BankDetails']
+      this.availableBanksList = res['BankDetails'];
+      this.buildDropdown();
     });
     this.customer = {};
   }
 
   buildDropdown() {
-    let currentBank: SelectItem;
+
     this.availableBanksList.forEach(bank => {
-      currentBank['label'] = bank.location;
-      currentBank['value'] = bank;
-      this.bankSelectionList.push(currentBank);
+      this.bankSelectionList.push({
+        label: bank.location,
+        value: bank
+      });
     });
   }
 
   dropDownChange($event) {
     if ($event.value) {
-      // this.enrollmentStep = 2;
+      this.enrollmentStep = 1;
     }
   }
   formSubmit(val) {
@@ -54,23 +57,42 @@ export class EnrollmentComponent implements OnInit {
       this.validForm = false;
       return
     }
-    this.middlewareService.createAccount(this.customer).then((res: Customer) => {
-      this.customer.customerID = res.customerID;
-      this.enrollmentStep = 3;
+    this.middlewareService.createAccount({
+      branchCode: this.selectedBank.branchCode,
+      accountNo: this.selectedBank.lastAddedAcNo,
+      name: this.customer.name,
+      balance: this.customer.balance
+    }).then((res: any) => {
+      if (res.Status)
+        this.customer.customerID = res.customerID;
+      this.enrollmentStep = 2;
     })
   }
   imageCaptured($event) {
-    this.statusMsg = "Indexing Face";
+    this.imageLoading = true;
     this.middlewareService.detectFace($event).then((res: any) => {
+
       if (res.Status == 1) {
-        this.statusMsg = "Indexing Done";
-        this.enrollmentStep = 3;
+        this.statusMsg = "Indexing Face";
+        this.middlewareService.indexFace(this.customer.customerID, $event).then((res: any) => {
+          if (res.Status == 1) {
+            this.statusMsg = "Indexing Done";
+            this.enrollmentStep = 3;
+            this.imageLoading = false;
+          }
+        })
+      }
+      else {
+        this.enrollmentStep = 2;
+        this.imageLoading = false;
       }
     })
 
   }
   onstateChange() {
     this.authStatus = 1;
-    this.enrollmentStep = 1
+    this.enrollmentStep = 0;
   }
 }
+
+
