@@ -1,39 +1,98 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { MiddlewareService } from '../middleware.service';
+import { EnrollmentStep, Bank, Customer } from '../models';
+import { SelectItem } from 'primeng/api/selectitem';
+
 
 @Component({
   selector: 'app-enrollment',
   templateUrl: './enrollment.component.html',
-  styleUrls: ['./enrollment.component.css']
+  styleUrls: ['./enrollment.component.css'],
 })
 export class EnrollmentComponent implements OnInit {
-  authStatus: any;
-  selectedBank: any;
-  selectedBankDetails: any;
-  banksList: any;
-  bankSelectorList: any[] = [];
-  constructor(private middlewareService: MiddlewareService) { }
+  authStatus;
+  enrollmentStep: number;
+  availableBanksList: Bank[];
+  selectedBank: Bank;
+  bankSelectionList: SelectItem[] = [];
+  customer: Customer;
+  validForm: boolean = true;
+  imageLoading: boolean = false;
+  statusMsg: string = "Please wait";
+
+  constructor(private middlewareService: MiddlewareService) {
+
+  }
 
   ngOnInit() {
+
+
     this.authStatus = this.middlewareService.getAuthStatus();
-    console.log(this.authStatus)
+    // this.authStatus = 1;
+    this.enrollmentStep = 0;
+    this.middlewareService.getBankDetails().then((res: Bank[]) => {
+      this.availableBanksList = res['BankDetails'];
+      this.buildDropdown();
+    });
+    this.customer = {};
   }
 
-  onstateChange() {
-    this.authStatus = this.middlewareService.getAuthStatus();
-    if (this.authStatus == 1) {
-      this.initEnrollment();
+  buildDropdown() {
+
+    this.availableBanksList.forEach(bank => {
+      this.bankSelectionList.push({
+        label: bank.location,
+        value: bank
+      });
+    });
+  }
+
+  dropDownChange($event) {
+    if ($event.value) {
+      this.enrollmentStep = 1;
     }
   }
-  initEnrollment() {
-    this.middlewareService.getBankDetails().subscribe((data: any) => {
-      this.banksList = data.BankDetails;
-      this.banksList.forEach(element => {
-        console.log(element.location)
-        this.bankSelectorList.push(element.location)
-      });
+  formSubmit(val) {
+    if (!this.customer.name && !this.customer.balance) {
+      this.validForm = false;
+      return
+    }
+    this.middlewareService.createAccount({
+      branchCode: this.selectedBank.branchCode,
+      accountNo: this.selectedBank.lastAddedAcNo,
+      name: this.customer.name,
+      balance: this.customer.balance
+    }).then((res: any) => {
+      if (res.Status)
+        this.customer.customerID = res.customerID;
+      this.enrollmentStep = 2;
     })
-    console.log(this.bankSelectorList);
   }
+  imageCaptured($event) {
+    this.imageLoading = true;
+    this.middlewareService.detectFace($event).then((res: any) => {
 
+      if (res.Status == 1) {
+        this.statusMsg = "Indexing Face";
+        this.middlewareService.indexFace(this.customer.customerID, $event).then((res: any) => {
+          if (res.Status == 1) {
+            this.statusMsg = "Indexing Done";
+            this.enrollmentStep = 3;
+            this.imageLoading = false;
+          }
+        })
+      }
+      else {
+        this.enrollmentStep = 2;
+        this.imageLoading = false;
+      }
+    })
+
+  }
+  onstateChange() {
+    this.authStatus = 1;
+    this.enrollmentStep = 0;
+  }
 }
+
+

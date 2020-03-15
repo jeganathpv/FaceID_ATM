@@ -1,11 +1,68 @@
-<div *ngIf="authStatus > 1">
-    <!-- login if user is not authenticated -->
-    <app-login (stateChange)="onstateChange()"></app-login>
+<app-login *ngIf="authStatus > 1" (stateChange)="onstateChange()"></app-login>
 
-</div>
+<div *ngIf="authStatus == 1" class="enrollment">
+    <div *ngIf="enrollmentStep == 0" class="branch-selector">
+        <h3>Select the branch</h3>
+        <p-dropdown [options]="bankSelectionList" [(ngModel)]="selectedBank" (onChange)="dropDownChange($event)">
+        </p-dropdown>
+    </div>
+    <div *ngIf="enrollmentStep == 1" class="customer-details">
+        <form class="customerDetailsForm">
+            <div class="form-group">
+                <label for="name">Customer Name</label>
+                <input required name="name" type="text" class="form-control" [(ngModel)]="customer.name" id="name"
+                    aria-describedby="nameHelp" placeholder="Enter name">
+                <small id="nameHelp" class="form-text text-muted">Ensure the name matches your Identity proof</small>
+            </div>
+            <div class="form-group">
+                <label for="balance">Balance</label>
+                <input type="text" name="balance" class="form-control" required id="balance"
+                    [(ngModel)]="customer.balance" placeholder="Balance">
+            </div>
+            <button type="submit" class="btn btn-primary" (click)="formSubmit(customerDetailsForm)">Submit</button>
+        </form>
+    </div>
+    <div *ngIf="enrollmentStep == 2 && !imageLoading">
+        <app-facedetection [isLoading]="imageLoading" (image)="imageCaptured($event)"></app-facedetection>
+    </div>
+    <div *ngIf="imageLoading" class="loadingimage">
+        <img src="assets/images/facedetection.gif" alt="">
+        <h4 class="statusMsg">{{statusMsg}}</h4>
+        <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <div *ngIf="enrollmentStep == 3" class="details-view">
+        <h1 class="title">Here's your card!</h1>
 
-<div *ngIf="authStatus == 1" class="enrollment-container">
-    <!-- show enrollment page -->
-    <p-dropdown [options]="bankSelectorList" [(ngModel)]="selectedCity1"></p-dropdown>
+
+        <div class="card">
+            <div class="card__front card__part">
+                <img class="card__front-square card__square" src="https://image.ibb.co/cZeFjx/little_square.png">
+                <img class="card__front-logo card__logo"
+                    src="https://www.fireeye.com/partners/strategic-technology-partners/visa-fireeye-cyber-watch-program/_jcr_content/content-par/grid_20_80_full/grid-20-left/image.img.png/1505254557388.png">
+                <p class="card_numer">{{customer.accountNo}}</p>
+                <div class="card__space-75">
+                    <span class="card__label">Card holder</span>
+                    <p class="card__info">{{customer.name}}</p>
+                </div>
+                <div class="card__space-25">
+                    <span class="card__label">Expires</span>
+                    <p class="card__info">10/25</p>
+                </div>
+            </div>
+
+            <div class="card__back card__part">
+                <h4>Scan here</h4>
+                <div class="qr">
+                    <qrcode [qrdata]="customer.customerID" [width]="140" [errorCorrectionLevel]="'M'"
+                        [colorLight]="'none'">
+                    </qrcode>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
 
 </div>

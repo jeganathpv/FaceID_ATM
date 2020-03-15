@@ -21,6 +21,7 @@
     "@angular/platform-browser-dynamic": "~8.2.4",
     "@angular/router": "~8.2.4",
     "@ng-bootstrap/ng-bootstrap": "^5.2.1",
+    "angularx-qrcode": "^2.1.0",
     "aws-sdk": "^2.624.0",
     "bootstrap": "^4.4.1",
     "jquery": "^3.4.1",

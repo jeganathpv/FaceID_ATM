@@ -11,6 +11,12 @@ import { EnrollmentComponent } from './enrollment/enrollment.component';
 import { LoginComponent } from './login/login.component';
 import { FormsModule } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CardModule } from 'primeng/card';
+import { StepsModule } from 'primeng/steps';
+import { CarouselModule } from 'primeng/carousel';
+import { QRCodeModule } from 'angularx-qrcode';
+
 
 @NgModule({
   declarations: [
@@ -19,7 +25,7 @@ import { DropdownModule } from 'primeng/dropdown';
     WelcomeComponent,
     FacedetectionComponent,
     EnrollmentComponent,
-    LoginComponent
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -27,8 +33,12 @@ import { DropdownModule } from 'primeng/dropdown';
     HttpClientModule,
     WebcamModule,
     FormsModule,
-    DropdownModule
-
+    DropdownModule,
+    BrowserAnimationsModule,
+    CardModule,
+    StepsModule,
+    CarouselModule,
+    QRCodeModule
   ],
   providers: [],
   bootstrap: [AppComponent]
