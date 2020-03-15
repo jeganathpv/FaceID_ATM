@@ -217,3 +217,15 @@ h4{
     margin: 0 auto;
     text-align: center;
 }
+
+p-messages{
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+#dropdownsubmit{
+    margin: 0 auto;
+    margin-top: 21px;
+    /* top: 26px; */
+    display: block;
+}

@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { MiddlewareService } from '../middleware.service';
-
+import { MessageService } from 'primeng/api';
+import { Message } from 'primeng//api';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,8 @@ export class LoginComponent implements OnInit {
   @Output() stateChange = new EventEmitter;
   username: string;
   password: string;
-  constructor(private middlewareService: MiddlewareService) { }
+  msgs: Message[] = [];
+  constructor(private middlewareService: MiddlewareService, private messageService: MessageService) { }
 
   ngOnInit() {
   }
@@ -21,8 +23,19 @@ export class LoginComponent implements OnInit {
     this.middlewareService.login({ "username": this.username, "password": this.password }).subscribe((data: any) => {
       // update the authstatus in middlewareseervice
       this.middlewareService.authStatus = data.Status;
-      if (data.Status == 1)
+      if (data.Status == 1) {
         this.stateChange.emit();
+        this.messageService.add({ severity: 'success', summary: 'Login Successful', detail: 'Logged in successfully' });
+
+      }
+
+      else if (data.Status == 2)
+        this.messageService.add({ severity: 'error', summary: 'Login Failed', detail: 'User Does not exist' });
+      else if (data.Status == 3)
+        this.messageService.add({ severity: 'error', summary: 'Login Failed', detail: 'Invalid Password' });
+      else {
+        this.messageService.add({ severity: 'error', summary: 'Login Failed', detail: 'Soething wet wrong' });
+      }
     })
   }
 }

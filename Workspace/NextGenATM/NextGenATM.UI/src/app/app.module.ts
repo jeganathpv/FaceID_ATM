@@ -16,6 +16,10 @@ import { CardModule } from 'primeng/card';
 import { StepsModule } from 'primeng/steps';
 import { CarouselModule } from 'primeng/carousel';
 import { QRCodeModule } from 'angularx-qrcode';
+import { ToastModule } from 'primeng/toast';
+import { MessagesModule } from 'primeng/messages';
+import { MessageModule } from 'primeng/message';
+import { MessageService } from 'primeng/api';
 
 
 @NgModule({
@@ -38,9 +42,13 @@ import { QRCodeModule } from 'angularx-qrcode';
     CardModule,
     StepsModule,
     CarouselModule,
-    QRCodeModule
+    QRCodeModule,
+    MessagesModule,
+    MessageModule,
+    ToastModule
+
   ],
-  providers: [],
+  providers: [MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

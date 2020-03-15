@@ -2,6 +2,9 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { MiddlewareService } from '../middleware.service';
 import { EnrollmentStep, Bank, Customer } from '../models';
 import { SelectItem } from 'primeng/api/selectitem';
+import { MessageService } from 'primeng/api';
+import { Message } from 'primeng//api';
+
 
 
 @Component({
@@ -19,8 +22,9 @@ export class EnrollmentComponent implements OnInit {
   validForm: boolean = true;
   imageLoading: boolean = false;
   statusMsg: string = "Please wait";
+  msgs: Message[] = [];
 
-  constructor(private middlewareService: MiddlewareService) {
+  constructor(private middlewareService: MiddlewareService, private messageService: MessageService) {
 
   }
 
@@ -45,34 +49,40 @@ export class EnrollmentComponent implements OnInit {
         value: bank
       });
     });
+
   }
 
   dropDownChange($event) {
-    if ($event.value) {
+    if (this.selectedBank) {
       this.enrollmentStep = 1;
+    }
+    else {
+      this.messageService.add({ severity: 'warn', summary: 'Form Error', detail: 'Please Select a branch' });
     }
   }
   formSubmit(val) {
-    if (!this.customer.name && !this.customer.balance) {
+    if (this.customer.name != null && this.customer.balance != null) {
+      this.middlewareService.createAccount({
+        branchCode: this.selectedBank.branchCode,
+        accountNo: this.selectedBank.lastAddedAcNo,
+        name: this.customer.name,
+        balance: this.customer.balance
+      }).then((res: any) => {
+        if (res.Status)
+          this.customer.customerID = res.customerID;
+        this.enrollmentStep = 2;
+      })
+    }
+    else {
       this.validForm = false;
+      this.messageService.add({ severity: 'warn', summary: 'Form Error', detail: 'Please fill out the form' });
       return
     }
-    this.middlewareService.createAccount({
-      branchCode: this.selectedBank.branchCode,
-      accountNo: this.selectedBank.lastAddedAcNo,
-      name: this.customer.name,
-      balance: this.customer.balance
-    }).then((res: any) => {
-      if (res.Status)
-        this.customer.customerID = res.customerID;
-      this.enrollmentStep = 2;
-    })
   }
   imageCaptured($event) {
-    this.imageLoading = true;
     this.middlewareService.detectFace($event).then((res: any) => {
-
       if (res.Status == 1) {
+        this.imageLoading = true;
         this.statusMsg = "Indexing Face";
         this.middlewareService.indexFace(this.customer.customerID, $event).then((res: any) => {
           if (res.Status == 1) {
@@ -82,9 +92,13 @@ export class EnrollmentComponent implements OnInit {
           }
         })
       }
-      else {
-        this.enrollmentStep = 2;
-        this.imageLoading = false;
+      else if (res.Status == 2) {
+        this.messageService.add({ severity: 'warn', summary: 'Face detection failed', detail: 'No face found!' });
+      }
+      else if (res.Status == 3) {
+        this.messageService.add({
+          severity: 'warn', summary: 'Face detection failed', detail: 'More than one face found'
+        });
       }
     })
 
@@ -92,6 +106,7 @@ export class EnrollmentComponent implements OnInit {
   onstateChange() {
     this.authStatus = 1;
     this.enrollmentStep = 0;
+
   }
 }
 

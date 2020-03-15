@@ -3,25 +3,28 @@
 <div *ngIf="authStatus == 1" class="enrollment">
     <div *ngIf="enrollmentStep == 0" class="branch-selector">
         <h3>Select the branch</h3>
-        <p-dropdown [options]="bankSelectionList" [(ngModel)]="selectedBank" (onChange)="dropDownChange($event)">
+        <p-dropdown [options]="bankSelectionList" [(ngModel)]="selectedBank" placeholder="Select One">
         </p-dropdown>
+        <button type="submit" class="btn btn-primary" id="dropdownsubmit"
+            (click)="dropDownChange(customerDetailsForm)">Submit</button>
     </div>
     <div *ngIf="enrollmentStep == 1" class="customer-details">
         <div class="card-material">
-        <form class="customerDetailsForm formPadding">
-            <div class="form-group formPadding">
-                <label for="name">Customer Name</label>
-                <input required name="name" type="text" class="form-control" [(ngModel)]="customer.name" id="name"
-                    aria-describedby="nameHelp" placeholder="Enter name">
-                <small id="nameHelp" class="form-text text-muted">Ensure the name matches your Identity proof</small>
-            </div>
-            <div class="form-group formPadding">
-                <label for="balance">Balance</label>
-                <input type="text" name="balance" class="form-control" required id="balance"
-                    [(ngModel)]="customer.balance" placeholder="Balance">
-            </div>
-            <button type="submit" class="btn btn-primary" (click)="formSubmit(customerDetailsForm)">Submit</button>
-        </form>
+            <form class="customerDetailsForm formPadding">
+                <div class="form-group formPadding">
+                    <label for="name">Customer Name</label>
+                    <input required name="name" type="text" class="form-control" [(ngModel)]="customer.name" id="name"
+                        aria-describedby="nameHelp" placeholder="Enter name">
+                    <small id="nameHelp" class="form-text text-muted">Ensure the name matches your Identity
+                        proof</small>
+                </div>
+                <div class="form-group formPadding">
+                    <label for="balance">Balance</label>
+                    <input type="text" name="balance" class="form-control" required id="balance"
+                        [(ngModel)]="customer.balance" placeholder="Balance">
+                </div>
+                <button type="submit" class="btn btn-primary" (click)="formSubmit(customerDetailsForm)">Submit</button>
+            </form>
         </div>
     </div>
     <div *ngIf="enrollmentStep == 2 && !imageLoading">
@@ -66,5 +69,6 @@
 
         </div>
     </div>
-
 </div>
+<!-- <p-messages [(value)]="msgs"></p-messages> -->
+<p-toast sticky=true></p-toast>
