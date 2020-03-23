@@ -20,6 +20,8 @@ import { ToastModule } from 'primeng/toast';
 import { MessagesModule } from 'primeng/messages';
 import { MessageModule } from 'primeng/message';
 import { MessageService } from 'primeng/api';
+import { QrscannerComponent } from './qrscanner/qrscanner.component';
+import { ZXingScannerModule } from '@zxing/ngx-scanner';
 
 
 @NgModule({
@@ -30,6 +32,7 @@ import { MessageService } from 'primeng/api';
     FacedetectionComponent,
     EnrollmentComponent,
     LoginComponent,
+    QrscannerComponent,
   ],
   imports: [
     BrowserModule,
@@ -45,7 +48,8 @@ import { MessageService } from 'primeng/api';
     QRCodeModule,
     MessagesModule,
     MessageModule,
-    ToastModule
+    ToastModule,
+    ZXingScannerModule
 
   ],
   providers: [MessageService],

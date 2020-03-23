@@ -90,7 +90,7 @@ export class MiddlewareService {
   }
 
   generateQrCode(customerId) {
-    return this.http.get("https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + customerId);
+    return this.http.get("https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Example");
   }
 
   convertToBase64(image, callback) {

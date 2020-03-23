@@ -13,8 +13,8 @@ import { Message } from 'primeng//api';
   styleUrls: ['./enrollment.component.css'],
 })
 export class EnrollmentComponent implements OnInit {
-  authStatus;
-  enrollmentStep: number;
+  authStatus = 1;
+  enrollmentStep: number = 3;
   availableBanksList: Bank[];
   selectedBank: Bank;
   bankSelectionList: SelectItem[] = [];
@@ -23,6 +23,7 @@ export class EnrollmentComponent implements OnInit {
   imageLoading: boolean = false;
   statusMsg: string = "Please wait";
   msgs: Message[] = [];
+  qrCode;
 
   constructor(private middlewareService: MiddlewareService, private messageService: MessageService) {
 
@@ -30,10 +31,15 @@ export class EnrollmentComponent implements OnInit {
 
   ngOnInit() {
 
-
+    this.middlewareService.generateQrCode('jhv').subscribe(res => {
+      this.qrCode = res;
+      this.middlewareService.convertToBase64(this.qrCode, (callback) => {
+        console.log("base64", callback)
+      })
+    })
     this.authStatus = this.middlewareService.getAuthStatus();
-    // this.authStatus = 1;
-    this.enrollmentStep = 0;
+    this.authStatus = 1;
+    this.enrollmentStep = 3;
     this.middlewareService.getBankDetails().then((res: Bank[]) => {
       this.availableBanksList = res['BankDetails'];
       this.buildDropdown();
