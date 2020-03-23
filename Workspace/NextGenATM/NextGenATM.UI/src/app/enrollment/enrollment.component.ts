@@ -4,7 +4,8 @@ import { EnrollmentStep, Bank, Customer } from '../models';
 import { SelectItem } from 'primeng/api/selectitem';
 import { MessageService } from 'primeng/api';
 import { Message } from 'primeng//api';
-
+import * as jspdf from 'jspdf';
+import html2canvas from 'html2canvas';
 
 
 @Component({
@@ -113,6 +114,22 @@ export class EnrollmentComponent implements OnInit {
     this.authStatus = 1;
     this.enrollmentStep = 0;
 
+  }
+  public captureScreen() {
+    var data = document.getElementById('card');
+    html2canvas(data).then(canvas => {
+      // Few necessary setting options  
+      var imgWidth = 208;
+      var pageHeight = 295;
+      var imgHeight = canvas.height * imgWidth / canvas.width;
+      var heightLeft = imgHeight;
+
+      const contentDataURL = canvas.toDataURL('image/svg')
+      let pdf = new jspdf('p', 'mm', 'a4'); // A4 size page of PDF  
+      var position = 0;
+      pdf.addImage(contentDataURL, 'SVG', 0, position, imgWidth, imgHeight)
+      pdf.save('MYPdf.pdf'); // Generated PDF   
+    });
   }
 }
 
