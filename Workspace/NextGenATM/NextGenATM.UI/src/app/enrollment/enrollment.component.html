@@ -1,29 +1,36 @@
 <app-login *ngIf="authStatus > 1" (stateChange)="onstateChange()"></app-login>
 
-<div *ngIf="authStatus == 1" class="enrollment">
-    <div *ngIf="enrollmentStep == 0" class="branch-selector">
-        <h3>Select the branch</h3>
-        <p-dropdown [options]="bankSelectionList" [(ngModel)]="selectedBank" placeholder="Select One">
-        </p-dropdown>
-        <button type="submit" class="btn btn-primary" id="dropdownsubmit"
-            (click)="dropDownChange(customerDetailsForm)">Submit</button>
+<div *ngIf="authStatus == 1" class="enrollment card-material">
+    <div *ngIf="enrollmentStep == 0" class="branch-selector form-group card-material formPadding">
+
+        <span class="form-large-text">Select branch name &nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <span>
+            <p-dropdown [options]="bankSelectionList" [(ngModel)]="selectedBank" placeholder="---Select---">
+            </p-dropdown>
+        </span>
+        <div *ngIf="selectedBank?.branchCode" class="display-branch-details">
+            <span class="form-large-text">Branch Code : </span><span class="form-text-color">{{selectedBank.branchCode}}</span>
+            <span class="form-large-text">IFSC Code : </span><span class="form-text-color">{{selectedBank.ifscCode}}</span>
+        </div>
     </div>
-    <div *ngIf="enrollmentStep == 1" class="customer-details">
+    <div *ngIf="enrollmentStep == 0" class="customer-details">
         <div class="card-material">
             <form class="customerDetailsForm formPadding">
-                <div class="form-group formPadding">
-                    <label for="name">Customer Name</label>
+                <div class="form-group text-align-left formPadding">
+                    <label for="name" class="form-large-text">Customer Name</label>
                     <input required name="name" type="text" class="form-control" [(ngModel)]="customer.name" id="name"
                         aria-describedby="nameHelp" placeholder="Enter name">
                     <small id="nameHelp" class="form-text text-muted">Ensure the name matches your Identity
                         proof</small>
                 </div>
-                <div class="form-group formPadding">
-                    <label for="balance">Balance</label>
-                    <input type="text" name="balance" class="form-control" required id="balance"
+                <div class="form-group text-align-left formPadding">
+                    <label for="balance" class="form-large-text">Balance</label>
+                    <input type="number" name="balance" class="form-control" required id="balance"
                         [(ngModel)]="customer.balance" placeholder="Balance">
                 </div>
-                <button type="submit" class="btn btn-primary" (click)="formSubmit(customerDetailsForm)">Submit</button>
+                <div class="form-group formPadding">
+                    <button type="submit" class="form-button" (click)="formSubmit(customerDetailsForm)">Submit</button>
+                </div>
             </form>
         </div>
     </div>
@@ -70,5 +77,4 @@
         </div>
     </div>
 </div>
-<!-- <p-messages [(value)]="msgs"></p-messages> -->
 <p-toast sticky=true></p-toast>
