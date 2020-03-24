@@ -58,7 +58,7 @@ export class EnrollmentComponent implements OnInit {
 
   }
 
-  formSubmit(val) {
+  formSubmit() {
     if (this.customer.name != null && this.customer.balance != null && this.selectedBank && this.selectedBank.branchCode) {
       this.middlewareService.createAccount({
         branchCode: this.selectedBank.branchCode,
