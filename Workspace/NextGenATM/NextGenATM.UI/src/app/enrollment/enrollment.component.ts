@@ -14,8 +14,8 @@ import html2canvas from 'html2canvas';
   styleUrls: ['./enrollment.component.css'],
 })
 export class EnrollmentComponent implements OnInit {
-  authStatus = 1;
-  enrollmentStep: number = 3;
+  authStatus;
+  enrollmentStep: number;
   availableBanksList: Bank[];
   selectedBank: Bank;
   bankSelectionList: SelectItem[] = [];
@@ -40,8 +40,6 @@ export class EnrollmentComponent implements OnInit {
       })
     })
     this.authStatus = this.middlewareService.getAuthStatus();
-    this.authStatus = 1;
-    this.enrollmentStep = 3;
     this.middlewareService.getBankDetails().then((res: Bank[]) => {
       this.availableBanksList = res['BankDetails'];
       this.buildDropdown();
