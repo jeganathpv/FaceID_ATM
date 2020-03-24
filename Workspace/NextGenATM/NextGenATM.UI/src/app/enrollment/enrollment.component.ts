@@ -25,6 +25,7 @@ export class EnrollmentComponent implements OnInit {
   statusMsg: string = "Please wait";
   msgs: Message[] = [];
   qrCode;
+  tempaccntnum = '1211221'
 
   constructor(private middlewareService: MiddlewareService, private messageService: MessageService) {
 
@@ -117,20 +118,35 @@ export class EnrollmentComponent implements OnInit {
   }
   public captureScreen() {
     var data = document.getElementById('card');
-    html2canvas(data).then(canvas => {
-      // Few necessary setting options  
-      var imgWidth = 208;
-      var pageHeight = 295;
-      var imgHeight = canvas.height * imgWidth / canvas.width;
-      var heightLeft = imgHeight;
+  //   html2canvas(data).then(canvas => {
+  //     // Few necessary setting options  
+  //     var imgWidth = 208;
+  //     var pageHeight = 295;
+  //     var imgHeight = canvas.height * imgWidth / canvas.width;
+  //     var heightLeft = imgHeight;
+  //     var ctx = canvas.getContext("2d");
+      
+  //     // ctx.drawImage(data, 0, 0);
 
-      const contentDataURL = canvas.toDataURL('image/svg')
-      let pdf = new jspdf('p', 'mm', 'a4'); // A4 size page of PDF  
-      var position = 0;
-      pdf.addImage(contentDataURL, 'SVG', 0, position, imgWidth, imgHeight)
-      pdf.save('MYPdf.pdf'); // Generated PDF   
-    });
-  }
+  //     const contentDataURL = canvas.toDataURL('image/svg');
+  //     this.downloadURI("data:" + contentDataURL, "yourImage.png");
+  //     // let pdf = new jspdf('p', 'mm', 'a4'); // A4 size page of PDF  
+  //     // var position = 0;
+  //     // pdf.addImage(contentDataURL, 'SVG', 0, position, imgWidth, imgHeight)
+  //     // pdf.save('MYPdf.pdf'); // Generated PDF   
+  //   });
+  // }
+  //  downloadURI(uri, name) {
+  //   var link = document.createElement("a");
+  //   link.download = name;
+  //   link.href = uri;
+  //   link.click();
+  //   //after creating link you should delete dynamic link
+  //   //clearDynamicLink(link); 
+  html2canvas(data).then(function(canvas) {
+    document.body.appendChild(canvas);   });
+
+}
 }
 
 

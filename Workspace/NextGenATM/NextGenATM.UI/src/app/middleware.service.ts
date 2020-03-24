@@ -90,7 +90,7 @@ export class MiddlewareService {
   }
 
   generateQrCode(customerId) {
-    let img = this.http.get("https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Example");
+    let img = this.http.get("https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Example&format=svg");
     return img;
   }
 

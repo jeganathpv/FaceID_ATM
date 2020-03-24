@@ -37,13 +37,13 @@
             <span class="sr-only">Loading...</span>
         </div>
     </div>
-    <div *ngIf="enrollmentStep == 3" class="details-view">
+    <div *ngIf="enrollmentStep == 3" class="details-view" >
         <h1 class="title">Here's your card!</h1>
-        <div class="card" id="card">
+        <div  >
             <!-- Generator: Adobe Illustrator 19.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
                 y="0px" viewBox="0 0 520.635 338.889" style="enable-background:new 0 0 520.635 338.889;"
-                xml:space="preserve">
+                xml:space="preserve"  class = "card" id="card" >
                 <g id="Layer_1">
                     <g>
                         <g>
@@ -354,7 +354,7 @@
                         style="fill:#FFFFFF; font-family:'TektonPro-BoldObl'; font-size:36.0876px;">Next Gen ATM</text>
 
                     <text id="XMLID_36_" transform="matrix(1 0 0 1 29.7877 133.5784)"
-                        style="fill:#FFFFFF; font-family:'SourceSansPro-Regular'; font-size:36px;">132132131232123</text>
+                        style="fill:#FFFFFF; font-family:'SourceSansPro-Regular'; font-size:36px;" >{{tempaccntnum}}</text>
                     <text id="XMLID_43_" transform="matrix(1 0 0 1 189.7443 167.8711)">
                         <tspan x="0" y="0" style="fill:#FFFFFF; font-family:'SourceSansPro-It'; font-size:11.1003px;">
                             VALID
@@ -376,13 +376,13 @@
                     <rect id="XMLID_38_" x="341.222" y="149.076"
                         style="fill:#FFFFFF;stroke:#FFFFFF;stroke-miterlimit:10;" width="145.283" height="145.283" />
 
-                    <use style="overflow:visible;" width="400" height="400"
-                        xlink:href="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Example"
+                    <image style="overflow:visible;" width="400" height="400"
+                        xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJYAAACWAQMAAAAGz+OhAAAABlBMVEX///8AAABVwtN+AAAA3UlEQVRIic2WsQ2FMAxEHaVIyQiMktGS0RiFESgpUIzPBIn/RZ3DRYgeFCf7bCPyEkURiwTVbfb7zmMQNC9Fj7TNi90Tkbmwrs9f0Vlpkr7C5BOs103iLv+1HM4uP5cAD/16fDi7o730+2gGfRBmuZrWXJuljMnszMaQp2qPncda9PnnM0drwBc0Zue0CmaOv2IyQaVQN+tz+CcyWbews6zhEB67+7xFT9mVPxaDOuwoCMtVH7t7PLsXpVvJRzKdeYup+hhks/5PoweTXXXr+iqXdT9jX8pjV3yFvcQJgBGcAPcPiUAAAAAASUVORK5CYII="
                         transform="matrix(0.3194 0 0 0.3194 350.7269 158.2337)">
-                    </use>
+                    </image>
                 </g>
             </svg>
-            <button (click)="captureScreen()">Export</button>
+            <button (click)="captureScreen()" id="btnSave">Export</button>
         </div>
 
 
