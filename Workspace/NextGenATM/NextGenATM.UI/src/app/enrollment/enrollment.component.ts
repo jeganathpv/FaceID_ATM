@@ -60,16 +60,8 @@ export class EnrollmentComponent implements OnInit {
 
   }
 
-  dropDownChange($event) {
-    if (this.selectedBank) {
-      this.enrollmentStep = 1;
-    }
-    else {
-      this.messageService.add({ severity: 'warn', summary: 'Form Error', detail: 'Please Select a branch' });
-    }
-  }
   formSubmit(val) {
-    if (this.customer.name != null && this.customer.balance != null) {
+    if (this.customer.name != null && this.customer.balance != null && this.selectedBank && this.selectedBank.branchCode) {
       this.middlewareService.createAccount({
         branchCode: this.selectedBank.branchCode,
         accountNo: this.selectedBank.lastAddedAcNo,
@@ -82,8 +74,12 @@ export class EnrollmentComponent implements OnInit {
       })
     }
     else {
+      let messageDetail = 'Please fill out the form';
+      if(!this.selectedBank){
+        messageDetail = 'Please Select a branch';
+      }
       this.validForm = false;
-      this.messageService.add({ severity: 'warn', summary: 'Form Error', detail: 'Please fill out the form' });
+      this.messageService.add({ severity: 'warn', summary: 'Form Error', detail: messageDetail });
       return
     }
   }

@@ -2,22 +2,36 @@
 
 .enrollment{
     height:100%;
+    padding: 20px;
+    background: #ecdfae;
 }
 
 .branch-selector{
-        /* margin: 0 auto; */
         text-align: center;
-        /* top: 500px; */
         display: block;
         height: 100%;
-        margin-top: 400px;
+        padding: 20px;
 }
 
+.display-branch-details{
+    display: grid;
+    grid-template-columns: auto auto;
+    margin: 0 auto;
+    width: 35%;
+    padding: 20px;
+}
+
+.form-large-text{
+    font-weight: 100;
+    font-size: large;
+}
+
+.form-text-color{
+    color: #1520b8 !important;
+}
 
 .customer-details{
-    width: 50%;
     margin: 0 auto;
-    margin-top: 200px;
 
 }
 
@@ -33,8 +47,20 @@
     color: white;
 }
 
+.text-align-left{
+    text-align: left;
+}
 
-
+.form-button{
+    color: #fff;
+    background-color: rgb(25, 101, 252);
+    border-color: rgb(25, 101, 252);
+    border-radius: .25rem;
+    padding: .075rem .75rem;
+}
+.form-button:hover {
+    background-color: #39ace7;
+}
 
 
 .title {

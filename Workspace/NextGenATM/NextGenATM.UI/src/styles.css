@@ -6,7 +6,6 @@ body{
 .card-material {
     background: #fff;
     border-radius: 2px;
-    display: inline-block;
     margin: 1rem;
     position: relative;
   }
