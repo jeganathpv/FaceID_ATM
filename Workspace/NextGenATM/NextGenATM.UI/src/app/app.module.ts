@@ -9,7 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { WebcamModule } from 'ngx-webcam';
 import { EnrollmentComponent } from './enrollment/enrollment.component';
 import { LoginComponent } from './login/login.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule , ReactiveFormsModule } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CardModule } from 'primeng/card';
@@ -22,6 +22,7 @@ import { MessageModule } from 'primeng/message';
 import { MessageService } from 'primeng/api';
 import { QrscannerComponent } from './qrscanner/qrscanner.component';
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
+import { UrlselectorComponent } from './urlselector/urlselector.component';
 
 
 @NgModule({
@@ -33,6 +34,7 @@ import { ZXingScannerModule } from '@zxing/ngx-scanner';
     EnrollmentComponent,
     LoginComponent,
     QrscannerComponent,
+    UrlselectorComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,7 +51,8 @@ import { ZXingScannerModule } from '@zxing/ngx-scanner';
     MessagesModule,
     MessageModule,
     ToastModule,
-    ZXingScannerModule
+    ZXingScannerModule,
+    ReactiveFormsModule
 
   ],
   providers: [MessageService],

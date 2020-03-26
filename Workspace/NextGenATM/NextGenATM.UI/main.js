@@ -15,7 +15,7 @@ function createWindow () {
   })
 
 
-  win.loadURL(`file://${__dirname}\\dist\\atm\\index.html#enrollment`)
+  win.loadURL(`file://${__dirname}\\dist\\atm\\index.html#enroll`)
 
   //// uncomment below to open the DevTools.
   // win.webContents.openDevTools()

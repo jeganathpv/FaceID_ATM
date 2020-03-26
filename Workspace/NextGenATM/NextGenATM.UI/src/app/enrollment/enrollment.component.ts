@@ -44,8 +44,8 @@ export class EnrollmentComponent implements OnInit {
       this.buildDropdown();
     });
     this.customer = {};
-    this.authStatus = 1;
-    this.enrollmentStep = 3;
+    // this.authStatus = 1;
+    // this.enrollmentStep = 3;
     // this.qrcodeinstring = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJYAAACWAQMAAAAGz+OhAAAABlBMVEX///8AAABVwtN+AAAA3UlEQVRIic2WsQ2FMAxEHaVIyQiMktGS0RiFESgpUIzPBIn/RZ3DRYgeFCf7bCPyEkURiwTVbfb7zmMQNC9Fj7TNi90Tkbmwrs9f0Vlpkr7C5BOs103iLv+1HM4uP5cAD/16fDi7o730+2gGfRBmuZrWXJuljMnszMaQp2qPncda9PnnM0drwBc0Zue0CmaOv2IyQaVQN+tz+CcyWbews6zhEB67+7xFT9mVPxaDOuwoCMtVH7t7PLsXpVvJRzKdeYup+hhks/5PoweTXXXr+iqXdT9jX8pjV3yFvcQJgBGcAPcPiUAAAAAASUVORK5CYII="
 
   }
@@ -116,8 +116,8 @@ export class EnrollmentComponent implements OnInit {
   public captureScreen() {
     var svgElements = document.body.querySelectorAll('svg');
 svgElements.forEach(function(item) {
-    item.setAttribute("width", item.getBoundingClientRect().width);
-    item.setAttribute("height", item.getBoundingClientRect().height);
+    item.setAttribute("width", item.getBoundingClientRect().width.toString());
+    item.setAttribute("height", item.getBoundingClientRect().height.toString());
     item.style.width = null;
     item.style.height = null;
     
