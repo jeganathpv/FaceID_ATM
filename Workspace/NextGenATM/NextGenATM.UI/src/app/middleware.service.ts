@@ -24,6 +24,9 @@ export class MiddlewareService {
     }
     this.authStatus = AuthState.loggedout;
   }
+  setBaseUrl(baseUrl){
+    this.baseurl = baseUrl;
+  }
 
   login(userObj) {
     return this.http.post(this.baseurl + "/auth", userObj)

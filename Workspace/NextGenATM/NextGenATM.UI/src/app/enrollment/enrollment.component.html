@@ -29,7 +29,7 @@
                         [(ngModel)]="customer.balance" placeholder="Balance">
                 </div>
                 <div class="form-group formPadding">
-                    <button type="submit" class="form-button" (click)="formSubmit(customerDetailsForm)">Submit</button>
+                    <button type="submit" class="form-button" (click)="formSubmit()">Submit</button>
                 </div>
             </form>
         </div>
@@ -378,18 +378,24 @@
                         style="fill:#FFFFFF; font-family:'SourceSansPro-Regular'; font-size:36px;">ASDSADASDASD</text>
 
                     <text id="XMLID_44_" transform="matrix(1 0 0 1 32.7773 269.547)"
-                        style="fill:#FFFFFF; font-family:'SourceSansPro-It'; font-size:21px;">NAME</text>
+                        style="fill:#FFFFFF; font-family:'SourceSansPro-Regular'; font-size:21px;">NAME</text>
 
                     <rect id="XMLID_38_" x="341.222" y="149.076"
                         style="fill:#FFFFFF;stroke:#FFFFFF;stroke-miterlimit:10;" width="145.283" height="145.283" />
 
                     <image style="overflow:visible;" width="400" height="400"
-                        xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJYAAACWAQMAAAAGz+OhAAAABlBMVEX///8AAABVwtN+AAAA3UlEQVRIic2WsQ2FMAxEHaVIyQiMktGS0RiFESgpUIzPBIn/RZ3DRYgeFCf7bCPyEkURiwTVbfb7zmMQNC9Fj7TNi90Tkbmwrs9f0Vlpkr7C5BOs103iLv+1HM4uP5cAD/16fDi7o730+2gGfRBmuZrWXJuljMnszMaQp2qPncda9PnnM0drwBc0Zue0CmaOv2IyQaVQN+tz+CcyWbews6zhEB67+7xFT9mVPxaDOuwoCMtVH7t7PLsXpVvJRzKdeYup+hhks/5PoweTXXXr+iqXdT9jX8pjV3yFvcQJgBGcAPcPiUAAAAAASUVORK5CYII="
+                    xlink:href="" [attr.xlink:href]="qrcodeinstring"
                         transform="matrix(0.3194 0 0 0.3194 350.7269 158.2337)">
+                        
+
                     </image>
                 </g>
             </svg>
-            <button (click)="captureScreen()" id="btnSave">Export</button>
+            <div class="container mt-3">
+                <div class="row d-flex justify-content-center">
+                    <button (click)="captureScreen()" id="btnSave" class="btn btn-primary ">Export</button>
+                </div>
+            </div>
         </div>
 
 

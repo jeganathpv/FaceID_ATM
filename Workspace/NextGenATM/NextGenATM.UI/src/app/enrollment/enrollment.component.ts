@@ -26,25 +26,28 @@ export class EnrollmentComponent implements OnInit {
   msgs: Message[] = [];
   qrCode;
   tempaccntnum = '1211221'
+  qrcodeinstring = '';
 
   constructor(private middlewareService: MiddlewareService, private messageService: MessageService) {
 
   }
 
   ngOnInit() {
+    this.toDataURL(`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${this.tempaccntnum}`, dataUrl =>  {
+  console.log('RESULT:', dataUrl);
+  this.qrcodeinstring = dataUrl 
+})
 
-    this.middlewareService.generateQrCode('jhv').subscribe(res => {
-      this.qrCode = res;
-      this.middlewareService.convertToBase64(this.qrCode, (callback) => {
-        console.log("base64", callback)
-      })
-    })
     this.authStatus = this.middlewareService.getAuthStatus();
     this.middlewareService.getBankDetails().then((res: Bank[]) => {
       this.availableBanksList = res['BankDetails'];
       this.buildDropdown();
     });
     this.customer = {};
+    // this.authStatus = 1;
+    // this.enrollmentStep = 3;
+    // this.qrcodeinstring = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJYAAACWAQMAAAAGz+OhAAAABlBMVEX///8AAABVwtN+AAAA3UlEQVRIic2WsQ2FMAxEHaVIyQiMktGS0RiFESgpUIzPBIn/RZ3DRYgeFCf7bCPyEkURiwTVbfb7zmMQNC9Fj7TNi90Tkbmwrs9f0Vlpkr7C5BOs103iLv+1HM4uP5cAD/16fDi7o730+2gGfRBmuZrWXJuljMnszMaQp2qPncda9PnnM0drwBc0Zue0CmaOv2IyQaVQN+tz+CcyWbews6zhEB67+7xFT9mVPxaDOuwoCMtVH7t7PLsXpVvJRzKdeYup+hhks/5PoweTXXXr+iqXdT9jX8pjV3yFvcQJgBGcAPcPiUAAAAAASUVORK5CYII="
+
   }
 
   buildDropdown() {
@@ -58,7 +61,7 @@ export class EnrollmentComponent implements OnInit {
 
   }
 
-  formSubmit(val) {
+  formSubmit() {
     if (this.customer.name != null && this.customer.balance != null && this.selectedBank && this.selectedBank.branchCode) {
       this.middlewareService.createAccount({
         branchCode: this.selectedBank.branchCode,
@@ -111,36 +114,46 @@ export class EnrollmentComponent implements OnInit {
 
   }
   public captureScreen() {
+    var svgElements = document.body.querySelectorAll('svg');
+svgElements.forEach(function(item) {
+    item.setAttribute("width", item.getBoundingClientRect().width.toString());
+    item.setAttribute("height", item.getBoundingClientRect().height.toString());
+    item.style.width = null;
+    item.style.height = null;
+    
+});
     var data = document.getElementById('card');
-  //   html2canvas(data).then(canvas => {
-  //     // Few necessary setting options  
-  //     var imgWidth = 208;
-  //     var pageHeight = 295;
-  //     var imgHeight = canvas.height * imgWidth / canvas.width;
-  //     var heightLeft = imgHeight;
-  //     var ctx = canvas.getContext("2d");
-      
-  //     // ctx.drawImage(data, 0, 0);
+  html2canvas(data , { height :768,
+    width : 1024, x:0 , y : 0 ,allowTaint: false}).then(function(canvas) {
+     const contentDataURL = canvas.toDataURL('image/png')  
+      let pdf = new jspdf('p', 'mm', 'a4'); // A4 size page of PDF  
+      var position = 0;  
+      var imgWidth = 208;   
+      var pageHeight = 295;    
+      var imgHeight = canvas.height * imgWidth / canvas.width;  
+      var heightLeft = imgHeight;
+      pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight)  
+      pdf.save('MYPdf.pdf'); // Generated PDF   
+    
 
-  //     const contentDataURL = canvas.toDataURL('image/svg');
-  //     this.downloadURI("data:" + contentDataURL, "yourImage.png");
-  //     // let pdf = new jspdf('p', 'mm', 'a4'); // A4 size page of PDF  
-  //     // var position = 0;
-  //     // pdf.addImage(contentDataURL, 'SVG', 0, position, imgWidth, imgHeight)
-  //     // pdf.save('MYPdf.pdf'); // Generated PDF   
-  //   });
-  // }
-  //  downloadURI(uri, name) {
-  //   var link = document.createElement("a");
-  //   link.download = name;
-  //   link.href = uri;
-  //   link.click();
-  //   //after creating link you should delete dynamic link
-  //   //clearDynamicLink(link); 
-  html2canvas(data).then(function(canvas) {
     document.body.appendChild(canvas);   });
 
 }
+
+ toDataURL(url, callback) {
+  var xhr = new XMLHttpRequest();
+  xhr.onload = function() {
+    var reader = new FileReader();
+    reader.onloadend = function() {
+      callback(reader.result);
+    }
+    reader.readAsDataURL(xhr.response);
+  };
+  xhr.open('GET', url);
+  xhr.responseType = 'blob';
+  xhr.send();
+}
+
 }
 
 
