@@ -42,7 +42,7 @@ class AccountController(Resource):
         AccountService.updateExistingDetails(custId[-3:],branchCode,accountNo)
         return jsonify({'Status':True,'customerID':custId})
 
-    @app.route('/account/generateqrdetails',methods = ['POST'])
+    @app.route('/account/generateqrcard',methods = ['POST'])
     @cross_origin(support_credentials = True)
     def generateQRDetails():
         json_data = request.get_json(force =True)
