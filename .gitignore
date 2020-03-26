@@ -1,3 +1,6 @@
 credentials.csv
 *.pyc
-Workspace/.vscode/launch.json
+.vscode/*
+.vscode/.ropeproject/*
+objectdb
+Workspace/POC-Testing/.vscode/.ropeproject/config.py

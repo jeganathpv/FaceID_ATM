@@ -4,11 +4,12 @@ from pyqrcode import QRCode
 
 
 # String which represent the QR code 
-s = "Test Code"
+s = "Jaddu"
 
 # Generate QR code 
 url = QRCode(s)
 
+print(url)
 # Create and save the png file naming "myqr.png" 
-# url.svg("myqr.png", scale = 32) 
-url.png("myqr.png",scale=8)
+url.svg("myqrcode.svg", scale = 8 ,background='#fff') 
+# url.png("myqr.png",scale=8)
