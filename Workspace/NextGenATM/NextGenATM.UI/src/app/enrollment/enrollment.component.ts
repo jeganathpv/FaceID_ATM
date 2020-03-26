@@ -124,7 +124,7 @@ svgElements.forEach(function(item) {
 });
     var data = document.getElementById('card');
   html2canvas(data , { height :768,
-    width : 1024, x:0 , y : 0}).then(function(canvas) {
+    width : 1024, x:0 , y : 0 ,allowTaint: false}).then(function(canvas) {
      const contentDataURL = canvas.toDataURL('image/png')  
       let pdf = new jspdf('p', 'mm', 'a4'); // A4 size page of PDF  
       var position = 0;  
