@@ -12,6 +12,7 @@ import datetime
 from Models import *
 from StaticStatus import *
 from Repository import *
+from Helper import *
 
 with open('appsettings.json', 'r') as json_file:
     appsettings = json.load(json_file)
@@ -103,6 +104,17 @@ class AccountService:
             custObj = CustomerQRObject(
                 customerDetail['customerID'], customerDetail['accountNo'], customerDetail['name'])
             return custObj
+        except Exception as e:
+            if hasattr(e, 'message'):
+                print(e.message)
+            else:
+                print(e)
+
+    @staticmethod
+    def generateQrCard(qrDetail):
+        try:
+            QRCardGenerator.generateQrCard(qrDetail)
+            return ImageToB64.getBase64String("backup/card/{}.png".format(qrDetail.customerID))
         except Exception as e:
             if hasattr(e, 'message'):
                 print(e.message)

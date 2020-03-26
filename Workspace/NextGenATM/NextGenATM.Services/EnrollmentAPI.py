@@ -48,7 +48,8 @@ class AccountController(Resource):
         json_data = request.get_json(force =True)
         customerID = json_data['customerID']
         qrDetail = AccountService.fetchCustomerDetail(customerID)
-        return jsonify(qrDetail.__dict__)
+        qrCardString = AccountService.generateQrCard(qrDetail)
+        return jsonify({"card":qrCardString})
 
 
 class FaceIDController(Resource):
