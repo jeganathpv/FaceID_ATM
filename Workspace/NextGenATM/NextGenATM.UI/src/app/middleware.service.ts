@@ -15,7 +15,7 @@ export class MiddlewareService {
 
   baseurl: string;
   constructor(private http: HttpClient) {
-    this.baseurl = "http://192.168.1.5:5000"
+    this.baseurl = ''
     enum AuthState {
       authenticated,
       invalidusername,
@@ -93,8 +93,9 @@ export class MiddlewareService {
   }
 
   generateQrCode(customerId) {
-    let img = this.http.get("https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Example&format=svg");
-    return img;
+// temp url
+    return this.http.get("http://localhost:3000/values");
+   
   }
 
   convertToBase64(image, callback) {

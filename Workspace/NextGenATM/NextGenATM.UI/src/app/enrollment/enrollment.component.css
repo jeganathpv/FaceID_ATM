@@ -68,7 +68,7 @@
     color: #162969;
     margin: 0 auto;
     width: 21%;
-    margin-top:150px;
+    margin-top:90px;
     text-align: center;
 }
 
@@ -85,6 +85,9 @@ height: 190px;
   
 }
 
+card-display{
+    margin:0 auto;
+}
 .card__part{
   box-shadow: 1px 1px #aaa3a3;
     top: 0;
@@ -257,5 +260,8 @@ p-messages{
     margin: 0 auto;
     margin-top: 21px;
     /* top: 26px; */
+    display: block;
+}
+#card{
     display: block;
 }

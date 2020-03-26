@@ -26,7 +26,7 @@ export class EnrollmentComponent implements OnInit {
   msgs: Message[] = [];
   qrCode;
   tempaccntnum = '1211221'
-  qrcodeinstring = '';
+  cardinString = '';
 
   constructor(private middlewareService: MiddlewareService, private messageService: MessageService) {
 
@@ -35,19 +35,17 @@ export class EnrollmentComponent implements OnInit {
   ngOnInit() {
     this.toDataURL(`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${this.tempaccntnum}`, dataUrl =>  {
   console.log('RESULT:', dataUrl);
-  this.qrcodeinstring = dataUrl 
+  // this.qrcodeinstring = dataUrl 
 })
 
     this.authStatus = this.middlewareService.getAuthStatus();
-    this.middlewareService.getBankDetails().then((res: Bank[]) => {
-      this.availableBanksList = res['BankDetails'];
-      this.buildDropdown();
-    });
+    
     this.customer = {};
     // this.authStatus = 1;
     // this.enrollmentStep = 3;
-    // this.qrcodeinstring = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJYAAACWAQMAAAAGz+OhAAAABlBMVEX///8AAABVwtN+AAAA3UlEQVRIic2WsQ2FMAxEHaVIyQiMktGS0RiFESgpUIzPBIn/RZ3DRYgeFCf7bCPyEkURiwTVbfb7zmMQNC9Fj7TNi90Tkbmwrs9f0Vlpkr7C5BOs103iLv+1HM4uP5cAD/16fDi7o730+2gGfRBmuZrWXJuljMnszMaQp2qPncda9PnnM0drwBc0Zue0CmaOv2IyQaVQN+tz+CcyWbews6zhEB67+7xFT9mVPxaDOuwoCMtVH7t7PLsXpVvJRzKdeYup+hhks/5PoweTXXXr+iqXdT9jX8pjV3yFvcQJgBGcAPcPiUAAAAAASUVORK5CYII="
-
+    this.middlewareService.generateQrCode('s').subscribe((data:any) => {
+      this.cardinString = "data:image/png;base64,"+data.card
+    })
   }
 
   buildDropdown() {
@@ -93,6 +91,9 @@ export class EnrollmentComponent implements OnInit {
           if (res.Status == 1) {
             this.statusMsg = "Indexing Done";
             this.enrollmentStep = 3;
+            this.middlewareService.generateQrCode('s').subscribe((data:any) => {
+              this.cardinString = "data:image/png;base64,"+data.card
+            })
             this.imageLoading = false;
           }
         })
@@ -109,22 +110,19 @@ export class EnrollmentComponent implements OnInit {
 
   }
   onstateChange() {
+    // hit when login is successful
     this.authStatus = 1;
     this.enrollmentStep = 0;
+    this.middlewareService.getBankDetails().then((res: Bank[]) => {
+      this.availableBanksList = res['BankDetails'];
+      this.buildDropdown();
+    });
 
   }
   public captureScreen() {
-    var svgElements = document.body.querySelectorAll('svg');
-svgElements.forEach(function(item) {
-    item.setAttribute("width", item.getBoundingClientRect().width.toString());
-    item.setAttribute("height", item.getBoundingClientRect().height.toString());
-    item.style.width = null;
-    item.style.height = null;
-    
-});
     var data = document.getElementById('card');
-  html2canvas(data , { height :768,
-    width : 1024, x:0 , y : 0 ,allowTaint: false}).then(function(canvas) {
+  html2canvas(data , { height :1080,
+    width : 1920, x:0 , y : 100 ,allowTaint: false}).then(function(canvas) {
      const contentDataURL = canvas.toDataURL('image/png')  
       let pdf = new jspdf('p', 'mm', 'a4'); // A4 size page of PDF  
       var position = 0;  
@@ -134,9 +132,8 @@ svgElements.forEach(function(item) {
       var heightLeft = imgHeight;
       pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight)  
       pdf.save('MYPdf.pdf'); // Generated PDF   
-    
-
-    document.body.appendChild(canvas);   });
+    // document.body.appendChild(canvas); 
+    });
 
 }
 
