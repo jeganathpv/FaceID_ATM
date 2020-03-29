@@ -45,12 +45,17 @@
         </div>
     </div>
     <div *ngIf="enrollmentStep == 3" class="details-view" >
-        <h1 class="title">Here's your card!</h1>
+        <h1 class="title" *ngIf="!cardGenerating">Here's your card!</h1>
+        <h1 class="title" *ngIf="cardGenerating">Please wait while your card is generated</h1>
         <div  >
             <!-- Generator: Adobe Illustrator 19.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
            
             <div class="container mt-3">
                 <div class="row justify-content-center">
+                    
+                        <img *ngIf="cardGenerating" id="cardloading" src="assets/cardgenerating.gif">
+                    
+                    
                     <img src={{cardinString}}  alt="" id="card" srcset="">                    
                 </div>
 

@@ -13,7 +13,7 @@ export class MiddlewareService {
   }
   authStatus: any;
 
-  baseurl: string;
+  baseurl: string = 'http://localhost:5000';
   constructor(private http: HttpClient) {
     this.baseurl = ''
     enum AuthState {
@@ -92,9 +92,9 @@ export class MiddlewareService {
     return this.http.post(this.baseurl + "/account/generateqrdetails", { "customerID": customerID })
   }
 
-  generateQrCode(customerId) {
+  generateQrCode(customerId:string) {
 // temp url
-    return this.http.get("http://localhost:3000/values");
+    return this.http.post(this.baseurl+"/account/generateqrcard",{ "customerID": customerId } );
    
   }
 

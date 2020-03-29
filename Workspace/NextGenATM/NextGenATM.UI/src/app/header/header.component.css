@@ -3,7 +3,17 @@
     height : 100px;
 }
 
-.navbar-brand{
+/* .navbar-brand{
     font-size: 50px;
     color: white !important;
+} */
+
+#logo{
+    height:70px;
+    width: 70px;
+}
+
+.navbar-light .navbar-text {
+    color: white;
+    font-size: 35px;
 }

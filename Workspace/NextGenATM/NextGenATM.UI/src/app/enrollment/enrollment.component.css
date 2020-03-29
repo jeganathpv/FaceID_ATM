@@ -68,7 +68,7 @@
     color: #162969;
     margin: 0 auto;
     width: 21%;
-    margin-top:90px;
+    margin-top:5px;
     text-align: center;
 }
 
@@ -264,4 +264,8 @@ p-messages{
 }
 #card{
     display: block;
+}
+#cardloading{
+    width: 520px;
+    height: 520px;
 }

@@ -8,8 +8,9 @@
                 <form [formGroup] = urlForm (ngSubmit) = 'onSubmit(urlForm.value)'>
                     <div class="form-group">
                       <label for="baseUrlInput">Base Url</label>
-                      <input type="text" class="form-control" id="baseUrlInput" formControlName='url' placeholder="Enter Base URL">
+                      <input type="text" class="form-control" required id="baseUrlInput" formControlName='url' placeholder="Enter Base URL">
                     </div>
+                     
                    <div class="card-text my-2 text-danger" *ngIf="!validUrl"> Enter a url in valid format</div>
                     <button type="submit" class="btn btn-primary">Continue</button>
                   </form>

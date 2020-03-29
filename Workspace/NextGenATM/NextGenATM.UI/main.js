@@ -1,22 +1,26 @@
 const { app, BrowserWindow } = require('electron')
+var path=require('path');
 
 let win;
 
+// Menu.setApplicationMenu(null);
 function createWindow () {
   // Create the browser window.
   win = new BrowserWindow({
     width: 600, 
     height: 600,
     backgroundColor: '#ffffff',
+    icon: `file://${__dirname}\\dist\\atm\\assets\\download.png`,
     webPreferences: {
       webSecurity: false
     }
-    // icon: `file://${__dirname}/dist/assets/logo.png`
   })
-
+  win.removeMenu();
+  win.maximize();
+  win.setIcon(path.join(__dirname, '\\dist\\atm\\assets\\icon.png'));
 
   win.loadURL(`file://${__dirname}\\dist\\atm\\index.html#enroll`)
-
+  
   //// uncomment below to open the DevTools.
   // win.webContents.openDevTools()
 
@@ -42,5 +46,6 @@ app.on('activate', function () {
   // macOS specific close process
   if (win === null) {
     createWindow()
+    
   }
 })

@@ -22,6 +22,7 @@ export class EnrollmentComponent implements OnInit {
   customer: Customer;
   validForm: boolean = true;
   imageLoading: boolean = false;
+  cardGenerating:boolean=false;
   statusMsg: string = "Please wait";
   msgs: Message[] = [];
   qrCode;
@@ -43,9 +44,14 @@ export class EnrollmentComponent implements OnInit {
     this.customer = {};
     // this.authStatus = 1;
     // this.enrollmentStep = 3;
-    this.middlewareService.generateQrCode('s').subscribe((data:any) => {
-      this.cardinString = "data:image/png;base64,"+data.card
-    })
+    // this.cardGenerating = true
+    // this.middlewareService.generateQrCode('s').subscribe((data:any) => {
+    //   setTimeout(() => {
+    //     this.cardinString = "data:image/png;base64,"+data.card;
+    //     this.cardGenerating = false;
+    //   },3000)
+      
+    // })
   }
 
   buildDropdown() {
@@ -91,8 +97,13 @@ export class EnrollmentComponent implements OnInit {
           if (res.Status == 1) {
             this.statusMsg = "Indexing Done";
             this.enrollmentStep = 3;
-            this.middlewareService.generateQrCode('s').subscribe((data:any) => {
-              this.cardinString = "data:image/png;base64,"+data.card
+            this.cardGenerating = true;
+            this.middlewareService.generateQrCode(this.customer.customerID).subscribe((data:any) => {
+              setTimeout(() => {
+                this.cardinString = "data:image/png;base64,"+data.card;
+                this.cardGenerating = false;
+              },3000)
+              
             })
             this.imageLoading = false;
           }
@@ -122,7 +133,7 @@ export class EnrollmentComponent implements OnInit {
   public captureScreen() {
     var data = document.getElementById('card');
   html2canvas(data , { height :1080,
-    width : 1920, x:0 , y : 100 ,allowTaint: false}).then(function(canvas) {
+    width : 1920, x:-200 , y : -150 ,allowTaint: false}).then(function(canvas) {
      const contentDataURL = canvas.toDataURL('image/png')  
       let pdf = new jspdf('p', 'mm', 'a4'); // A4 size page of PDF  
       var position = 0;  
