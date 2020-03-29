@@ -1,3 +1,6 @@
 credentials.csv
 *.pyc
 Workspace/.vscode/launch.json
+Workspace/NextGenATM/NextGenATM.Services/backup/*
+Workspace/POC-Testing/.vscode/.ropeproject/config.py
+Workspace/POC-Testing/.vscode/.ropeproject/objectdb
