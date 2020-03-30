@@ -13,7 +13,7 @@ export class MiddlewareService {
   }
   authStatus: any;
 
-  baseurl: string = 'http://localhost:5000';
+  baseurl: string = '';
   constructor(private http: HttpClient) {
     this.baseurl = ''
     enum AuthState {
@@ -24,7 +24,8 @@ export class MiddlewareService {
     }
     this.authStatus = AuthState.loggedout;
   }
-  setBaseUrl(baseUrl){
+  setBaseUrl(baseUrl : string){
+    
     this.baseurl = baseUrl;
   }
 
