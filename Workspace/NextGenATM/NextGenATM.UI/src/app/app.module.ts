@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
-import { WelcomeComponent } from './welcome/welcome.component';
+
 import { FacedetectionComponent } from './facedetection/facedetection.component';
 import { HttpClientModule } from '@angular/common/http';
 import { WebcamModule } from 'ngx-webcam';
@@ -30,7 +30,6 @@ import { AtmFlowComponent } from './atm-flow/atm-flow.component';
   declarations: [
     AppComponent,
     HeaderComponent,
-    WelcomeComponent,
     FacedetectionComponent,
     EnrollmentComponent,
     LoginComponent,

@@ -1,1 +1,22 @@
-<zxing-scanner (scanSuccess)="scanSuccessHandler($event)"></zxing-scanner>
+<div class="container-fluid">
+    <div class="row justify-content-center mt-3">
+        <div *ngIf='!qrCardDetails' class="col-9">
+            <zxing-scanner (scanSuccess)="scanSuccessHandler($event)"></zxing-scanner>
+        </div>
+        <div *ngIf='qrCardDetails' class="card text-center col-md-3 mt-5">
+            <div class="card-body">
+                <h2 class="card-title">Welcome</h2>
+                <p class="card-text align-self-center">Customer ID: {{qrCardDetails}}</p>
+                <!-- Below line to display customer name -->
+                <p class="card-text align-self-center">Customer Name: {{customer.name}}</p>
+                
+                <button class="btn btn-primary mt-2 mx-2" (click) = "onContinue()">Continue</button>
+                <button class="btn btn-danger mt-2 mx-2">Cancel</button>
+
+            </div>
+            </div>
+    </div>
+</div>
+
+
+    

@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { WelcomeComponent } from './welcome/welcome.component';
 import { FacedetectionComponent } from './facedetection/facedetection.component';
 import { EnrollmentComponent } from './enrollment/enrollment.component';
 import { QrscannerComponent } from './qrscanner/qrscanner.component';
@@ -8,12 +7,22 @@ import { UrlselectorComponent } from './urlselector/urlselector.component';
 import { AtmFlowComponent } from './atm-flow/atm-flow.component';
 
 
+// for admin 
+// const routes: Routes = [
+//   { path: '', component: UrlselectorComponent , pathMatch:'full'},
+//   { path: 'enrollment', component: EnrollmentComponent  , pathMatch:'full' },
+//   { path: 'enroll', component: UrlselectorComponent  , pathMatch:'full'},
+//   { path: 'atm-flow',component: AtmFlowComponent , pathMatch:'full'}
+// ];
 
+
+// for atm 
 const routes: Routes = [
-  { path: '', component: UrlselectorComponent , pathMatch:'full'},
+  { path: '', component: AtmFlowComponent , pathMatch:'full'},
   { path: 'enrollment', component: EnrollmentComponent  , pathMatch:'full' },
   { path: 'enroll', component: UrlselectorComponent  , pathMatch:'full'},
-  { path: 'atm-flow',component: AtmFlowComponent , pathMatch:'full'}
+  { path: 'atm-flow',component: AtmFlowComponent , pathMatch:'full'},
+  {path:'qrscanner' , component:QrscannerComponent , pathMatch:'full'}
 ];
 
 @NgModule({
