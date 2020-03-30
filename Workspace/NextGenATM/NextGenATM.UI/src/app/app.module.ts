@@ -23,6 +23,7 @@ import { MessageService } from 'primeng/api';
 import { QrscannerComponent } from './qrscanner/qrscanner.component';
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { UrlselectorComponent } from './urlselector/urlselector.component';
+import { AtmFlowComponent } from './atm-flow/atm-flow.component';
 
 
 @NgModule({
@@ -35,6 +36,7 @@ import { UrlselectorComponent } from './urlselector/urlselector.component';
     LoginComponent,
     QrscannerComponent,
     UrlselectorComponent,
+    AtmFlowComponent,
   ],
   imports: [
     BrowserModule,
