@@ -17,7 +17,7 @@ function createWindow () {
   })
   win.removeMenu();
   win.maximize();
-  win.setIcon(path.join(__dirname, '\\dist\\atm\\assets\\icon.png'));
+  win.setIcon(path.join(__dirname, '\\dist\\atm\\assets\\logo.png'));
 
   win.loadURL(`file://${__dirname}\\dist\\atm\\index.html#enroll`)
   
