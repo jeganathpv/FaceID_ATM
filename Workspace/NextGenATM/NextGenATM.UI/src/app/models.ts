@@ -24,3 +24,8 @@ export interface Customer {
     name?: string,
     balance?: number
 }
+
+export enum ATMFlow{
+    welcome,
+    scan
+}

@@ -1,15 +1,42 @@
-<div class="welcome-message-container">
-    <div class="jumbotron">
-        <div class="container">
-            <div class="row flex-column justify-content-between">
-                <h1 class="display-1">Welcome,</h1>
-                <p class="display-4">Say hello to the next gen ATM powered by biometrics.</p>
-                <p class="align-self-end mt-5 display-5"> Press continue to get started.</p>
-                <a [routerLink]="['/qrscanner']"
-                   class="align-self-end btn btn-primary btn-lg"
-                   href="#"
-                   role="button">Continue</a>
+<div [ngSwitch] = atmflow>
+
+    <div *ngSwitchCase=0
+         class="welcome-message-container">
+        <div class="jumbotron">
+            <div class="container">
+                <div class="row flex-column justify-content-between">
+                    <h1 class="display-1">Welcome,</h1>
+                    <p class="display-4">Say hello to the next gen ATM powered by biometrics.</p>
+                    <p class="align-self-end mt-5 display-5"> Press continue to get started.</p>
+                    <button class="align-self-end btn btn-primary btn-lg"
+                            href="#"
+                            role="button"
+                            (click)='onContinue()'>Continue</button>
+                </div>
             </div>
         </div>
     </div>
+
+    <div *ngSwitchCase=1>
+        <div class="row justify-content-center">
+        <div *ngIf='scannedResult' class="card text-center col-md-3 mt-5">
+            
+            <div class="card-body">
+                <h2 class="card-title">Welcome</h2>
+                <p class="card-text align-self-center">Customer ID:{{scannedResult}} </p>
+                <!-- Below line to display customer name -->
+                <p class="card-text align-self-center">Customer Name: </p>
+
+                <button class="btn btn-primary mt-2 mx-2"
+                        (click)="onConfirm()">Continue</button>
+                <button class="btn btn-danger mt-2 mx-2" (click) = "onCancel()">Cancel</button>
+
+            </div>
+        </div>
+    </div>
+   
+    <app-qrscanner *ngIf='!scannedResult'
+                   (scannedDetails)='onScanResult($event)'></app-qrscanner>
+ </div>
+
 </div>

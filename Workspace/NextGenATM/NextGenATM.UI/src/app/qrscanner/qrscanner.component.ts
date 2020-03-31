@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { Customer } from '../models';
+// import { EventEmitter } from 'protractor';
+// import { EventEmitter } from 'events';
 
 @Component({
   selector: 'app-qrscanner',
@@ -7,7 +9,9 @@ import { Customer } from '../models';
   styleUrls: ['./qrscanner.component.css']
 })
 export class QrscannerComponent implements OnInit {
-  customer:Customer = {};
+  @Output() scannedDetails = new EventEmitter();
+
+
   qrCardDetails :string =''
   constructor() { }
 
@@ -16,9 +20,6 @@ export class QrscannerComponent implements OnInit {
   scanSuccessHandler($event) {
     console.log($event);
     this.qrCardDetails = $event
-  }
-
-  onContinue(){
-    this.customer.customerID = this.qrCardDetails;
-  }
+    this.scannedDetails.emit(this.qrCardDetails);
+    }
 }
