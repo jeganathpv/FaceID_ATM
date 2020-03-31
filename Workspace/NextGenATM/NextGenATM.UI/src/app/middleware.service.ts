@@ -13,9 +13,9 @@ export class MiddlewareService {
   }
   authStatus: any;
 
-  baseurl: string = 'http://localhost:5100';
+  baseurl: string = '';
   constructor(private http: HttpClient) {
-    this.baseurl = ''
+    this.baseurl = 'http://localhost:5100'
     enum AuthState {
       authenticated,
       invalidusername,
