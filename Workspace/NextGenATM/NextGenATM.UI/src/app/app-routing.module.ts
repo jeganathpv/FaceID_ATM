@@ -18,7 +18,7 @@ import { AtmFlowComponent } from './atm-flow/atm-flow.component';
 
 // for atm 
 const routes: Routes = [
-  { path: '', component: AtmFlowComponent , pathMatch:'full'},
+  { path: '', component: UrlselectorComponent , pathMatch:'full'},
   { path: 'enrollment', component: EnrollmentComponent  , pathMatch:'full' },
   { path: 'enroll', component: UrlselectorComponent  , pathMatch:'full'},
   { path: 'atm-flow',component: AtmFlowComponent , pathMatch:'full'},

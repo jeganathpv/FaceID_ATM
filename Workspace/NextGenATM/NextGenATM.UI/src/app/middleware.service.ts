@@ -107,4 +107,12 @@ export class MiddlewareService {
     }
     reader.readAsDataURL(image);
   }
+
+  matchQrWithAccount(qrCode){
+    return new Promise((resolve, reject) => {
+      this.http.post(this.baseurl+"/auth/matchqr",{ "qrCode":qrCode}).subscribe(res => {
+        resolve(res)
+      })
+    })
+  }
 }
