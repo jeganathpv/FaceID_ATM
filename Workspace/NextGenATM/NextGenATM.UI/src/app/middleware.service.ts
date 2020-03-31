@@ -13,7 +13,7 @@ export class MiddlewareService {
   }
   authStatus: any;
 
-  baseurl: string = '';
+  baseurl: string = 'http://localhost:5100';
   constructor(private http: HttpClient) {
     this.baseurl = ''
     enum AuthState {
@@ -106,5 +106,13 @@ export class MiddlewareService {
       callback(res.split(',')[1]);
     }
     reader.readAsDataURL(image);
+  }
+
+  matchQrWithAccount(qrCode){
+    return new Promise((resolve, reject) => {
+      this.http.post(this.baseurl+"/auth/matchqr",{ "qrCode":qrCode}).subscribe(res => {
+        resolve(res)
+      })
+    })
   }
 }
