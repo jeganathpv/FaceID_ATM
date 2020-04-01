@@ -1,42 +1,100 @@
-<div [ngSwitch] = atmflow>
+<div [ngSwitch]=atmflow>
 
-    <div *ngSwitchCase=0
-         class="welcome-message-container">
+    <div *ngSwitchCase=0 class="welcome-message-container">
         <div class="jumbotron">
             <div class="container">
                 <div class="row flex-column justify-content-between">
                     <h1 class="display-1">Welcome,</h1>
                     <p class="display-4">Say hello to the next gen ATM powered by biometrics.</p>
                     <p class="align-self-end mt-5 display-5"> Press continue to get started.</p>
-                    <button class="align-self-end btn btn-primary btn-lg"
-                            href="#"
-                            role="button"
-                            (click)='onContinue()'>Continue</button>
+                    <button class="align-self-end btn btn-primary btn-lg" href="#" role="button"
+                        (click)='onContinue()'>Continue</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div *ngSwitchCase=1>
-        <div class="row justify-content-center">
-        <div *ngIf='scannedResult' class="card text-center col-md-3 mt-5">
-            
-            <div class="card-body">
-                <h2 class="card-title">Welcome</h2>
-                <p class="card-text align-self-center">Customer ID:{{scannedResult}} </p>
-                <!-- Below line to display customer name -->
-                <p class="card-text align-self-center">Customer Name: </p>
+    <div *ngSwitchCase=1 class="formPadding">
+        <div *ngIf='scannedResult' class="row justify-content-center atm-flow-content">
+            <div class=" text-center mt-5  card-material">
 
-                <button class="btn btn-primary mt-2 mx-2"
-                        (click)="onConfirm()">Continue</button>
-                <button class="btn btn-danger mt-2 mx-2" (click) = "onCancel()">Cancel</button>
+                <div class="card-body">
+                    <h2 class="card-title">Welcome, {{customer.name}}</h2>
+                    <!-- <p class="card-text align-self-center">Customer Name: {{customer.name}}</p> -->
+                    <!-- Below line to display customer name -->
+                    <p class="card-text align-self-center">Account No: {{customer.accountNo}}</p>
+                    <div class="content-right">
+                        <button class="btn btn-primary mt-2 mx-2" (click)="onConfirm()">Continue</button>
+                        <button class="btn btn-danger mt-2 mx-2" (click)="onCancel()">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+        <app-qrscanner *ngIf='!scannedResult' (scannedDetails)='onScanResult($event)'></app-qrscanner>
+    </div>
+
+    <div *ngSwitchCase=2>
+        <div *ngIf="!imageLoading">
+            <app-facedetection [isLoading]="imageLoading" (image)="imageCaptured($event)"></app-facedetection>
+        </div>
+        <div *ngIf="imageLoading" class="loadingimage">
+            <img class="image-loader" src="assets/images/facedetection.gif" alt="">
+            <h4 class="statusMsg">{{statusMsg}}</h4>
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
             </div>
         </div>
     </div>
-   
-    <app-qrscanner *ngIf='!scannedResult'
-                   (scannedDetails)='onScanResult($event)'></app-qrscanner>
- </div>
+
+    <div *ngSwitchCase=3>
+        <div class="justify-content-center atm-flow-content formPadding">
+            <div class=" text-center mt-5  card-material">
+                <div class="card-body">
+                    <h2 class="card-title">Account No: {{customer.accountNo}}</h2>
+                    <div class="content-right">
+                        <button class="btn btn-primary mt-2 mx-2" (click)="checkBalance()">Check Balance</button>
+                        <button class="btn btn-primary mt-2 mx-2" (click)="withdrawalPage()">Cash Withdrawal</button>
+                        <button class="btn btn-danger mt-2 mx-2" (click)="onCancel()">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngSwitchCase=4>
+        <div class="justify-content-center atm-flow-content formPadding">
+            <div class=" text-center mt-5  card-material">
+                <div class="card-body">
+                    <h2 class="card-title">Account No: {{customer.accountNo}}</h2>
+                    <p class="card-text align-self-center">Balance: {{customer.balance}}</p><br>
+                    <p class="card-text align-self-center">Thankyou for banking with us!</p>
+
+                </div>
+                <div class="content-right">
+                    <button class="btn btn-danger mt-2 mx-2" (click)="onCancel()">Exit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngSwitchCase=5>
+        <div class="justify-content-center atm-flow-content formPadding">
+            <div class=" text-center mt-5  card-material">
+                <div class="card-body">
+                    <h2 class="card-title">Enter Amount:</h2>
+                    <p class="card-text align-self-center">Multiples of 100, 200, 500</p>
+                    <input type="number" class="form-control" required (ngModel)="amountRequired">
+                </div>
+                <div class="content-right">
+                    <button class="btn btn-primary mt-2 mx-2" (click)="withdrawAmount()">Continue</button>
+                    <button class="btn btn-danger mt-2 mx-2" (click)="onCancel()">Exit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 </div>
+
+<p-toast sticky=true position="bottom-right"></p-toast>

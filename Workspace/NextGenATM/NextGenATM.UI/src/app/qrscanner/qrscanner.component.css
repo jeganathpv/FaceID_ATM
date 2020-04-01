@@ -16,3 +16,7 @@
   padding: 20px;
   border: 2px solid blue;
 }
+
+.center-content{
+  margin: 0 auto;
+}

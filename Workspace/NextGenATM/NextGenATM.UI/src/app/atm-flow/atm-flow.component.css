@@ -2,6 +2,33 @@
     height: calc(100vh - 100px);
     margin: 0px;
 }
+
+.atm-flow-content{
+    height:100%;
+    padding: 20px;
+    background: #ecdfae;
+}
+
+.statusMsg{
+    color: white;
+}
+.content-right{
+    display: inline-grid;
+    /* align-content: flex-end; */
+}
+
+.image-loader{
+    width: 100%;
+}
+
+.loadingimage{
+    margin: 0 auto;
+    width: 100%;
+    text-align: center;
+    height: calc(100vh - 100px);
+    background-color: black;
+}
+
 /* .lead{
     font-size: 4.25rem;
 } */
