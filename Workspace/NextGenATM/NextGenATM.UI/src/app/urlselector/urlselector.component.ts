@@ -28,8 +28,8 @@ export class UrlselectorComponent implements OnInit {
     else if(formValue.url.match(pattern)) {
       if(formValue.url.includes('5000') || formValue.url.includes('5100')){
         this.middlewareService.setBaseUrl(formValue.url);
-        this.router.navigate(['/enrollment']);
-        // this.router.navigate(['/atm-flow']);
+        // this.router.navigate(['/enrollment']);
+        this.router.navigate(['/atm-flow']);
       }
       else{
         this.messageService.add({severity:'error', summary:'Port Invalid', detail:'Port is not existing in the instance'});

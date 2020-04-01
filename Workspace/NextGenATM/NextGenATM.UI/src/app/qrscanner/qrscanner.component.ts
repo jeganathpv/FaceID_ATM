@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { Customer, QRMatch } from '../models';
 import { MessageService } from 'primeng/api';
 import { MiddlewareService } from '../middleware.service';
+import { TimerService } from '../timer.service';
 
 @Component({
   selector: 'app-qrscanner',
@@ -13,7 +14,7 @@ export class QrscannerComponent implements OnInit {
 
 
   // qrCardDetails :string =''
-  constructor(private messageService: MessageService, private middlewareService: MiddlewareService) { }
+  constructor(private messageService: MessageService,private timer:TimerService, private middlewareService: MiddlewareService) { }
 
   ngOnInit() {
   }
@@ -21,7 +22,7 @@ export class QrscannerComponent implements OnInit {
     console.log($event);
     // this.qrCardDetails = $event
     // this.scannedDetails.emit(this.qrCardDetails);
-    
+    this.timer.resetTimer();
     this.middlewareService.matchQrWithAccount($event).then((res:any)=> {
       // console.log(res);
       if(res.Status === QRMatch.AccountNotFound){

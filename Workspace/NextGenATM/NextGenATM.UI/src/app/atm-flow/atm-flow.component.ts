@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ATMFlow, Customer } from '../models';
 import { MiddlewareService } from '../middleware.service';
 import { MessageService } from 'primeng/api';
+import { TimerService } from '../timer.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-atm-flow',
@@ -15,19 +17,43 @@ export class AtmFlowComponent implements OnInit {
   imageLoading: boolean = false;
   statusMsg: string = '';
   amountRequired : string = '';
-  constructor(private middlewareService:MiddlewareService, private messageService : MessageService) { }
-
+  operationTimedOut:boolean = false;
+  constructor(private middlewareService:MiddlewareService,private timer:TimerService ,  private messageService : MessageService,private router: Router) { }
+  
   ngOnInit() {
     this.atmflow = ATMFlow.welcome;
+   this.timer.getTimer().subscribe(()=>{
+     console.log('timer fired');
+     setTimeout(() => {this.cleanUp();
+     this.router.navigate(['atm-flow'])} , 2000)
+     this.operationTimedOut = true;
+     this.messageService.add({ severity: 'error', summary: 'Operation Timed out', detail: 'No input received' });
+
+    //  this.atmflow = ATMFlow.welcome;
+   
+
+   })
+    
+  }
+  cleanUp(){
+  this.atmflow = ATMFlow.welcome;
+  this.scannedResult = '';
+  this.customer = {};
+  this.imageLoading = false;
+  this.statusMsg = '';
+  this.amountRequired = '';
+  this.operationTimedOut= false;
   }
   onContinue(){
     this.atmflow = ATMFlow.scan;
-
+    this.timer.startTimer(10000);
   }
 
   onScanResult($event){
     // console.log($event);
+    this.timer.clearTimer();
     this.scannedResult = $event;
+    
     this.middlewareService.getAccountDetails(this.scannedResult).then((res:Customer)=>{
       this.customer.customerID = res.customerID;
       this.customer.name = res.name;
@@ -38,6 +64,7 @@ export class AtmFlowComponent implements OnInit {
   onConfirm(){
     // this.customer.customerID = this.scannedResult;
     this.atmflow = ATMFlow.facedetection;
+    this.timer.startTimer(3000);
     // go to next flow
   }
 
@@ -48,6 +75,7 @@ export class AtmFlowComponent implements OnInit {
   }
 
   imageCaptured($event){
+    this.timer.clearTimer();
     this.middlewareService.detectFace($event).then((res: any) => {
       if (res.Status == 1) {
         this.imageLoading = true;
@@ -84,10 +112,12 @@ export class AtmFlowComponent implements OnInit {
   }
 
   withdrawalPage(){
+    this.timer.startTimer(10000);
     this.atmflow = ATMFlow.withdrawalPage;
   }
 
   withdrawAmount(){
+    this.timer.clearTimer();
     if(parseInt(this.amountRequired)>20000){
       this.messageService.add({
         severity: 'warn', summary: 'Amount Exceeded', detail: 'Please try again later.'
@@ -115,4 +145,6 @@ export class AtmFlowComponent implements OnInit {
   continueBanking(){
     this.atmflow = ATMFlow.selectTransactionType;
   }
+
+ 
 }
