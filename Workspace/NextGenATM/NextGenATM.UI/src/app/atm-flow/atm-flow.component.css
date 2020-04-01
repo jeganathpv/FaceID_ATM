@@ -29,6 +29,11 @@
     background-color: black;
 }
 
+.center-input{
+    max-width: 300px;
+    margin: 0 auto;
+}
+
 /* .lead{
     font-size: 4.25rem;
 } */

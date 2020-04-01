@@ -44,6 +44,7 @@ export class AtmFlowComponent implements OnInit {
   onCancel(){
     this.scannedResult = '';
     this.atmflow = ATMFlow.welcome;
+    this.customer = {};
   }
 
   imageCaptured($event){
@@ -87,19 +88,31 @@ export class AtmFlowComponent implements OnInit {
   }
 
   withdrawAmount(){
-    this.middlewareService.withdrawCashFromAccount(this.customer.customerID,this.amountRequired).then((res:any) => {
-      if(res.Status == 1){
-        this.messageService.add({
-          severity: 'success', summary: 'Cash Withdrawed', detail: 'Cash withdraw successfully!'
-        });
-        this.checkBalance();
-      }
-      else{
-        this.messageService.add({
-          severity: 'warn', summary: 'Insufficient Balance', detail: 'You don\'t have sufficient amount to withdrawal. Please try again later.'
-        });
-        this.atmflow = ATMFlow.welcome;
-      }
-    })
+    if(parseInt(this.amountRequired)>20000){
+      this.messageService.add({
+        severity: 'warn', summary: 'Amount Exceeded', detail: 'Please try again later.'
+      });
+      this.onCancel();
+    }
+    else{
+      this.middlewareService.withdrawCashFromAccount(this.customer.customerID,this.amountRequired).then((res:any) => {
+        if(res.Status == 1){
+          this.messageService.add({
+            severity: 'success', summary: 'Cash Withdrawed', detail: 'Cash withdraw successfully!'
+          });
+          this.checkBalance();
+        }
+        else{
+          this.messageService.add({
+            severity: 'warn', summary: 'Insufficient Balance', detail: 'You don\'t have sufficient amount to withdrawal. Please try again later.'
+          });
+          this.onCancel();
+        }
+      })
+    }
+  }
+  
+  continueBanking(){
+    this.atmflow = ATMFlow.selectTransactionType;
   }
 }

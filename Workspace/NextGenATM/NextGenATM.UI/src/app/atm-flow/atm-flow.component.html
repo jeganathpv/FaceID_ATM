@@ -52,7 +52,7 @@
             <div class=" text-center mt-5  card-material">
                 <div class="card-body">
                     <h2 class="card-title">Account No: {{customer.accountNo}}</h2>
-                    <div class="content-right">
+                    <div class="content-right formPadding">
                         <button class="btn btn-primary mt-2 mx-2" (click)="checkBalance()">Check Balance</button>
                         <button class="btn btn-primary mt-2 mx-2" (click)="withdrawalPage()">Cash Withdrawal</button>
                         <button class="btn btn-danger mt-2 mx-2" (click)="onCancel()">Cancel</button>
@@ -71,7 +71,8 @@
                     <p class="card-text align-self-center">Thankyou for banking with us!</p>
 
                 </div>
-                <div class="content-right">
+                <div class="content-right formPadding">
+                    <button class="btn btn-primary mt-2 mx-2" (click)="continueBanking()">Continue Banking</button>
                     <button class="btn btn-danger mt-2 mx-2" (click)="onCancel()">Exit</button>
                 </div>
             </div>
@@ -84,9 +85,9 @@
                 <div class="card-body">
                     <h2 class="card-title">Enter Amount:</h2>
                     <p class="card-text align-self-center">Multiples of 100, 200, 500</p>
-                    <input type="number" class="form-control" required (ngModel)="amountRequired">
+                    <input type="number" class="form-control center-input" required [(ngModel)]="amountRequired">
                 </div>
-                <div class="content-right">
+                <div class="content-right formPadding">
                     <button class="btn btn-primary mt-2 mx-2" (click)="withdrawAmount()">Continue</button>
                     <button class="btn btn-danger mt-2 mx-2" (click)="onCancel()">Exit</button>
                 </div>
