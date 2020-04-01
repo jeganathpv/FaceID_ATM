@@ -15,8 +15,8 @@ class FaceIndex(enum.Enum):
     Failure = 2
 
 class QRMatch(enum.Enum):
-    AccountFound = 1
-    AccountNotFound = 2
+    AccountFound = 0
+    AccountNotFound = 1
 
 class FaceIDMatch(enum.Enum):
     FaceIDMatchWithAccount = 1
