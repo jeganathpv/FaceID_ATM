@@ -115,4 +115,37 @@ export class MiddlewareService {
       })
     })
   }
+
+  getAccountDetails(customerID){
+    return new Promise((resolve, reject) => {
+        this.http.post(this.baseurl+"/account/getdetails",{ "customerID":customerID}).subscribe(res => {
+          resolve(res)
+        })
+      })
+  }
+
+  matchFaceWithAccount(customerID,image){
+    return new Promise((resolve, reject) => {
+        this.http.post(this.baseurl+"/faceid/matchface",{ "customerID":customerID, "image":image}).subscribe(res => {
+          resolve(res)
+        })
+      })
+  }
+
+  getAccountBalance(customerID){
+    return new Promise((resolve, reject) => {
+        this.http.post(this.baseurl+"/account/getbalance",{ "customerID":customerID}).subscribe(res => {
+          resolve(res)
+        })
+      })
+  }
+
+  withdrawCashFromAccount(customerID,amount){
+    return new Promise((resolve, reject) => {
+        this.http.post(this.baseurl+"/account/withdrawcash",{ "customerID":customerID,"amount":amount}).subscribe(res => {
+          resolve(res)
+        })
+      })
+  }
+
 }
