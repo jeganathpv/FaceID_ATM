@@ -69,5 +69,15 @@
 
 
     </div>
+    <div *ngIf="enrollmentStep == 4">
+        <div class="jumbotron text-center">
+            <h2 class="display-5">
+                Add Another ? 
+                <button class="btn btn-primary" (click) = "addAnother()">Add Another</button>
+                or Logout
+                <button class="btn btn-danger" (click) = "logOut()">Log Out</button>
+            </h2>
+        </div>
+    </div>
 </div>
 <p-toast sticky=true position="bottom-right"></p-toast>

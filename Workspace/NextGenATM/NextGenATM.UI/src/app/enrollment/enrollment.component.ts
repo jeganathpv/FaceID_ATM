@@ -6,6 +6,8 @@ import { MessageService } from 'primeng/api';
 import { Message } from 'primeng//api';
 import * as jspdf from 'jspdf';
 import html2canvas from 'html2canvas';
+import { Router } from '@angular/router';
+
 
 
 @Component({
@@ -29,18 +31,14 @@ export class EnrollmentComponent implements OnInit {
   tempaccntnum = '1211221'
   cardinString = '';
 
-  constructor(private middlewareService: MiddlewareService, private messageService: MessageService) {
+  constructor(private middlewareService: MiddlewareService, private messageService: MessageService ,private router:Router) {
 
   }
 
   ngOnInit() {
-    this.toDataURL(`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${this.tempaccntnum}`, dataUrl =>  {
-  console.log('RESULT:', dataUrl);
-  // this.qrcodeinstring = dataUrl 
-})
-
-    this.authStatus = this.middlewareService.getAuthStatus();
-    
+    this.authStatus = this.middlewareService.getAuthStatus().subscribe(authState => {
+      this.authStatus = authState;
+    })
     this.customer = {};
     // this.authStatus = 1;
     // this.enrollmentStep = 3;
@@ -143,8 +141,12 @@ export class EnrollmentComponent implements OnInit {
       var heightLeft = imgHeight;
       pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight)  
       pdf.save('MYPdf.pdf'); // Generated PDF   
+      
     // document.body.appendChild(canvas); 
     });
+    setTimeout(() => {
+      this.enrollmentStep = 4;
+    } , 2000);
 
 }
 
@@ -162,6 +164,15 @@ export class EnrollmentComponent implements OnInit {
   xhr.send();
 }
 
+logOut(){
+  this.middlewareService.logOut();
+  this.router.navigate(['/enrollment'])
+}
+
+addAnother(){
+  this.customer = {};
+  this.enrollmentStep = 0;
+}
 }
 
 

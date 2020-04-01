@@ -8,7 +8,9 @@ export enum AuthState {
 export enum EnrollmentStep {
     selectbranch,
     enterdetails,
-    facedetection
+    facedetection,
+    export,
+    finalScreen
 }
 
 export interface Bank {

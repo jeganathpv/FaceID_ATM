@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { resolve } from 'url';
 import { Bank } from './models';
+import { AuthState } from './models';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,18 +13,13 @@ export class MiddlewareService {
   imageObj = {
     image: ' '
   }
-  authStatus: any;
+  authStatus: BehaviorSubject<number>;
 
   baseurl: string = '';
   constructor(private http: HttpClient) {
     this.baseurl = ''
-    enum AuthState {
-      authenticated,
-      invalidusername,
-      invalidpassword,
-      loggedout
-    }
-    this.authStatus = AuthState.loggedout;
+    // this.authStatus = AuthState.loggedout;
+    this.authStatus = new BehaviorSubject(AuthState.loggedout);
   }
   setBaseUrl(baseUrl : string){
     
@@ -31,6 +28,10 @@ export class MiddlewareService {
 
   login(userObj) {
     return this.http.post(this.baseurl + "/auth", userObj)
+  }
+  logOut(){
+    // this.authStatus = AuthState.loggedout;
+    this.authStatus.next(AuthState.loggedout);
   }
   getAuthStatus() {
     return this.authStatus;

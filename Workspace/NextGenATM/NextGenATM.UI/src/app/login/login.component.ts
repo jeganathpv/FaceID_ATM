@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { MiddlewareService } from '../middleware.service';
 import { MessageService } from 'primeng/api';
 import { Message } from 'primeng//api';
+import { AuthState } from '../models';
 
 @Component({
   selector: 'app-login',
@@ -25,6 +26,7 @@ export class LoginComponent implements OnInit {
       this.middlewareService.authStatus = data.Status;
       if (data.Status == 1) {
         this.stateChange.emit();
+        this.middlewareService.authStatus.next(AuthState.authenticated);
         this.messageService.add({ severity: 'success', summary: 'Login Successful', detail: 'Logged in successfully' });
 
       }
