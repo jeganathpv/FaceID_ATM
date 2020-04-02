@@ -145,6 +145,7 @@ export class AtmFlowComponent implements OnInit {
             severity: 'success', summary: 'Cash Withdrawed', detail: 'Cash withdraw successfully!'
           });
           this.checkBalance();
+          this.amountRequired = '';
         }
         else {
           this.messageService.add({
