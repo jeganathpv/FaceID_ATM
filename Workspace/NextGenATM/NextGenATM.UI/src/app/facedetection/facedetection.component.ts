@@ -33,19 +33,30 @@ export class FacedetectionComponent implements OnInit {
   ngOnInit() {
   }
 
+  /**
+    * Triggers the webcam to take a photo 
+   */
   public triggerSnapshot(): void {
     this.trigger.next();
   }
-
+  /**
+    * Sends the image captured by the webcam as output
+    * @param webcamImage base64 of captured image 
+   */
   public handleImage(webcamImage: WebcamImage): void {
     this.webcamImage = webcamImage;
     this.image.emit(webcamImage.imageAsBase64);
   }
-
+  /**
+    * returns the trigger 
+   */
   public get triggerObservable(): Observable<void> {
     return this.trigger.asObservable();
   }
 
+  /**
+    * Toggle webcam visibilty 
+   */
   hideWebcam() {
     this.showWebcam = false;
   }

@@ -5,7 +5,9 @@ const {
 var path = require('path');
 
 let win;
-
+/**
+ * Creates a new electron window with the provided options
+ */
 function createWindow() {
   // Create the browser window.
   win = new BrowserWindow({
