@@ -7,6 +7,7 @@ import csv_load as aws
 import boto3
 import json
 import datetime
+import os
 
 # Import models,enums,repository
 from Models import CustomerQRObject
@@ -157,6 +158,7 @@ class FaceDetection:
             image = face_recognition.load_image_file(img)
             faceLocation = face_recognition.face_locations(image)
             count = len(faceLocation)
+            os.remove(img)
             if count == 0:
                 return FaceCount.NotFound.value
             elif count == 1:
