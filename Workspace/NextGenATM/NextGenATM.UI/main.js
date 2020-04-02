@@ -11,8 +11,8 @@ let win;
 function createWindow() {
   // Create the browser window.
   win = new BrowserWindow({
-    width: 600,
-    height: 600,
+    width: 1000,
+    height: 800,
     backgroundColor: '#ffffff',
     icon: `file://${__dirname}\\dist\\atm\\assets\\download.png`,
     webPreferences: {
@@ -21,6 +21,7 @@ function createWindow() {
   })
   win.removeMenu();
   win.maximize();
+  // win.setIcon(path.join(__dirname, '\\dist\\atm\\assets\\faceidatm-admin.png'));
   win.setIcon(path.join(__dirname, '\\dist\\atm\\assets\\logo.png'));
 
   win.loadURL(`file://${__dirname}\\dist\\atm\\index.html#enroll`)

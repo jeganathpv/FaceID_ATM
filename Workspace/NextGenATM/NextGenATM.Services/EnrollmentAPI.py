@@ -15,14 +15,14 @@ api = Api(app)
 class HealthChecker(Resource):
     @app.route('/checkhealth', methods=['GET'])
     @cross_origin(support_credentials=True)
-    def checkHealth(self):
+    def checkHealth():
         return jsonify(True)
 
 
 class LoginController(Resource):
     @app.route('/auth', methods=['POST'])
     @cross_origin(support_credentials=True)
-    def userLogin(self):
+    def userLogin():
         json_data = request.get_json(force=True)
         username = str(json_data['username'])
         password = str(json_data['password'])
@@ -33,14 +33,14 @@ class LoginController(Resource):
 class BankController(Resource):
     @app.route('/bank/getdetails', methods=['GET'])
     @cross_origin(support_credentials=True)
-    def getBankDetails(self):
+    def getBankDetails():
         return jsonify({"BankDetails": BankService.getBankDetails()})
 
 
 class AccountController(Resource):
     @app.route('/account/generatecustid', methods=['POST'])
     @cross_origin(support_credentials=True)
-    def generateCustId(self):
+    def generateCustId():
         custId = AccountService.generateCustomerID()
         json_data = request.get_json(force=True)
         branchCode = json_data['branchCode']
@@ -55,7 +55,7 @@ class AccountController(Resource):
 
     @app.route('/account/generateqrcard', methods=['POST'])
     @cross_origin(support_credentials=True)
-    def generateQRDetails(self):
+    def generateQRDetails():
         json_data = request.get_json(force=True)
         customerID = json_data['customerID']
         qrDetail = AccountService.fetchCustomerDetail(customerID)
@@ -66,7 +66,7 @@ class AccountController(Resource):
 class FaceIDController(Resource):
     @app.route('/faceid/detectface', methods=['POST'])
     @cross_origin(support_credentials=True)
-    def detectFace(self):
+    def detectFace():
         json_data = request.get_json(force=True)
         image_str = json_data['image']
         path = FaceDetection.saveFile(image_str)
@@ -75,7 +75,7 @@ class FaceIDController(Resource):
 
     @app.route('/faceid/indexface', methods=['POST'])
     @cross_origin(support_credentials=True)
-    def indexFace(self):
+    def indexFace():
         json_data = request.get_json(force=True)
         customerID = json_data['customerID']
         image_str = json_data['image']
