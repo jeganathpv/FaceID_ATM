@@ -1,7 +1,7 @@
-<app-login *ngIf="authStatus != 1"
+<app-login *ngIf="authStatus != 0"
            (stateChange)="onstateChange()"></app-login>
 
-<div *ngIf="authStatus == 1"
+<div *ngIf="authStatus == 0"
      class="enrollment card-material">
     <div *ngIf="enrollmentStep == 0"
          class="branch-selector form-group card-material formPadding">
