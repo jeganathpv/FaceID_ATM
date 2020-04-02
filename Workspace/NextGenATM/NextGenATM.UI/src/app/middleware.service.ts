@@ -19,6 +19,7 @@ export class MiddlewareService {
     this.baseurl = ''
     this.authStatus = new BehaviorSubject(AuthState.loggedout);
   }
+
   /**
     * Dynamically sets the baseURL
     * @param baseUrl the base url in string 
@@ -26,24 +27,28 @@ export class MiddlewareService {
   setBaseUrl(baseUrl: string) {
     this.baseurl = baseUrl;
   }
+
   /**
     * To authenticate the user 
    */
   login(userObj) {
     return this.http.post(this.baseurl + "/auth", userObj)
   }
+
   /**
     * Log out the current user 
    */
   logOut() {
     this.authStatus.next(AuthState.loggedout);
   }
+
   /**
     * return the current login status 
    */
   getAuthStatus() {
     return this.authStatus;
   }
+
   /**
     * Fetches the list of available banks 
    */
@@ -59,7 +64,6 @@ export class MiddlewareService {
     *Creates a new account
     *@param userDetails object containing the details of the user 
    */
-
   createAccount(userDetails) {
     return new Promise((resolve, reject) => {
       this.http.post(this.baseurl + "/account/generatecustid", userDetails).subscribe(response => {
@@ -67,6 +71,7 @@ export class MiddlewareService {
       })
     })
   }
+
   /** 
     * Returns the number of faces in the image
     * @param base64string the base64uri of the image to check
@@ -92,6 +97,7 @@ export class MiddlewareService {
       })
     })
   }
+  
   /**
    * Indexes the face data to store in database
    * @param customerId the customer id
