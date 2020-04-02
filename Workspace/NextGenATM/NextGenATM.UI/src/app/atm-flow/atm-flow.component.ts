@@ -30,8 +30,11 @@ export class AtmFlowComponent implements OnInit {
       this.operationTimedOut = true;
       this.messageService.add({ severity: 'error', summary: 'Operation Timed out', detail: 'No input received' });
     })
-
   }
+
+  /**
+   * To cleanup the current session
+   */
   cleanUp() {
     this.atmflow = ATMFlow.welcome;
     this.scannedResult = '';
@@ -41,15 +44,22 @@ export class AtmFlowComponent implements OnInit {
     this.amountRequired = '';
     this.operationTimedOut = false;
   }
+
+  /**
+   * Switch from welcome screen to QR Scanner 
+   */
   onContinue() {
     this.atmflow = ATMFlow.scan;
     this.timer.startTimer(10000);
   }
 
+  /**
+   * To fetch account details of the customer
+   * @param $event details in the qr code
+   */
   onScanResult($event) {
     this.timer.clearTimer();
     this.scannedResult = $event;
-
     this.middlewareService.getAccountDetails(this.scannedResult).then((res: Customer) => {
       this.customer.customerID = res.customerID;
       this.customer.name = res.name;
@@ -57,18 +67,18 @@ export class AtmFlowComponent implements OnInit {
     })
   }
 
+  /**
+   * Switch to face detection component
+   */
   onConfirm() {
     this.atmflow = ATMFlow.facedetection;
     this.timer.startTimer(3000);
-    // go to next flow
   }
 
-  onCancel() {
-    this.scannedResult = '';
-    this.atmflow = ATMFlow.welcome;
-    this.customer = {};
-  }
-
+  /**
+   * To check faceid against customer id and navigated to transaction type page
+   * @param $event base64 string of the image captured
+   */
   imageCaptured($event) {
     this.timer.clearTimer();
     this.middlewareService.detectFace($event).then((res: any) => {
@@ -99,6 +109,9 @@ export class AtmFlowComponent implements OnInit {
     })
   }
 
+  /**
+   * To check the balance of the customer and then switch the navigation
+   */
   checkBalance() {
     this.middlewareService.getAccountBalance(this.customer.customerID).then((res: any) => {
       this.customer.balance = res.balance;
@@ -106,18 +119,24 @@ export class AtmFlowComponent implements OnInit {
     this.atmflow = ATMFlow.checkBalance;
   }
 
+  /**
+   * Switch to Withdrawal page
+   */
   withdrawalPage() {
     this.timer.startTimer(10000);
     this.atmflow = ATMFlow.withdrawalPage;
   }
 
+  /**
+   * To withdraw amount from the customer account and switch to check balance
+   */
   withdrawAmount() {
     this.timer.clearTimer();
     if (parseInt(this.amountRequired) > 20000) {
       this.messageService.add({
         severity: 'warn', summary: 'Amount Exceeded', detail: 'Please try again later.'
       });
-      this.onCancel();
+      this.cleanUp();
     }
     else {
       this.middlewareService.withdrawCashFromAccount(this.customer.customerID, this.amountRequired).then((res: any) => {
@@ -131,12 +150,15 @@ export class AtmFlowComponent implements OnInit {
           this.messageService.add({
             severity: 'warn', summary: 'Insufficient Balance', detail: 'You don\'t have sufficient amount to withdrawal. Please try again later.'
           });
-          this.onCancel();
+          this.cleanUp();
         }
       })
     }
   }
 
+  /**
+   * To continue banking after withdrawal or check balance
+   */
   continueBanking() {
     this.atmflow = ATMFlow.selectTransactionType;
   }
