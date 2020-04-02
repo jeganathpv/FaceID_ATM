@@ -9,6 +9,7 @@ import base64
 class HandleException:
     @staticmethod
     def exceptionHandler(e):
+        """Used to Handle the exception"""
         if hasattr(e, 'message'):
             print(e.message)
         else:
@@ -18,6 +19,7 @@ class HandleException:
 class DataMassager:
     @staticmethod
     def massageDataDocument(object):
+        """To massage document from mongo and it removes '_id' key"""
         del object['_id']
         return object
 
@@ -25,6 +27,7 @@ class DataMassager:
 class QRCardGenerator:
     @staticmethod
     def generateQrCard(customerObject):
+        """To Generate QR Card"""
         try:
             qrCode = QRCode(customerObject.customerID)
             qrCode.svg("backup/qr/{}.svg".format(customerObject.customerID),
@@ -60,6 +63,7 @@ class QRCardGenerator:
 class ImageToB64:
     @staticmethod
     def getBase64String(path):
+        """To get base64 string for the image file"""
         with open(path, "rb") as img_file:
             base64String = base64.b64encode(img_file.read())
         return base64String

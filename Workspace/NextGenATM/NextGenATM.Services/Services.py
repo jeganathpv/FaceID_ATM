@@ -21,6 +21,7 @@ with open('appsettings.json', 'r') as json_file:
 class LoginUser:
     @staticmethod
     def validateUser(UserObject):
+        """To validate the user's credentials"""
         try:
             connector = RootUser()
             userInfoInDb = connector.getRootUserDetails()
@@ -38,6 +39,7 @@ class LoginUser:
 class BankService:
     @staticmethod
     def getBankDetails():
+        """To get the bank details"""
         try:
             connector = BankRepository()
             bankDetails = connector.getBankDetails()
@@ -49,6 +51,7 @@ class BankService:
 class AccountService:
     @staticmethod
     def generateCustomerID():
+        """To generate new customer id"""
         try:
             connector = CustomerIDRepository()
             lastCustId = int(connector.getLastCustID())
@@ -62,17 +65,20 @@ class AccountService:
 
     @staticmethod
     def addCustomerDetails(CustomerObject):
+        """Add customer details into repository"""
         try:
             connector = CustomerRepository()
             CustomerObject.accountNo = CustomerObject.accountNo[:10] + str(
                 int(CustomerObject.accountNo[10:])+1).zfill(5)
-            connector.addCustomer(CustomerObject)
+            connector.putCustomerDetail(CustomerObject)
             return CustomerObject.accountNo
         except Exception as e:
             HandleException.exceptionHandler(e)
 
     @staticmethod
     def updateExistingDetails(custId, branchCode, lastAddedAcNo):
+        """Update existing customer id and 
+        last added account number for the particular branch"""
         try:
             connector = CustomerIDRepository()
             connector.updateLastCustID(custId)
@@ -83,6 +89,7 @@ class AccountService:
 
     @staticmethod
     def fetchCustomerDetail(customerID):
+        """Get customer details from the repository"""
         try:
             connector = CustomerRepository()
             customerDetail = connector.getCustomerDetail(customerID)
@@ -94,6 +101,7 @@ class AccountService:
 
     @staticmethod
     def generateQrCard(qrDetail):
+        """Generate QR Card using Helper"""
         try:
             QRCardGenerator.generateQrCard(qrDetail)
             return ImageToB64.getBase64String("backup/card/{}.png".format(qrDetail.customerID))
@@ -102,6 +110,7 @@ class AccountService:
 
     @staticmethod
     def matchQrCodeWithAccount(qrCode):
+        """Match the QR COde against the customer account"""
         try:
             connector = CustomerRepository()
             customerDetail = connector.getCustomerDetail(qrCode)
@@ -114,6 +123,7 @@ class AccountService:
 
     @staticmethod
     def fetchAccountBalance(customerID):
+        """Get the account balance the customer"""
         try:
             connector = CustomerRepository()
             customerDetail = connector.getCustomerDetail(customerID)
@@ -123,6 +133,7 @@ class AccountService:
 
     @staticmethod
     def cashWithdrawal(customerID, amount):
+        """To withdraw cash and update the balance"""
         try:
             connector = CustomerRepository()
             customerDetail = connector.getCustomerDetail(customerID)
@@ -141,6 +152,7 @@ class FaceDetection:
     # Count no. of faces found in image
     @staticmethod
     def locateFacesInImage(img):
+        """To locate face in the image"""
         try:
             image = face_recognition.load_image_file(img)
             faceLocation = face_recognition.face_locations(image)
@@ -157,6 +169,7 @@ class FaceDetection:
     # To save file from the string
     @staticmethod
     def saveFile(image_in_str):
+        """To save image in local"""
         try:
             path = "test.jpg"
             img = open(path, 'wb')
@@ -175,6 +188,7 @@ class FaceID():
     # Identify face from S3 Bucket image
     @staticmethod
     def index_faces(image_str):
+        """Index face with aws face rekognition"""
         try:
             image_bytes = base64.b64decode(image_str)
             response = rekognitionClient.index_faces(
@@ -190,11 +204,13 @@ class FaceID():
 
     @staticmethod
     def addIndexinDB(FaceIndexObject):
+        """To add indexed face id in repository"""
         connector = FaceIDRepository()
-        connector.addFaceIndex(FaceIndexObject)
+        connector.putFaceIndex(FaceIndexObject)
 
     @staticmethod
     def match_face(image_str, customerID):
+        """To match face id using aws face rekogintion and validate against customer id"""
         try:
             image_bytes = base64.b64decode(image_str)
             response = rekognitionClient.search_faces_by_image(
