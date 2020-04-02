@@ -12,7 +12,9 @@
                 placeholder="Enter instance URL">
             </div>
             <div class="card-text my-2 text-danger" *ngIf="!validUrl"> Enter a url in valid format</div>
-            <button type="submit" class="btn btn-primary">Continue</button>
+            <div class="card-text my-2 text-danger" >{{errorMsg}}</div>
+
+            <button type="submit"  class="btn btn-primary">Continue</button>
           </form>
         </div>
       </div>

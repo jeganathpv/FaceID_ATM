@@ -1,62 +1,99 @@
-<app-login *ngIf="authStatus > 1" (stateChange)="onstateChange()"></app-login>
+<app-login *ngIf="authStatus != 1"
+           (stateChange)="onstateChange()"></app-login>
 
-<div *ngIf="authStatus == 1" class="enrollment card-material">
-    <div *ngIf="enrollmentStep == 0" class="branch-selector form-group card-material formPadding">
+<div *ngIf="authStatus == 1"
+     class="enrollment card-material">
+    <div *ngIf="enrollmentStep == 0"
+         class="branch-selector form-group card-material formPadding">
 
         <span class="form-large-text">Select branch name &nbsp;&nbsp;&nbsp;&nbsp;</span>
         <span>
-            <p-dropdown [options]="bankSelectionList" [(ngModel)]="selectedBank" placeholder="---Select---">
+            <p-dropdown [options]="bankSelectionList"
+                        [(ngModel)]="selectedBank"
+                        placeholder="---Select---">
             </p-dropdown>
         </span>
-        <div *ngIf="selectedBank?.branchCode" class="display-branch-details">
+        <div *ngIf="selectedBank?.branchCode"
+             class="display-branch-details">
             <span class="form-large-text">Branch Code : </span><span
-                class="form-text-color">{{selectedBank.branchCode}}</span>
+                  class="form-text-color">{{selectedBank.branchCode}}</span>
             <span class="form-large-text">IFSC Code : </span><span
-                class="form-text-color">{{selectedBank.ifscCode}}</span>
+                  class="form-text-color">{{selectedBank.ifscCode}}</span>
         </div>
     </div>
-    <div *ngIf="enrollmentStep == 0" class="customer-details">
+    <div *ngIf="enrollmentStep == 0"
+         class="customer-details">
         <div class="card-material">
             <form class="customerDetailsForm formPadding">
                 <div class="form-group text-align-left formPadding">
-                    <label for="name" class="form-large-text">Customer Name</label>
-                    <input required name="name" type="text" class="form-control" [(ngModel)]="customer.name" id="name"
-                        aria-describedby="nameHelp" placeholder="Enter name">
-                    <small id="nameHelp" class="form-text text-muted">Ensure the name matches your Identity
+                    <label for="name"
+                           class="form-large-text">Customer Name</label>
+                    <input required
+                           name="name"
+                           type="text"
+                           class="form-control"
+                           [(ngModel)]="customer.name"
+                           id="name"
+                           aria-describedby="nameHelp"
+                           placeholder="Enter name">
+                    <small id="nameHelp"
+                           class="form-text text-muted">Ensure the name matches your Identity
                         proof</small>
                 </div>
                 <div class="form-group text-align-left formPadding">
-                    <label for="balance" class="form-large-text">Balance</label>
-                    <input type="number" name="balance" class="form-control" required id="balance"
-                        [(ngModel)]="customer.balance" placeholder="Balance">
+                    <label for="balance"
+                           class="form-large-text">Balance</label>
+                    <input type="number"
+                           name="balance"
+                           class="form-control"
+                           required
+                           id="balance"
+                           [(ngModel)]="customer.balance"
+                           placeholder="Balance">
                 </div>
                 <div class="form-group formPadding">
-                    <button type="submit" class="form-button" (click)="formSubmit()">Submit</button>
+                    <button type="submit"
+                            class="form-button"
+                            (click)="formSubmit()">Submit</button>
                 </div>
             </form>
         </div>
     </div>
     <div *ngIf="enrollmentStep == 2 && !imageLoading">
-        <app-facedetection [isLoading]="imageLoading" (image)="imageCaptured($event)"></app-facedetection>
+        <app-facedetection [isLoading]="imageLoading"
+                           (image)="imageCaptured($event)"></app-facedetection>
     </div>
-    <div *ngIf="imageLoading" class="loadingimage">
-        <img src="assets/images/facedetection.gif" alt="">
+    <div *ngIf="imageLoading"
+         class="loadingimage">
+        <img src="assets/images/facedetection.gif"
+             alt="">
         <h4 class="statusMsg">{{statusMsg}}</h4>
-        <div class="spinner-border text-primary" role="status">
+        <div class="spinner-border text-primary"
+             role="status">
             <span class="sr-only">Loading...</span>
         </div>
     </div>
-    <div *ngIf="enrollmentStep == 3" class="details-view">
-        <h1 class="title" *ngIf="!cardGenerating">Here's your card!</h1>
-        <h1 class="title" *ngIf="cardGenerating">Please wait while your card is generated</h1>
+    <div *ngIf="enrollmentStep == 3"
+         class="details-view">
+        <h1 class="title"
+            *ngIf="!cardGenerating">Here's your card!</h1>
+        <h1 class="title"
+            *ngIf="cardGenerating">Please wait while your card is generated</h1>
         <div>
             <div class="container mt-3">
                 <div class="row justify-content-center">
-                    <img *ngIf="cardGenerating" id="cardloading" src="assets/cardgenerating.gif">
-                    <img src={{cardinString}} alt="" id="card" srcset="">
+                    <img *ngIf="cardGenerating"
+                         id="cardloading"
+                         src="assets/cardgenerating.gif">
+                    <img src={{cardinString}}
+                         alt=""
+                         id="card"
+                         srcset="">
                 </div>
                 <div class="row justify-content-center mt-2">
-                    <button (click)="captureScreen()" id="btnSave" class="btn btn-primary ">Export</button>
+                    <button (click)="captureScreen()"
+                            id="btnSave"
+                            class="btn btn-primary ">Export</button>
                 </div>
             </div>
         </div>
@@ -65,11 +102,14 @@
         <div class="jumbotron text-center">
             <h2 class="display-5">
                 Add Another ?
-                <button class="btn btn-primary" (click)="addAnother()">Add Another</button>
+                <button class="btn btn-primary"
+                        (click)="addAnother()">Add Another</button>
                 or Logout
-                <button class="btn btn-danger" (click)="logOut()">Log Out</button>
+                <button class="btn btn-danger"
+                        (click)="logOut()">Log Out</button>
             </h2>
         </div>
     </div>
 </div>
-<p-toast sticky=true position="bottom-right"></p-toast>
+<p-toast sticky=true
+         position="bottom-right"></p-toast>
