@@ -25,8 +25,6 @@ export class EnrollmentComponent implements OnInit {
   cardGenerating: boolean = false;
   statusMsg: string = "Please wait";
   msgs: Message[] = [];
-  qrCode;
-  tempaccntnum = '1211221'
   cardinString = '';
 
   constructor(private middlewareService: MiddlewareService, private messageService: MessageService, private router: Router) {
@@ -39,7 +37,9 @@ export class EnrollmentComponent implements OnInit {
     })
     this.customer = {};
   }
-
+/**
+  * To build the dropdown of available banks  
+ */
   buildDropdown() {
     this.availableBanksList.forEach(bank => {
       this.bankSelectionList.push({
@@ -49,6 +49,9 @@ export class EnrollmentComponent implements OnInit {
     });
   }
 
+  /** 
+    * Handles the user creation form
+   */
   formSubmit() {
     if (this.customer.name != null && this.customer.balance != null && this.selectedBank && this.selectedBank.branchCode) {
       this.middlewareService.createAccount({
@@ -72,7 +75,10 @@ export class EnrollmentComponent implements OnInit {
       return
     }
   }
-
+/**
+  * Handles the image captured by face recognition
+  * @param $event the imge in base64
+ */
   imageCaptured($event) {
     this.middlewareService.detectFace($event).then((res: any) => {
       if (res.Status == 1) {
@@ -103,7 +109,9 @@ export class EnrollmentComponent implements OnInit {
       }
     })
   }
-
+  /**
+    * Called when login is successful and initiates the enrollment flow 
+   */
   onstateChange() {
     // hit when login is successful
     this.authStatus = 1;
@@ -114,6 +122,9 @@ export class EnrollmentComponent implements OnInit {
     });
   }
 
+  /** 
+    * Converts the generated card into canvas element for pdf conversion
+   */
   public captureScreen() {
     var data = document.getElementById('card');
     html2canvas(data, {
@@ -135,6 +146,11 @@ export class EnrollmentComponent implements OnInit {
     }, 2000);
   }
 
+  /**
+    * Converts the blob into base64 string
+    * @param url location of the image
+    * @param callback 
+   */
   toDataURL(url, callback) {
     var xhr = new XMLHttpRequest();
     xhr.onload = function () {
@@ -148,12 +164,16 @@ export class EnrollmentComponent implements OnInit {
     xhr.responseType = 'blob';
     xhr.send();
   }
-
+  /**
+    * Initiates the logout flow 
+   */
   logOut() {
     this.middlewareService.logOut();
     this.router.navigate(['/enrollment'])
   }
-
+  /**
+    * Provides option to add another user 
+   */
   addAnother() {
     this.customer = {};
     this.enrollmentStep = 0;

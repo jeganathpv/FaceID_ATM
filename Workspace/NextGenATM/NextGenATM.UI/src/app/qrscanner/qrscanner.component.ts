@@ -16,6 +16,10 @@ export class QrscannerComponent implements OnInit {
 
   ngOnInit() {
   }
+  /**
+    * Called when the qrcard is successfully scanned
+    * @param $event the qrdata in string
+     */
   scanSuccessHandler($event) {
     this.timer.resetTimer();
     this.middlewareService.matchQrWithAccount($event).then((res: any) => {

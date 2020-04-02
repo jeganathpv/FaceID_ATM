@@ -19,11 +19,12 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
   }
-
+  /**
+    * Handles the user login form on submit
+   */
   submitForm() {
     this.middlewareService.login({ "username": this.username, "password": this.password }).subscribe((data: any) => {
       // update the authstatus in middlewareseervice
-      this.middlewareService.authStatus = data.Status;
       if (data.Status == 1) {
         this.stateChange.emit();
         this.middlewareService.authStatus.next(AuthState.authenticated);

@@ -18,7 +18,10 @@ export class UrlselectorComponent implements OnInit {
   ngOnInit() {
     this.urlForm = this.formBuilder.group({ url: '' })
   }
-
+  /**
+    * Handles the urlselection and validates the entered url 
+    * @param formValue contains the value of the url form
+   */
   onSubmit(formValue) {
     const pattern = /^((http:\/\/)|(www.))(?:([a-zA-Z]+)|(\d+\.\d+.\d+.\d+)):\d+$/gm;
     if (formValue.url === '' || formValue.url === null) {
