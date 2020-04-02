@@ -23,7 +23,7 @@
                     <p class="card-text align-self-center">Account No: {{customer.accountNo}}</p>
                     <div class="content-right">
                         <button class="btn btn-primary mt-2 mx-2" (click)="onConfirm()">Continue</button>
-                        <button class="btn btn-danger mt-2 mx-2" (click)="onCancel()">Cancel</button>
+                        <button class="btn btn-danger mt-2 mx-2" (click)="cleanUp()">Cancel</button>
                     </div>
                 </div>
             </div>
@@ -53,7 +53,7 @@
                     <div class="content-right formPadding">
                         <button class="btn btn-primary mt-2 mx-2" (click)="checkBalance()">Check Balance</button>
                         <button class="btn btn-primary mt-2 mx-2" (click)="withdrawalPage()">Cash Withdrawal</button>
-                        <button class="btn btn-danger mt-2 mx-2" (click)="onCancel()">Cancel</button>
+                        <button class="btn btn-danger mt-2 mx-2" (click)="cleanUp()">Cancel</button>
                     </div>
                 </div>
             </div>
@@ -71,7 +71,7 @@
                 </div>
                 <div class="content-right formPadding">
                     <button class="btn btn-primary mt-2 mx-2" (click)="continueBanking()">Continue Banking</button>
-                    <button class="btn btn-danger mt-2 mx-2" (click)="onCancel()">Exit</button>
+                    <button class="btn btn-danger mt-2 mx-2" (click)="cleanUp()">Exit</button>
                 </div>
             </div>
         </div>
@@ -87,7 +87,7 @@
                 </div>
                 <div class="content-right formPadding">
                     <button class="btn btn-primary mt-2 mx-2" (click)="withdrawAmount()">Continue</button>
-                    <button class="btn btn-danger mt-2 mx-2" (click)="onCancel()">Exit</button>
+                    <button class="btn btn-danger mt-2 mx-2" (click)="cleanUp()">Exit</button>
                 </div>
             </div>
         </div>
