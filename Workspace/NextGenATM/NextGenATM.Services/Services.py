@@ -9,10 +9,10 @@ import json
 import datetime
 
 # Import models,enums,repository
-from Models import *
-from StaticStatus import *
-from Repository import *
-from Helper import *
+from Models import CustomerQRObject
+from StaticStatus import Login, CashWithdrawal, FaceCount, FaceIndex
+from Repository import RootUser, CustomerRepository, BankRepository, CustomerIDRepository, FaceIDRepository
+from Helper import QRCardGenerator, ImageToB64, HandleException
 
 with open('appsettings.json', 'r') as json_file:
     appsettings = json.load(json_file)
@@ -32,31 +32,25 @@ class LoginUser:
                 else:
                     return Login.WrongPassword.value
         except Exception as e:
-            if hasattr(e, 'message'):
-                print(e.message)
-            else:
-                print(e)
+            HandleException.exceptionHandler(e)
 
 
 class BankService:
     @staticmethod
     def getBankDetails():
         try:
-            connector = BankDetails()
+            connector = BankRepository()
             bankDetails = connector.getBankDetails()
             return bankDetails
         except Exception as e:
-            if hasattr(e, 'message'):
-                print(e.message)
-            else:
-                print(e)
+            HandleException.exceptionHandler(e)
 
 
 class AccountService:
     @staticmethod
     def generateCustomerID():
         try:
-            connector = CustomerIDDetail()
+            connector = CustomerIDRepository()
             lastCustId = int(connector.getLastCustID())
             newCustID = lastCustId + 1
             date = datetime.datetime.now()
@@ -64,10 +58,7 @@ class AccountService:
             custId = str(series)+str(newCustID).zfill(3)
             return custId
         except Exception as e:
-            if hasattr(e, 'message'):
-                print(e.message)
-            else:
-                print(e)
+            HandleException.exceptionHandler(e)
 
     @staticmethod
     def addCustomerDetails(CustomerObject):
@@ -78,23 +69,17 @@ class AccountService:
             connector.addCustomer(CustomerObject)
             return CustomerObject.accountNo
         except Exception as e:
-            if hasattr(e, 'message'):
-                print(e.message)
-            else:
-                print(e)
+            HandleException.exceptionHandler(e)
 
     @staticmethod
     def updateExistingDetails(custId, branchCode, lastAddedAcNo):
         try:
-            connector = CustomerIDDetail()
+            connector = CustomerIDRepository()
             connector.updateLastCustID(custId)
-            connector = BankDetails()
+            connector = BankRepository()
             connector.updateLastAccountNo(branchCode, lastAddedAcNo)
         except Exception as e:
-            if hasattr(e, 'message'):
-                print(e.message)
-            else:
-                print(e)
+            HandleException.exceptionHandler(e)
 
     @staticmethod
     def fetchCustomerDetail(customerID):
@@ -105,10 +90,7 @@ class AccountService:
                 customerDetail['customerID'], customerDetail['accountNo'], customerDetail['name'])
             return custObj
         except Exception as e:
-            if hasattr(e, 'message'):
-                print(e.message)
-            else:
-                print(e)
+            HandleException.exceptionHandler(e)
 
     @staticmethod
     def generateQrCard(qrDetail):
@@ -116,10 +98,7 @@ class AccountService:
             QRCardGenerator.generateQrCard(qrDetail)
             return ImageToB64.getBase64String("backup/card/{}.png".format(qrDetail.customerID))
         except Exception as e:
-            if hasattr(e, 'message'):
-                print(e.message)
-            else:
-                print(e)
+            HandleException.exceptionHandler(e)
 
     @staticmethod
     def matchQrCodeWithAccount(qrCode):
@@ -131,10 +110,7 @@ class AccountService:
             else:
                 return False
         except Exception as e:
-            if hasattr(e, 'message'):
-                print(e.message)
-            else:
-                print(e)
+            HandleException.exceptionHandler(e)
 
     @staticmethod
     def fetchAccountBalance(customerID):
@@ -143,29 +119,24 @@ class AccountService:
             customerDetail = connector.getCustomerDetail(customerID)
             return customerDetail['balance']
         except Exception as e:
-            if hasattr(e, 'message'):
-                print(e.message)
-            else:
-                print(e)
-        
+            HandleException.exceptionHandler(e)
+
     @staticmethod
-    def cashWithdrawal(customerID,amount):
+    def cashWithdrawal(customerID, amount):
         try:
             connector = CustomerRepository()
             customerDetail = connector.getCustomerDetail(customerID)
             availableBalance = int(customerDetail['balance'])
-            if availableBalance>amount:
+            if availableBalance > amount:
                 balance = availableBalance - amount
-                connector.updateCustomerBalance(customerID,str(balance))
+                connector.updateCustomerBalance(customerID, str(balance))
                 return CashWithdrawal.Success.value
             else:
                 return CashWithdrawal.InsufficientBalance.value
         except Exception as e:
-            if hasattr(e, 'message'):
-                print(e.message)
-            else:
-                print(e)
-                
+            HandleException.exceptionHandler(e)
+
+
 class FaceDetection:
     # Count no. of faces found in image
     @staticmethod
@@ -181,11 +152,7 @@ class FaceDetection:
             else:
                 return FaceCount.MoreThanOne.value
         except Exception as e:
-            return FaceCount.NotFound.value
-            if hasattr(e, 'message'):
-                print(e.message)
-            else:
-                print(e)
+            HandleException.exceptionHandler(e)
 
     # To save file from the string
     @staticmethod
@@ -197,10 +164,7 @@ class FaceDetection:
             img.close()
             return path
         except Exception as e:
-            if hasattr(e, 'message'):
-                print(e.message)
-            else:
-                print(e)
+            HandleException.exceptionHandler(e)
 
 
 rekognitionClient = boto3.client('rekognition', aws_access_key_id=aws.access_key_id,
@@ -222,14 +186,11 @@ class FaceID():
             else:
                 return [FaceIndex.Failure]
         except Exception as e:
-            if hasattr(e, 'message'):
-                print(e.message)
-            else:
-                print(e)
+            HandleException.exceptionHandler(e)
 
     @staticmethod
     def addIndexinDB(FaceIndexObject):
-        connector = FaceIDDetails()
+        connector = FaceIDRepository()
         connector.addFaceIndex(FaceIndexObject)
 
     @staticmethod
@@ -241,17 +202,15 @@ class FaceID():
                 Image={'Bytes': image_bytes}
             )
             faceMatch = False
-            connector = FaceIDDetails()
+            connector = FaceIDRepository()
             for match in response['FaceMatches']:
                 faceDetails = connector.getFaceIdDetails()
                 faceid = match['Face']['FaceId']
-                faceIdMatch = list(filter(lambda faceDetail: faceDetail["faceID"] == faceid, faceDetails))
+                faceIdMatch = list(
+                    filter(lambda faceDetail: faceDetail["faceID"] == faceid, faceDetails))
                 if len(faceIdMatch) == 1 and customerID in [customerID['customerID'] for customerID in faceIdMatch]:
                     faceMatch = True
                     break
             return faceMatch
         except Exception as e:
-            if hasattr(e, 'message'):
-                print(e.message)
-            else:
-                print(e)
+            HandleException.exceptionHandler(e)
