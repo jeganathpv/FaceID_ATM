@@ -31,7 +31,6 @@ export class FacedetectionComponent implements OnInit {
   private trigger: Subject<void> = new Subject<void>();
 
   ngOnInit() {
-
   }
 
   public triggerSnapshot(): void {
@@ -54,5 +53,4 @@ export class FacedetectionComponent implements OnInit {
   showWebcamfun() {
     this.showWebcam = true;
   }
-
 }

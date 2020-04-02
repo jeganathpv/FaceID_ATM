@@ -1,15 +1,15 @@
-:host zxing-scanner::ng-deep video{
-    max-height: calc(100% - 150px);
-    width: 100%;
-    object-fit: contain;
-    margin: 0 auto;
-  }
+:host zxing-scanner::ng-deep video {
+  max-height: calc(100% - 150px);
+  width: 100%;
+  object-fit: contain;
+  margin: 0 auto;
+}
 
-.text-center{
+.text-center {
   text-align: center;
 }
 
-.qr-scanner{
+.qr-scanner {
   width: 500px;
   height: 400px;
   margin: 0 auto;
@@ -17,6 +17,6 @@
   border: 2px solid blue;
 }
 
-.center-content{
+.center-content {
   margin: 0 auto;
 }

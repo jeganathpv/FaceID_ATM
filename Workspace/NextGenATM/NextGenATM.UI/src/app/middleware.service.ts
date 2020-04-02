@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { resolve } from 'url';
 import { Bank } from './models';
 import { AuthState } from './models';
 import { BehaviorSubject } from 'rxjs';
@@ -14,25 +13,25 @@ export class MiddlewareService {
     image: ' '
   }
   authStatus: BehaviorSubject<number>;
-
   baseurl: string = '';
+
   constructor(private http: HttpClient) {
     this.baseurl = ''
-    // this.authStatus = AuthState.loggedout;
     this.authStatus = new BehaviorSubject(AuthState.loggedout);
   }
-  setBaseUrl(baseUrl : string){
-    
+
+  setBaseUrl(baseUrl: string) {
     this.baseurl = baseUrl;
   }
 
   login(userObj) {
     return this.http.post(this.baseurl + "/auth", userObj)
   }
-  logOut(){
-    // this.authStatus = AuthState.loggedout;
+
+  logOut() {
     this.authStatus.next(AuthState.loggedout);
   }
+
   getAuthStatus() {
     return this.authStatus;
   }
@@ -94,10 +93,8 @@ export class MiddlewareService {
     return this.http.post(this.baseurl + "/account/generateqrdetails", { "customerID": customerID })
   }
 
-  generateQrCode(customerId:string) {
-// temp url
-    return this.http.post(this.baseurl+"/account/generateqrcard",{ "customerID": customerId } );
-   
+  generateQrCode(customerId: string) {
+    return this.http.post(this.baseurl + "/account/generateqrcard", { "customerID": customerId });
   }
 
   convertToBase64(image, callback) {
@@ -109,44 +106,44 @@ export class MiddlewareService {
     reader.readAsDataURL(image);
   }
 
-  matchQrWithAccount(qrCode){
+  matchQrWithAccount(qrCode) {
     return new Promise((resolve, reject) => {
-      this.http.post(this.baseurl+"/auth/matchqr",{ "qrCode":qrCode}).subscribe(res => {
+      this.http.post(this.baseurl + "/auth/matchqr", { "qrCode": qrCode }).subscribe(res => {
         resolve(res)
       })
     })
   }
 
-  getAccountDetails(customerID){
+  getAccountDetails(customerID) {
     return new Promise((resolve, reject) => {
-        this.http.post(this.baseurl+"/account/getdetails",{ "customerID":customerID}).subscribe(res => {
-          resolve(res)
-        })
+      this.http.post(this.baseurl + "/account/getdetails", { "customerID": customerID }).subscribe(res => {
+        resolve(res)
       })
+    })
   }
 
-  matchFaceWithAccount(customerID,image){
+  matchFaceWithAccount(customerID, image) {
     return new Promise((resolve, reject) => {
-        this.http.post(this.baseurl+"/faceid/matchface",{ "customerID":customerID, "image":image}).subscribe(res => {
-          resolve(res)
-        })
+      this.http.post(this.baseurl + "/faceid/matchface", { "customerID": customerID, "image": image }).subscribe(res => {
+        resolve(res)
       })
+    })
   }
 
-  getAccountBalance(customerID){
+  getAccountBalance(customerID) {
     return new Promise((resolve, reject) => {
-        this.http.post(this.baseurl+"/account/getbalance",{ "customerID":customerID}).subscribe(res => {
-          resolve(res)
-        })
+      this.http.post(this.baseurl + "/account/getbalance", { "customerID": customerID }).subscribe(res => {
+        resolve(res)
       })
+    })
   }
 
-  withdrawCashFromAccount(customerID,amount){
+  withdrawCashFromAccount(customerID, amount) {
     return new Promise((resolve, reject) => {
-        this.http.post(this.baseurl+"/account/withdrawcash",{ "customerID":customerID,"amount":amount}).subscribe(res => {
-          resolve(res)
-        })
+      this.http.post(this.baseurl + "/account/withdrawcash", { "customerID": customerID, "amount": amount }).subscribe(res => {
+        resolve(res)
       })
+    })
   }
 
 }

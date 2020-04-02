@@ -22,22 +22,23 @@ export class UrlselectorComponent implements OnInit {
   onSubmit(formValue) {
     const pattern = /^((http:\/\/)|(www.))(?:([a-zA-Z]+)|(\d+\.\d+.\d+.\d+)):\d+$/gm;
     if (formValue.url === '' || formValue.url === null) {
-      this.messageService.add({severity:'warn', summary:'Field Required', detail:'Please fill out the url to continue'});
+      this.messageService.add({ severity: 'warn', summary: 'Field Required', detail: 'Please fill out the url to continue' });
       return;
-    } 
-    else if(formValue.url.match(pattern)) {
-      if(formValue.url.includes('5000') || formValue.url.includes('5100')){
+    }
+    else if (formValue.url.match(pattern)) {
+      if (formValue.url.includes('5000') || formValue.url.includes('5100')) {
         this.middlewareService.setBaseUrl(formValue.url);
+        //Switch comment while Packing
         // this.router.navigate(['/enrollment']);
         this.router.navigate(['/atm-flow']);
       }
-      else{
-        this.messageService.add({severity:'error', summary:'Port Invalid', detail:'Port is not existing in the instance'});
+      else {
+        this.messageService.add({ severity: 'error', summary: 'Port Invalid', detail: 'Port is not existing in the instance' });
         return;
       }
     }
-    else{
-      this.messageService.add({severity:'error', summary:'Invalid URL', detail:'Please enter the valid url'});
+    else {
+      this.messageService.add({ severity: 'error', summary: 'Invalid URL', detail: 'Please enter the valid url' });
       return;
     }
   }

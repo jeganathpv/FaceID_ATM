@@ -1,21 +1,20 @@
-.face-detection-container{
+.face-detection-container {
     background-color: #000000;
     height: 100%;
     text-align: center;
 }
 
-#face-detection-image{
-    display:block;
-    margin:auto;
+#face-detection-image {
+    display: block;
+    margin: auto;
 }
 
-.message-container{
-    
+.message-container {
     color: white;
     font-size: 2em;
 }
 
-#webcam{
+#webcam {
     margin: 0 auto;
     text-align: center;
 }

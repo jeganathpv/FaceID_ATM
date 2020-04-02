@@ -54,7 +54,6 @@ import { AtmFlowComponent } from './atm-flow/atm-flow.component';
     ToastModule,
     ZXingScannerModule,
     ReactiveFormsModule
-
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]

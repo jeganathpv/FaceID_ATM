@@ -27,7 +27,7 @@ export interface Customer {
     balance?: number
 }
 
-export enum ATMFlow{
+export enum ATMFlow {
     welcome,
     scan,
     facedetection,
@@ -36,7 +36,7 @@ export enum ATMFlow{
     withdrawalPage
 }
 
-export enum QRMatch{
+export enum QRMatch {
     AccountFound,
     AccountNotFound
 }

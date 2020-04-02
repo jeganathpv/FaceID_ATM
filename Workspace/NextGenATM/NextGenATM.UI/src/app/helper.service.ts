@@ -9,6 +9,4 @@ export class HelperService {
   constructor() { }
 
   public isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
-
-
 }

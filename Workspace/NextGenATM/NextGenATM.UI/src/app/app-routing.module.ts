@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { FacedetectionComponent } from './facedetection/facedetection.component';
 import { EnrollmentComponent } from './enrollment/enrollment.component';
-import { QrscannerComponent } from './qrscanner/qrscanner.component';
 import { UrlselectorComponent } from './urlselector/urlselector.component';
 import { AtmFlowComponent } from './atm-flow/atm-flow.component';
 
