@@ -3,18 +3,24 @@ from flask_restful import Api, Resource
 from flask_cors import CORS, cross_origin
 
 #Import Models,Services
-from Models import *
-from Services import * 
-
+from Models import UserObject, CustomerObject, FaceIndexObject
+from Services import  LoginUser, BankService, AccountService, FaceDetection, FaceID
+from StaticStatus import FaceIndex
 
 app = Flask(__name__)
 CORS(app, support_credentials = True)
 api = Api(app)
 
+class HealthChecker(Resource):
+    @app.route('/checkhealth',methods = ['GET'])
+    @cross_origin(support_credentials = True)
+    def checkHealth(self):
+        return jsonify(True)
+
 class LoginController(Resource):
     @app.route('/auth',methods = ['POST'])
     @cross_origin(support_credentials = True)
-    def userLogin():
+    def userLogin(self):
         json_data = request.get_json(force = True)
         username = str(json_data['username'])
         password = str(json_data['password'])
@@ -24,13 +30,13 @@ class LoginController(Resource):
 class BankController(Resource):
     @app.route('/bank/getdetails',methods = ['GET'])
     @cross_origin(support_credentials = True)
-    def getBankDetails():
+    def getBankDetails(self):
         return jsonify({"BankDetails":BankService.getBankDetails()})
 
 class AccountController(Resource):
     @app.route('/account/generatecustid',methods = ['POST'])
     @cross_origin(support_credentials = True)
-    def generateCustId():
+    def generateCustId(self):
         custId = AccountService.generateCustomerID()
         json_data = request.get_json(force = True)
         branchCode = json_data['branchCode']
@@ -44,7 +50,7 @@ class AccountController(Resource):
 
     @app.route('/account/generateqrcard',methods = ['POST'])
     @cross_origin(support_credentials = True)
-    def generateQRDetails():
+    def generateQRDetails(self):
         json_data = request.get_json(force =True)
         customerID = json_data['customerID']
         qrDetail = AccountService.fetchCustomerDetail(customerID)
@@ -55,7 +61,7 @@ class AccountController(Resource):
 class FaceIDController(Resource):
     @app.route('/faceid/detectface',methods = ['POST'])
     @cross_origin(support_credentials = True)
-    def detectFace():
+    def detectFace(self):
         json_data = request.get_json(force = True)
         image_str = json_data['image']
         path = FaceDetection.saveFile(image_str)
@@ -64,7 +70,7 @@ class FaceIDController(Resource):
 
     @app.route('/faceid/indexface',methods = ['POST'])
     @cross_origin(support_credentials = True)
-    def indexFace():
+    def indexFace(self):
         json_data = request.get_json(force =True)
         customerID = json_data['customerID']
         image_str = json_data['image']
@@ -81,6 +87,7 @@ class FaceIDController(Resource):
 
 
 if __name__ == "__main__":
+    api.add_resource(HealthChecker)
     api.add_resource(LoginController)
     api.add_resource(BankController)
     api.add_resource(AccountController)
