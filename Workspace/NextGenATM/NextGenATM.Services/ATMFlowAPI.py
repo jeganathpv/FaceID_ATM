@@ -15,14 +15,14 @@ api = Api(app)
 class HealthChecker(Resource):
     @app.route('/checkhealth', methods=['GET'])
     @cross_origin(support_credentials=True)
-    def checkHealth(self):
+    def checkHealth():
         return jsonify(True)
 
 
 class AuthController(Resource):
     @app.route('/auth/matchqr', methods=['POST'])
     @cross_origin(support_credentials=True)
-    def matchQrCode(self):
+    def matchQrCode():
         json_data = request.get_json(force=True)
         qrCode = json_data['qrCode']
         if AccountService.matchQrCodeWithAccount(qrCode):
@@ -34,7 +34,7 @@ class AuthController(Resource):
 class AccountController(Resource):
     @app.route('/account/getdetails', methods=['POST'])
     @cross_origin(support_credentials=True)
-    def fetchAccountDetails(self):
+    def fetchAccountDetails():
         json_data = request.get_json(force=True)
         customerID = json_data['customerID']
         custDetail = AccountService.fetchCustomerDetail(customerID)
@@ -42,14 +42,14 @@ class AccountController(Resource):
 
     @app.route('/account/getbalance', methods=['POST'])
     @cross_origin(support_credentials=True)
-    def fetchBalance(self):
+    def fetchBalance():
         json_data = request.get_json(force=True)
         customerID = json_data['customerID']
         return jsonify({"balance": AccountService.fetchAccountBalance(customerID)})
 
     @app.route('/account/withdrawcash', methods=['POST'])
     @cross_origin(support_credentials=True)
-    def cashWithdraw(self):
+    def cashWithdraw():
         json_data = request.get_json(force=True)
         customerID = json_data['customerID']
         amount = int(json_data['amount'])
@@ -59,7 +59,7 @@ class AccountController(Resource):
 class FaceIDController(Resource):
     @app.route('/faceid/detectface', methods=['POST'])
     @cross_origin(support_credentials=True)
-    def detectFace(self):
+    def detectFace():
         json_data = request.get_json(force=True)
         image_str = json_data['image']
         path = FaceDetection.saveFile(image_str)
@@ -68,7 +68,7 @@ class FaceIDController(Resource):
 
     @app.route('/faceid/matchface', methods=['POST'])
     @cross_origin(support_credentials=True)
-    def matchFace(self):
+    def matchFace():
         json_data = request.get_json(force=True)
         customerID = json_data['customerID']
         image_str = json_data['image']
