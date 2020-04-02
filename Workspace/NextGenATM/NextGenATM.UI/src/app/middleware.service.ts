@@ -61,8 +61,8 @@ export class MiddlewareService {
   }
 
   /**
-    *Creates a new account
-    *@param userDetails object containing the details of the user 
+    * Creates a new account
+    * @param userDetails object containing the details of the user 
    */
   createAccount(userDetails) {
     return new Promise((resolve, reject) => {
@@ -181,4 +181,19 @@ export class MiddlewareService {
     })
   }
 
+  /**
+   * Checks if the service is running
+   */
+  checkHealth(){
+    return new Promise((resolve , reject) => {
+      this.http.get(this.baseurl + '/checkhealth').toPromise().then(active => {
+        if(active === true)
+          resolve();
+        else
+          reject();
+      }).catch(()=>{
+        reject()
+      })
+    });
+  }
 }
