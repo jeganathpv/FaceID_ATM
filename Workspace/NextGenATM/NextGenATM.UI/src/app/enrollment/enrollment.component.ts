@@ -199,5 +199,6 @@ export class EnrollmentComponent implements OnInit {
   addAnother() {
     this.customer = {};
     this.enrollmentStep = 0;
+    this.cardinString = '';
   }
 }
