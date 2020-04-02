@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { resolve } from 'url';
 import { Bank } from './models';
 import { AuthState } from './models';
 import { BehaviorSubject } from 'rxjs';
@@ -14,25 +13,25 @@ export class MiddlewareService {
     image: ' '
   }
   authStatus: BehaviorSubject<number>;
-
   baseurl: string = '';
+
   constructor(private http: HttpClient) {
     this.baseurl = ''
-    // this.authStatus = AuthState.loggedout;
     this.authStatus = new BehaviorSubject(AuthState.loggedout);
   }
-  setBaseUrl(baseUrl : string){
-    
+
+  setBaseUrl(baseUrl: string) {
     this.baseurl = baseUrl;
   }
 
   login(userObj) {
     return this.http.post(this.baseurl + "/auth", userObj)
   }
-  logOut(){
-    // this.authStatus = AuthState.loggedout;
+
+  logOut() {
     this.authStatus.next(AuthState.loggedout);
   }
+
   getAuthStatus() {
     return this.authStatus;
   }
@@ -94,10 +93,8 @@ export class MiddlewareService {
     return this.http.post(this.baseurl + "/account/generateqrdetails", { "customerID": customerID })
   }
 
-  generateQrCode(customerId:string) {
-// temp url
-    return this.http.post(this.baseurl+"/account/generateqrcard",{ "customerID": customerId } );
-   
+  generateQrCode(customerId: string) {
+    return this.http.post(this.baseurl + "/account/generateqrcard", { "customerID": customerId });
   }
 
   convertToBase64(image, callback) {
@@ -109,44 +106,66 @@ export class MiddlewareService {
     reader.readAsDataURL(image);
   }
 
-  matchQrWithAccount(qrCode){
+  /**
+   * To check account is found against the qr code
+   * @param qrCode Scanned details from the qr scanner
+   */
+  matchQrWithAccount(qrCode) {
     return new Promise((resolve, reject) => {
-      this.http.post(this.baseurl+"/auth/matchqr",{ "qrCode":qrCode}).subscribe(res => {
+      this.http.post(this.baseurl + "/auth/matchqr", { "qrCode": qrCode }).subscribe(res => {
         resolve(res)
       })
     })
   }
 
-  getAccountDetails(customerID){
+  /**
+   * To fetch the account details of the customer
+   * @param customerID Requires customerID 
+   */
+  getAccountDetails(customerID) {
     return new Promise((resolve, reject) => {
-        this.http.post(this.baseurl+"/account/getdetails",{ "customerID":customerID}).subscribe(res => {
-          resolve(res)
-        })
+      this.http.post(this.baseurl + "/account/getdetails", { "customerID": customerID }).subscribe(res => {
+        resolve(res)
       })
+    })
   }
 
-  matchFaceWithAccount(customerID,image){
+  /**
+   * Used to match the face dectected with the customer's account
+   * @param customerID Used to cross check against customer id
+   * @param image Base64 image string
+   */
+  matchFaceWithAccount(customerID, image) {
     return new Promise((resolve, reject) => {
-        this.http.post(this.baseurl+"/faceid/matchface",{ "customerID":customerID, "image":image}).subscribe(res => {
-          resolve(res)
-        })
+      this.http.post(this.baseurl + "/faceid/matchface", { "customerID": customerID, "image": image }).subscribe(res => {
+        resolve(res)
       })
+    })
   }
 
-  getAccountBalance(customerID){
+  /**
+   * Used to fetch account balance of the customer
+   * @param customerID Use customerid to fetch
+   */
+  getAccountBalance(customerID) {
     return new Promise((resolve, reject) => {
-        this.http.post(this.baseurl+"/account/getbalance",{ "customerID":customerID}).subscribe(res => {
-          resolve(res)
-        })
+      this.http.post(this.baseurl + "/account/getbalance", { "customerID": customerID }).subscribe(res => {
+        resolve(res)
       })
+    })
   }
 
-  withdrawCashFromAccount(customerID,amount){
+  /**
+   * API Call to withdraw amount from the customer's account
+   * @param customerID accepts customer's id
+   * @param amount Amount required for the customer
+   */
+  withdrawCashFromAccount(customerID, amount) {
     return new Promise((resolve, reject) => {
-        this.http.post(this.baseurl+"/account/withdrawcash",{ "customerID":customerID,"amount":amount}).subscribe(res => {
-          resolve(res)
-        })
+      this.http.post(this.baseurl + "/account/withdrawcash", { "customerID": customerID, "amount": amount }).subscribe(res => {
+        resolve(res)
       })
+    })
   }
 
 }

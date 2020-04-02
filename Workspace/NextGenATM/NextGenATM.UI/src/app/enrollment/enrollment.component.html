@@ -9,8 +9,10 @@
             </p-dropdown>
         </span>
         <div *ngIf="selectedBank?.branchCode" class="display-branch-details">
-            <span class="form-large-text">Branch Code : </span><span class="form-text-color">{{selectedBank.branchCode}}</span>
-            <span class="form-large-text">IFSC Code : </span><span class="form-text-color">{{selectedBank.ifscCode}}</span>
+            <span class="form-large-text">Branch Code : </span><span
+                class="form-text-color">{{selectedBank.branchCode}}</span>
+            <span class="form-large-text">IFSC Code : </span><span
+                class="form-text-color">{{selectedBank.ifscCode}}</span>
         </div>
     </div>
     <div *ngIf="enrollmentStep == 0" class="customer-details">
@@ -44,38 +46,28 @@
             <span class="sr-only">Loading...</span>
         </div>
     </div>
-    <div *ngIf="enrollmentStep == 3" class="details-view" >
+    <div *ngIf="enrollmentStep == 3" class="details-view">
         <h1 class="title" *ngIf="!cardGenerating">Here's your card!</h1>
         <h1 class="title" *ngIf="cardGenerating">Please wait while your card is generated</h1>
-        <div  >
-            <!-- Generator: Adobe Illustrator 19.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-           
+        <div>
             <div class="container mt-3">
                 <div class="row justify-content-center">
-                    
-                        <img *ngIf="cardGenerating" id="cardloading" src="assets/cardgenerating.gif">
-                    
-                    
-                    <img src={{cardinString}}  alt="" id="card" srcset="">                    
+                    <img *ngIf="cardGenerating" id="cardloading" src="assets/cardgenerating.gif">
+                    <img src={{cardinString}} alt="" id="card" srcset="">
                 </div>
-
-                    <div class="row justify-content-center mt-2">
-                        <button (click)="captureScreen()" id="btnSave" class="btn btn-primary ">Export</button>
-
-                    </div>
+                <div class="row justify-content-center mt-2">
+                    <button (click)="captureScreen()" id="btnSave" class="btn btn-primary ">Export</button>
+                </div>
             </div>
         </div>
-
-
-
     </div>
     <div *ngIf="enrollmentStep == 4">
         <div class="jumbotron text-center">
             <h2 class="display-5">
-                Add Another ? 
-                <button class="btn btn-primary" (click) = "addAnother()">Add Another</button>
+                Add Another ?
+                <button class="btn btn-primary" (click)="addAnother()">Add Another</button>
                 or Logout
-                <button class="btn btn-danger" (click) = "logOut()">Log Out</button>
+                <button class="btn btn-danger" (click)="logOut()">Log Out</button>
             </h2>
         </div>
     </div>

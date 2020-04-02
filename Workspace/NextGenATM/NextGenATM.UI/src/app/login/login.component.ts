@@ -28,15 +28,19 @@ export class LoginComponent implements OnInit {
         this.stateChange.emit();
         this.middlewareService.authStatus.next(AuthState.authenticated);
         this.messageService.add({ severity: 'success', summary: 'Login Successful', detail: 'Logged in successfully' });
-
+        return;
       }
-
-      else if (data.Status == 2)
+      else if (data.Status == 2) {
         this.messageService.add({ severity: 'error', summary: 'Login Failed', detail: 'User Does not exist' });
-      else if (data.Status == 3)
+        return;
+      }
+      else if (data.Status == 3) {
         this.messageService.add({ severity: 'error', summary: 'Login Failed', detail: 'Invalid Password' });
+        return;
+      }
       else {
-        this.messageService.add({ severity: 'error', summary: 'Login Failed', detail: 'Soething wet wrong' });
+        this.messageService.add({ severity: 'error', summary: 'Login Failed', detail: 'Something wet wrong' });
+        return;
       }
     })
   }

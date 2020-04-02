@@ -8,5 +8,5 @@ import { Component } from '@angular/core';
 export class AppComponent {
   selectedFiles: FileList;
   constructor() { }
-  title = 'atm';
+  title = 'NextGenATM';
 }

@@ -11,80 +11,85 @@ import { Router } from '@angular/router';
   styleUrls: ['./atm-flow.component.css']
 })
 export class AtmFlowComponent implements OnInit {
-  atmflow:ATMFlow;
-  scannedResult: string ;
-  customer:Customer = {};
+  atmflow: ATMFlow;
+  scannedResult: string;
+  customer: Customer = {};
   imageLoading: boolean = false;
   statusMsg: string = '';
-  amountRequired : string = '';
-  operationTimedOut:boolean = false;
-  constructor(private middlewareService:MiddlewareService,private timer:TimerService ,  private messageService : MessageService,private router: Router) { }
-  
+  amountRequired: string = '';
+  operationTimedOut: boolean = false;
+  constructor(private middlewareService: MiddlewareService, private timer: TimerService, private messageService: MessageService, private router: Router) { }
+
   ngOnInit() {
     this.atmflow = ATMFlow.welcome;
-   this.timer.getTimer().subscribe(()=>{
-     console.log('timer fired');
-     setTimeout(() => {this.cleanUp();
-     this.router.navigate(['atm-flow'])} , 2000)
-     this.operationTimedOut = true;
-     this.messageService.add({ severity: 'error', summary: 'Operation Timed out', detail: 'No input received' });
-
-    //  this.atmflow = ATMFlow.welcome;
-   
-
-   })
-    
+    this.timer.getTimer().subscribe(() => {
+      setTimeout(() => {
+        this.cleanUp();
+        this.router.navigate(['atm-flow'])
+      }, 2000)
+      this.operationTimedOut = true;
+      this.messageService.add({ severity: 'error', summary: 'Operation Timed out', detail: 'No input received' });
+    })
   }
-  cleanUp(){
-  this.atmflow = ATMFlow.welcome;
-  this.scannedResult = '';
-  this.customer = {};
-  this.imageLoading = false;
-  this.statusMsg = '';
-  this.amountRequired = '';
-  this.operationTimedOut= false;
+
+  /**
+   * To cleanup the current session
+   */
+  cleanUp() {
+    this.atmflow = ATMFlow.welcome;
+    this.scannedResult = '';
+    this.customer = {};
+    this.imageLoading = false;
+    this.statusMsg = '';
+    this.amountRequired = '';
+    this.operationTimedOut = false;
   }
-  onContinue(){
+
+  /**
+   * Switch from welcome screen to QR Scanner 
+   */
+  onContinue() {
     this.atmflow = ATMFlow.scan;
     this.timer.startTimer(10000);
   }
 
-  onScanResult($event){
-    // console.log($event);
+  /**
+   * To fetch account details of the customer
+   * @param $event details in the qr code
+   */
+  onScanResult($event) {
     this.timer.clearTimer();
     this.scannedResult = $event;
-    
-    this.middlewareService.getAccountDetails(this.scannedResult).then((res:Customer)=>{
+    this.middlewareService.getAccountDetails(this.scannedResult).then((res: Customer) => {
       this.customer.customerID = res.customerID;
       this.customer.name = res.name;
       this.customer.accountNo = res.accountNo;
     })
   }
 
-  onConfirm(){
-    // this.customer.customerID = this.scannedResult;
+  /**
+   * Switch to face detection component
+   */
+  onConfirm() {
     this.atmflow = ATMFlow.facedetection;
     this.timer.startTimer(3000);
-    // go to next flow
   }
 
-  onCancel(){
-    this.scannedResult = '';
-    this.atmflow = ATMFlow.welcome;
-    this.customer = {};
-  }
-
-  imageCaptured($event){
+  /**
+   * To check faceid against customer id and navigated to transaction type page
+   * @param $event base64 string of the image captured
+   */
+  imageCaptured($event) {
     this.timer.clearTimer();
     this.middlewareService.detectFace($event).then((res: any) => {
       if (res.Status == 1) {
         this.imageLoading = true;
         this.statusMsg = "Face Detection Starts";
-        this.middlewareService.matchFaceWithAccount(this.customer.customerID,$event).then((res:any)=>{
-          if(res.Status == 1){
+        this.middlewareService.matchFaceWithAccount(this.customer.customerID, $event).then((res: any) => {
+          if (res.Status == 1) {
             this.atmflow = ATMFlow.selectTransactionType;
           }
-          else{
+          else {
             this.messageService.add({ severity: 'error', summary: 'Face ID Not Match', detail: 'Face ID not match with the account!' });
             this.atmflow = ATMFlow.welcome;
             return;
@@ -104,47 +109,57 @@ export class AtmFlowComponent implements OnInit {
     })
   }
 
-  checkBalance(){
-    this.middlewareService.getAccountBalance(this.customer.customerID).then((res:any) => {
+  /**
+   * To check the balance of the customer and then switch the navigation
+   */
+  checkBalance() {
+    this.middlewareService.getAccountBalance(this.customer.customerID).then((res: any) => {
       this.customer.balance = res.balance;
     })
     this.atmflow = ATMFlow.checkBalance;
   }
 
-  withdrawalPage(){
+  /**
+   * Switch to Withdrawal page
+   */
+  withdrawalPage() {
     this.timer.startTimer(10000);
     this.atmflow = ATMFlow.withdrawalPage;
   }
 
-  withdrawAmount(){
+  /**
+   * To withdraw amount from the customer account and switch to check balance
+   */
+  withdrawAmount() {
     this.timer.clearTimer();
-    if(parseInt(this.amountRequired)>20000){
+    if (parseInt(this.amountRequired) > 20000) {
       this.messageService.add({
         severity: 'warn', summary: 'Amount Exceeded', detail: 'Please try again later.'
       });
-      this.onCancel();
+      this.cleanUp();
     }
-    else{
-      this.middlewareService.withdrawCashFromAccount(this.customer.customerID,this.amountRequired).then((res:any) => {
-        if(res.Status == 1){
+    else {
+      this.middlewareService.withdrawCashFromAccount(this.customer.customerID, this.amountRequired).then((res: any) => {
+        if (res.Status == 1) {
           this.messageService.add({
             severity: 'success', summary: 'Cash Withdrawed', detail: 'Cash withdraw successfully!'
           });
           this.checkBalance();
         }
-        else{
+        else {
           this.messageService.add({
             severity: 'warn', summary: 'Insufficient Balance', detail: 'You don\'t have sufficient amount to withdrawal. Please try again later.'
           });
-          this.onCancel();
+          this.cleanUp();
         }
       })
     }
   }
-  
-  continueBanking(){
+
+  /**
+   * To continue banking after withdrawal or check balance
+   */
+  continueBanking() {
     this.atmflow = ATMFlow.selectTransactionType;
   }
-
- 
 }

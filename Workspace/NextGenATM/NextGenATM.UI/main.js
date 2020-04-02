@@ -1,13 +1,15 @@
-const { app, BrowserWindow } = require('electron')
-var path=require('path');
+const {
+  app,
+  BrowserWindow
+} = require('electron')
+var path = require('path');
 
 let win;
 
-// Menu.setApplicationMenu(null);
-function createWindow () {
+function createWindow() {
   // Create the browser window.
   win = new BrowserWindow({
-    width: 600, 
+    width: 600,
     height: 600,
     backgroundColor: '#ffffff',
     icon: `file://${__dirname}\\dist\\atm\\assets\\download.png`,
@@ -20,7 +22,7 @@ function createWindow () {
   win.setIcon(path.join(__dirname, '\\dist\\atm\\assets\\logo.png'));
 
   win.loadURL(`file://${__dirname}\\dist\\atm\\index.html#enroll`)
-  
+
   //// uncomment below to open the DevTools.
   // win.webContents.openDevTools()
 
@@ -32,10 +34,8 @@ function createWindow () {
 
 // Create window on electron intialization
 app.on('ready', createWindow)
-
 // Quit when all windows are closed.
 app.on('window-all-closed', function () {
-
   // On macOS specific close process
   if (process.platform !== 'darwin') {
     app.quit()
@@ -43,9 +43,7 @@ app.on('window-all-closed', function () {
 })
 
 app.on('activate', function () {
-  // macOS specific close process
   if (win === null) {
     createWindow()
-    
   }
 })

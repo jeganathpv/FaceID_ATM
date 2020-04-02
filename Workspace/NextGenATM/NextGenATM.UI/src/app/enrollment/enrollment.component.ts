@@ -8,8 +8,6 @@ import * as jspdf from 'jspdf';
 import html2canvas from 'html2canvas';
 import { Router } from '@angular/router';
 
-
-
 @Component({
   selector: 'app-enrollment',
   templateUrl: './enrollment.component.html',
@@ -24,14 +22,14 @@ export class EnrollmentComponent implements OnInit {
   customer: Customer;
   validForm: boolean = true;
   imageLoading: boolean = false;
-  cardGenerating:boolean=false;
+  cardGenerating: boolean = false;
   statusMsg: string = "Please wait";
   msgs: Message[] = [];
   qrCode;
   tempaccntnum = '1211221'
   cardinString = '';
 
-  constructor(private middlewareService: MiddlewareService, private messageService: MessageService ,private router:Router) {
+  constructor(private middlewareService: MiddlewareService, private messageService: MessageService, private router: Router) {
 
   }
 
@@ -40,27 +38,15 @@ export class EnrollmentComponent implements OnInit {
       this.authStatus = authState;
     })
     this.customer = {};
-    // this.authStatus = 1;
-    // this.enrollmentStep = 3;
-    // this.cardGenerating = true
-    // this.middlewareService.generateQrCode('s').subscribe((data:any) => {
-    //   setTimeout(() => {
-    //     this.cardinString = "data:image/png;base64,"+data.card;
-    //     this.cardGenerating = false;
-    //   },3000)
-      
-    // })
   }
 
   buildDropdown() {
-
     this.availableBanksList.forEach(bank => {
       this.bankSelectionList.push({
         label: bank.location,
         value: bank
       });
     });
-
   }
 
   formSubmit() {
@@ -78,7 +64,7 @@ export class EnrollmentComponent implements OnInit {
     }
     else {
       let messageDetail = 'Please fill out the form';
-      if(!this.selectedBank){
+      if (!this.selectedBank) {
         messageDetail = 'Please Select a branch';
       }
       this.validForm = false;
@@ -86,6 +72,7 @@ export class EnrollmentComponent implements OnInit {
       return
     }
   }
+
   imageCaptured($event) {
     this.middlewareService.detectFace($event).then((res: any) => {
       if (res.Status == 1) {
@@ -96,12 +83,11 @@ export class EnrollmentComponent implements OnInit {
             this.statusMsg = "Indexing Done";
             this.enrollmentStep = 3;
             this.cardGenerating = true;
-            this.middlewareService.generateQrCode(this.customer.customerID).subscribe((data:any) => {
+            this.middlewareService.generateQrCode(this.customer.customerID).subscribe((data: any) => {
               setTimeout(() => {
-                this.cardinString = "data:image/png;base64,"+data.card;
+                this.cardinString = "data:image/png;base64," + data.card;
                 this.cardGenerating = false;
-              },3000)
-              
+              }, 3000)
             })
             this.imageLoading = false;
           }
@@ -116,8 +102,8 @@ export class EnrollmentComponent implements OnInit {
         });
       }
     })
-
   }
+
   onstateChange() {
     // hit when login is successful
     this.authStatus = 1;
@@ -126,53 +112,52 @@ export class EnrollmentComponent implements OnInit {
       this.availableBanksList = res['BankDetails'];
       this.buildDropdown();
     });
-
   }
+
   public captureScreen() {
     var data = document.getElementById('card');
-  html2canvas(data , { height :1080,
-    width : 1920, x:-200 , y : -150 ,allowTaint: false}).then(function(canvas) {
-     const contentDataURL = canvas.toDataURL('image/png')  
+    html2canvas(data, {
+      height: 1080,
+      width: 1920, x: -200, y: -150, allowTaint: false
+    }).then(function (canvas) {
+      const contentDataURL = canvas.toDataURL('image/png')
       let pdf = new jspdf('p', 'mm', 'a4'); // A4 size page of PDF  
-      var position = 0;  
-      var imgWidth = 208;   
-      var pageHeight = 295;    
-      var imgHeight = canvas.height * imgWidth / canvas.width;  
+      var position = 0;
+      var imgWidth = 208;
+      var pageHeight = 295;
+      var imgHeight = canvas.height * imgWidth / canvas.width;
       var heightLeft = imgHeight;
-      pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight)  
+      pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight)
       pdf.save('MYPdf.pdf'); // Generated PDF   
-      
-    // document.body.appendChild(canvas); 
     });
     setTimeout(() => {
       this.enrollmentStep = 4;
-    } , 2000);
+    }, 2000);
+  }
 
-}
+  toDataURL(url, callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+      var reader = new FileReader();
+      reader.onloadend = function () {
+        callback(reader.result);
+      }
+      reader.readAsDataURL(xhr.response);
+    };
+    xhr.open('GET', url);
+    xhr.responseType = 'blob';
+    xhr.send();
+  }
 
- toDataURL(url, callback) {
-  var xhr = new XMLHttpRequest();
-  xhr.onload = function() {
-    var reader = new FileReader();
-    reader.onloadend = function() {
-      callback(reader.result);
-    }
-    reader.readAsDataURL(xhr.response);
-  };
-  xhr.open('GET', url);
-  xhr.responseType = 'blob';
-  xhr.send();
-}
+  logOut() {
+    this.middlewareService.logOut();
+    this.router.navigate(['/enrollment'])
+  }
 
-logOut(){
-  this.middlewareService.logOut();
-  this.router.navigate(['/enrollment'])
-}
-
-addAnother(){
-  this.customer = {};
-  this.enrollmentStep = 0;
-}
+  addAnother() {
+    this.customer = {};
+    this.enrollmentStep = 0;
+  }
 }
 
 
