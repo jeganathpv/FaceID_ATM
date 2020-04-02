@@ -43,13 +43,13 @@ export class UrlselectorComponent implements OnInit {
         this.middlewareService
           .checkHealth()
           .then(() => {
-            // this.router.navigate(['/atm-flow']);
+            this.router.navigate(['/atm-flow']);
             //Switch comment while Packing
-            this.router.navigate(["/enrollment"]);
+            // this.router.navigate(["/enrollment"]);
           })
           .catch(() => {
             console.error("Service down");
-            this.errorMsg = "Something went wrong please contact the admin";
+            this.errorMsg = "Something went wrong. Please contact the admin.";
           });
       } else {
         this.messageService.add({
