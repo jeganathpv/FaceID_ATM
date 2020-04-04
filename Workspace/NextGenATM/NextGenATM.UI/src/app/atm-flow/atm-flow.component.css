@@ -22,8 +22,6 @@
 }
 .content-right{
     display: inline-grid;
-    float: right;
-    /* align-content: flex-end; */
 }
 
 .image-loader{

@@ -2,18 +2,17 @@
 
     <div *ngSwitchCase=0 class="welcome-message-container">
         <div class="formPadding">
-                    <img id="svgSource" class="carousel-area" src="../../assets/carousel/{{carousalSource[imageNumber]}}">
+            <img id="svgSource" class="carousel-area" src="../../assets/carousel/{{carousalSource[imageNumber]}}">
         </div>
         <div class="formPadding">
-                    <button class="align-self-end btn btn-primary btn-lg content-right" href="#" role="button"
-                        (click)='onContinue()'>Continue</button>
-                </div>
+            <button class="align-self-end btn btn-primary btn-lg content-right" style="float: right;" role="button"
+                (click)='onContinue()'>Continue</button>
+        </div>
     </div>
 
     <div *ngSwitchCase=1 class="formPadding">
         <div *ngIf='scannedResult' class="row justify-content-center atm-flow-content">
             <div class=" text-center mt-5  card-material">
-
                 <div class="card-body">
                     <h2 class="card-title">Welcome, {{customer.name}}</h2>
                     <p class="card-text align-self-center">Account No: {{customer.accountNo}}</p>
@@ -24,7 +23,6 @@
                 </div>
             </div>
         </div>
-
         <app-qrscanner *ngIf='!scannedResult' (scannedDetails)='onScanResult($event)'></app-qrscanner>
     </div>
 
@@ -62,8 +60,8 @@
                 <div class="card-body">
                     <h2 class="card-title">Account No: {{customer.accountNo}}</h2>
                     <p class="card-text align-self-center">Balance: {{customer.balance}}</p><br>
-                    <p class="card-text align-self-center">Thankyou for banking with us!</p>
-
+                    <h3 class="card-text align-self-center">Thank you for banking with us!</h3><br>
+                    <p class="card-text align-self-center">You can also continue Banking</p>
                 </div>
                 <div class="content-right formPadding">
                     <button class="btn btn-primary mt-2 mx-2" (click)="continueBanking()">Continue Banking</button>
@@ -88,8 +86,6 @@
             </div>
         </div>
     </div>
-
-
 </div>
 
 <p-toast sticky=true position="bottom-right"></p-toast>

@@ -28,7 +28,7 @@ export class AtmFlowComponent implements OnInit {
       setTimeout(() => {
         this.cleanUp();
         this.router.navigate(['atm-flow'])
-      }, 2000)
+      }, 100000)
       this.operationTimedOut = true;
       this.messageService.add({ severity: 'error', summary: 'Operation Timed out', detail: 'No input received' });
     })
