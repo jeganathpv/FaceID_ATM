@@ -1,6 +1,14 @@
 .jumbotron{
-    height: calc(100vh - 100px);
+    height: calc(100% - 100px);
     margin: 0px;
+}
+
+.carousel-area{
+    height:calc(100vh - 300px);
+    width: 1000px;
+    margin: 0 auto;
+    background-color: #4df9fd;
+    display: block;
 }
 
 .atm-flow-content{
@@ -14,6 +22,7 @@
 }
 .content-right{
     display: inline-grid;
+    float: right;
     /* align-content: flex-end; */
 }
 

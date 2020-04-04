@@ -1,17 +1,13 @@
 <div [ngSwitch]=atmflow>
 
     <div *ngSwitchCase=0 class="welcome-message-container">
-        <div class="jumbotron">
-            <div class="container">
-                <div class="row flex-column justify-content-between">
-                    <h1 class="display-1">Welcome,</h1>
-                    <p class="display-4">Say hello to the next gen ATM powered by biometrics.</p>
-                    <p class="align-self-end mt-5 display-5"> Press continue to get started.</p>
-                    <button class="align-self-end btn btn-primary btn-lg" href="#" role="button"
+        <div class="formPadding">
+                    <img id="svgSource" class="carousel-area" src="../../assets/carousel/{{carousalSource[imageNumber]}}">
+        </div>
+        <div class="formPadding">
+                    <button class="align-self-end btn btn-primary btn-lg content-right" href="#" role="button"
                         (click)='onContinue()'>Continue</button>
                 </div>
-            </div>
-        </div>
     </div>
 
     <div *ngSwitchCase=1 class="formPadding">
