@@ -1,33 +1,17 @@
-<!-- <div class="login-form">
-    <form #heroForm="ngForm">
-        <input type="text" class="form-control" name="username" [(ngModel)]="username">
-        <input type="password" class="form-control" name="password" id="" [(ngModel)]="password">
-        <input type="submit" class="form-control" name="submit" id="" (click)="submitForm()">
-    </form>
-
-</div> -->
-
 <div class="wrapper">
     <div id="formContent">
         <!-- Tabs Titles -->
-
         <!-- Icon -->
         <div class="first">
-            <img src="../../assets/faceidatm-logo.svg" id="icon" alt="User Icon" />
+            <img src="assets/faceidatm-logo.svg" id="icon" alt="User Icon" />
         </div>
-
         <!-- Login Form -->
         <form class="formPadding">
-            <input type="text" id="login" class="second" name="login" placeholder="Enter username" [(ngModel)]="username">
+            <input type="text" id="login" class="second" name="login" placeholder="Enter username"
+                [(ngModel)]="username">
             <input type="password" id="password" class="third" name="login" placeholder="Enter password"
                 [(ngModel)]="password">
             <input type="submit" class="fourth" value="Log In" (click)="submitForm()">
         </form>
-
-        <!-- Remind Passowrd -->
-        <!-- <div id=" formFooter">
-            <a class="underlineHover" href="#">Forgot Password?</a>
-        </div> -->
-
     </div>
 </div>

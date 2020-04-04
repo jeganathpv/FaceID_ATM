@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
-import { HelperService } from '../helper.service';
+
 import { MiddlewareService } from '../middleware.service';
 import { Subject, Observable } from 'rxjs';
 import { WebcamImage } from 'ngx-webcam';
@@ -17,7 +17,7 @@ export class FacedetectionComponent implements OnInit {
   // outputs image as base64 string
   @Output() image = new EventEmitter();
 
-  constructor(private helperService: HelperService, private middlewareService: MiddlewareService) { }
+  constructor(private middlewareService: MiddlewareService) { }
   public showWebcam = true;
   public deviceId: string;
   public videoOptions: MediaTrackConstraints = {
@@ -31,22 +31,32 @@ export class FacedetectionComponent implements OnInit {
   private trigger: Subject<void> = new Subject<void>();
 
   ngOnInit() {
-
   }
 
+  /**
+    * Triggers the webcam to take a photo 
+   */
   public triggerSnapshot(): void {
     this.trigger.next();
   }
-
+  /**
+    * Sends the image captured by the webcam as output
+    * @param webcamImage base64 of captured image 
+   */
   public handleImage(webcamImage: WebcamImage): void {
     this.webcamImage = webcamImage;
     this.image.emit(webcamImage.imageAsBase64);
   }
-
+  /**
+    * returns the trigger 
+   */
   public get triggerObservable(): Observable<void> {
     return this.trigger.asObservable();
   }
 
+  /**
+    * Toggle webcam visibilty 
+   */
   hideWebcam() {
     this.showWebcam = false;
   }
@@ -54,5 +64,4 @@ export class FacedetectionComponent implements OnInit {
   showWebcamfun() {
     this.showWebcam = true;
   }
-
 }

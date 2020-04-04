@@ -1,0 +1,22 @@
+:host zxing-scanner::ng-deep video {
+  max-height: calc(100% - 150px);
+  width: 100%;
+  object-fit: contain;
+  margin: 0 auto;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.qr-scanner {
+  width: 500px;
+  height: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 2px solid blue;
+}
+
+.center-content {
+  margin: 0 auto;
+}

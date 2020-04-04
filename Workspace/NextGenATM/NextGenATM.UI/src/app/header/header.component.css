@@ -1,9 +1,14 @@
 .navbar {
     background-color: rgb(21, 32, 184) !important;
-    height : 100px;
+    height: 100px;
 }
 
-.navbar-brand{
-    font-size: 50px;
-    color: white !important;
+#logo {
+    height: 70px;
+    width: 70px;
+}
+
+.navbar-light .navbar-text {
+    color: white;
+    font-size: 35px;
 }

@@ -3,13 +3,13 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
-import { WelcomeComponent } from './welcome/welcome.component';
+
 import { FacedetectionComponent } from './facedetection/facedetection.component';
 import { HttpClientModule } from '@angular/common/http';
 import { WebcamModule } from 'ngx-webcam';
 import { EnrollmentComponent } from './enrollment/enrollment.component';
 import { LoginComponent } from './login/login.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule , ReactiveFormsModule } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CardModule } from 'primeng/card';
@@ -20,16 +20,22 @@ import { ToastModule } from 'primeng/toast';
 import { MessagesModule } from 'primeng/messages';
 import { MessageModule } from 'primeng/message';
 import { MessageService } from 'primeng/api';
+import { QrscannerComponent } from './qrscanner/qrscanner.component';
+import { ZXingScannerModule } from '@zxing/ngx-scanner';
+import { UrlselectorComponent } from './urlselector/urlselector.component';
+import { AtmFlowComponent } from './atm-flow/atm-flow.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    WelcomeComponent,
     FacedetectionComponent,
     EnrollmentComponent,
     LoginComponent,
+    QrscannerComponent,
+    UrlselectorComponent,
+    AtmFlowComponent,
   ],
   imports: [
     BrowserModule,
@@ -45,8 +51,9 @@ import { MessageService } from 'primeng/api';
     QRCodeModule,
     MessagesModule,
     MessageModule,
-    ToastModule
-
+    ToastModule,
+    ZXingScannerModule,
+    ReactiveFormsModule
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]

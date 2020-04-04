@@ -1,0 +1,11 @@
+To run the app:    ng serve 
+build the app: ng build
+
+ELECTRON:
+
+TO build and run electron app: npm run electon-build
+
+To run electron using existing build : npm run electron
+
+To pack as windows app (after running ng build --prod) : electron-packager . --platform=win32
+

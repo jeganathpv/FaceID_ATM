@@ -1,80 +1,115 @@
-<app-login *ngIf="authStatus > 1" (stateChange)="onstateChange()"></app-login>
+<app-login *ngIf="authStatus != 0"
+           (stateChange)="onstateChange()"></app-login>
 
-<div *ngIf="authStatus == 1" class="enrollment card-material">
-    <div *ngIf="enrollmentStep == 0" class="branch-selector form-group card-material formPadding">
+<div *ngIf="authStatus == 0"
+     class="enrollment card-material">
+    <div *ngIf="enrollmentStep == 0"
+         class="branch-selector form-group card-material formPadding">
 
         <span class="form-large-text">Select branch name &nbsp;&nbsp;&nbsp;&nbsp;</span>
         <span>
-            <p-dropdown [options]="bankSelectionList" [(ngModel)]="selectedBank" placeholder="---Select---">
+            <p-dropdown [options]="bankSelectionList"
+                        [(ngModel)]="selectedBank"
+                        placeholder="---Select---">
             </p-dropdown>
         </span>
-        <div *ngIf="selectedBank?.branchCode" class="display-branch-details">
-            <span class="form-large-text">Branch Code : </span><span class="form-text-color">{{selectedBank.branchCode}}</span>
-            <span class="form-large-text">IFSC Code : </span><span class="form-text-color">{{selectedBank.ifscCode}}</span>
+        <div *ngIf="selectedBank?.branchCode"
+             class="display-branch-details">
+            <span class="form-large-text">Branch Code : </span><span
+                  class="form-text-color">{{selectedBank.branchCode}}</span>
+            <span class="form-large-text">IFSC Code : </span><span
+                  class="form-text-color">{{selectedBank.ifscCode}}</span>
         </div>
     </div>
-    <div *ngIf="enrollmentStep == 0" class="customer-details">
+    <div *ngIf="enrollmentStep == 0"
+         class="customer-details">
         <div class="card-material">
             <form class="customerDetailsForm formPadding">
                 <div class="form-group text-align-left formPadding">
-                    <label for="name" class="form-large-text">Customer Name</label>
-                    <input required name="name" type="text" class="form-control" [(ngModel)]="customer.name" id="name"
-                        aria-describedby="nameHelp" placeholder="Enter name">
-                    <small id="nameHelp" class="form-text text-muted">Ensure the name matches your Identity
+                    <label for="name"
+                           class="form-large-text">Customer Name</label>
+                    <input required
+                           name="name"
+                           type="text"
+                           class="form-control"
+                           [(ngModel)]="customer.name"
+                           id="name"
+                           aria-describedby="nameHelp"
+                           placeholder="Enter name">
+                    <small id="nameHelp"
+                           class="form-text text-muted">Ensure the name matches your Identity
                         proof</small>
                 </div>
                 <div class="form-group text-align-left formPadding">
-                    <label for="balance" class="form-large-text">Balance</label>
-                    <input type="number" name="balance" class="form-control" required id="balance"
-                        [(ngModel)]="customer.balance" placeholder="Balance">
+                    <label for="balance"
+                           class="form-large-text">Balance</label>
+                    <input type="number"
+                           name="balance"
+                           class="form-control"
+                           required
+                           id="balance"
+                           [(ngModel)]="customer.balance"
+                           placeholder="Balance">
                 </div>
                 <div class="form-group formPadding">
-                    <button type="submit" class="form-button" (click)="formSubmit(customerDetailsForm)">Submit</button>
+                    <button type="submit"
+                            class="form-button"
+                            (click)="formSubmit()">Submit</button>
                 </div>
             </form>
         </div>
     </div>
     <div *ngIf="enrollmentStep == 2 && !imageLoading">
-        <app-facedetection [isLoading]="imageLoading" (image)="imageCaptured($event)"></app-facedetection>
+        <app-facedetection [isLoading]="imageLoading"
+                           (image)="imageCaptured($event)"></app-facedetection>
     </div>
-    <div *ngIf="imageLoading" class="loadingimage">
-        <img src="assets/images/facedetection.gif" alt="">
+    <div *ngIf="imageLoading"
+         class="loadingimage">
+        <img src="assets/images/facedetection.gif"
+             alt="">
         <h4 class="statusMsg">{{statusMsg}}</h4>
-        <div class="spinner-border text-primary" role="status">
+        <div class="spinner-border text-primary"
+             role="status">
             <span class="sr-only">Loading...</span>
         </div>
     </div>
-    <div *ngIf="enrollmentStep == 3" class="details-view">
-        <h1 class="title">Here's your card!</h1>
-
-
-        <div class="card">
-            <div class="card__front card__part">
-                <img class="card__front-square card__square" src="https://image.ibb.co/cZeFjx/little_square.png">
-                <img class="card__front-logo card__logo"
-                    src="https://www.fireeye.com/partners/strategic-technology-partners/visa-fireeye-cyber-watch-program/_jcr_content/content-par/grid_20_80_full/grid-20-left/image.img.png/1505254557388.png">
-                <p class="card_numer">{{customer.accountNo}}</p>
-                <div class="card__space-75">
-                    <span class="card__label">Card holder</span>
-                    <p class="card__info">{{customer.name}}</p>
+    <div *ngIf="enrollmentStep == 3"
+         class="details-view">
+        <h1 class="title"
+            *ngIf="!cardGenerating">Here's your card!</h1>
+        <h1 class="title"
+            *ngIf="cardGenerating">Please wait while your card is generated</h1>
+        <div>
+            <div class="container mt-3">
+                <div class="row justify-content-center">
+                    <img *ngIf="cardGenerating"
+                         id="cardloading"
+                         src="assets/cardgenerating.gif">
+                    <img src={{cardinString}}
+                         alt=""
+                         id="card"
+                         srcset="">
                 </div>
-                <div class="card__space-25">
-                    <span class="card__label">Expires</span>
-                    <p class="card__info">10/25</p>
+                <div class="row justify-content-center mt-2">
+                    <button (click)="captureScreen()"
+                            id="btnSave"
+                            class="btn btn-primary ">Export</button>
                 </div>
             </div>
-
-            <div class="card__back card__part">
-                <h4>Scan here</h4>
-                <div class="qr">
-                    <qrcode [qrdata]="customer.customerID" [width]="140" [errorCorrectionLevel]="'M'"
-                        [colorLight]="'none'">
-                    </qrcode>
-                </div>
-
-            </div>
-
+        </div>
+    </div>
+    <div *ngIf="enrollmentStep == 4">
+        <div class="jumbotron text-center">
+            <h2 class="display-5">
+                Add Another ?
+                <button class="btn btn-primary"
+                        (click)="addAnother()">Add Another</button>
+                or Logout
+                <button class="btn btn-danger"
+                        (click)="logOut()">Log Out</button>
+            </h2>
         </div>
     </div>
 </div>
-<p-toast sticky=true></p-toast>
+<p-toast sticky=true
+         position="bottom-right"></p-toast>

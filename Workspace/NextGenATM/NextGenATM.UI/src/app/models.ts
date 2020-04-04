@@ -8,7 +8,9 @@ export enum AuthState {
 export enum EnrollmentStep {
     selectbranch,
     enterdetails,
-    facedetection
+    facedetection,
+    export,
+    finalScreen
 }
 
 export interface Bank {
@@ -23,4 +25,18 @@ export interface Customer {
     accountNo?: string,
     name?: string,
     balance?: number
+}
+
+export enum ATMFlow {
+    welcome,
+    scan,
+    facedetection,
+    selectTransactionType,
+    checkBalance,
+    withdrawalPage
+}
+
+export enum QRMatch {
+    AccountFound,
+    AccountNotFound
 }

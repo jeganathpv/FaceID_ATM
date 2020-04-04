@@ -1,0 +1,18 @@
+<div class="container-fluid">
+    <div class="row justify-content-center mt-3">
+        <div  class="col-9 center-content">
+        <div *ngIf='!qrCardDetails' class="col-9 center-content">
+            <div class="card-material formPadding">
+                <h2 class="card-title text-center">Place your card here</h2>
+                <div class="qr-scanner">
+            <zxing-scanner (scanSuccess)="scanSuccessHandler($event)"></zxing-scanner>
+            </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+<p-toast sticky=true position="bottom-right"></p-toast>
+
+
+    

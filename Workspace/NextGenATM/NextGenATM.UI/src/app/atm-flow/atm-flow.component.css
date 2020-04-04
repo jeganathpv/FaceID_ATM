@@ -1,0 +1,42 @@
+.jumbotron{
+    height: calc(100% - 100px);
+    margin: 0px;
+}
+
+.carousel-area{
+    height:calc(100vh - 300px);
+    width: 1000px;
+    margin: 0 auto;
+    background-color: #4df9fd;
+    display: block;
+}
+
+.atm-flow-content{
+    height:100%;
+    padding: 20px;
+    background: #ecdfae;
+}
+
+.statusMsg{
+    color: white;
+}
+.content-right{
+    display: inline-grid;
+}
+
+.image-loader{
+    width: 100%;
+}
+
+.loadingimage{
+    margin: 0 auto;
+    width: 100%;
+    text-align: center;
+    height: calc(100vh - 100px);
+    background-color: black;
+}
+
+.center-input{
+    max-width: 300px;
+    margin: 0 auto;
+}

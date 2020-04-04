@@ -1,19 +1,19 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { WelcomeComponent } from './welcome/welcome.component';
-import { FacedetectionComponent } from './facedetection/facedetection.component';
 import { EnrollmentComponent } from './enrollment/enrollment.component';
-
+import { UrlselectorComponent } from './urlselector/urlselector.component';
+import { AtmFlowComponent } from './atm-flow/atm-flow.component';
 
 
 const routes: Routes = [
-  { path: '', component: WelcomeComponent },
-  { path: 'facedetection', component: FacedetectionComponent },
-  { path: 'enrollment', component: EnrollmentComponent }
+  { path: '', component: UrlselectorComponent , pathMatch:'full'},
+  { path: 'enroll', component: UrlselectorComponent  , pathMatch:'full'},
+  { path: 'enrollment', component: EnrollmentComponent  , pathMatch:'full' },
+  { path: 'atm-flow',component: AtmFlowComponent , pathMatch:'full'},
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes , { useHash: true }), ],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
