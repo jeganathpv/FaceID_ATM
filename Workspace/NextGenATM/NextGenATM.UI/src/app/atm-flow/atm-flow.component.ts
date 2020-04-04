@@ -18,7 +18,7 @@ export class AtmFlowComponent implements OnInit {
   statusMsg: string = '';
   amountRequired: string = '';
   operationTimedOut: boolean = false;
-  carousalSource = ['1.svg','2.png'];
+  carousalSource = ['1.svg','2.png','3.svg'];
   imageNumber: number = 0;
   constructor(private middlewareService: MiddlewareService, private timer: TimerService, private messageService: MessageService, private router: Router) { }
 
