@@ -1,0 +1,1 @@
+{"options":{},"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_","ns":"faceid-atm.lastCustId"}],"uuid":"c80009bcc04b48da9253ba08e9480427"}
