@@ -18,6 +18,7 @@ from Helper import QRCardGenerator, ImageToB64, HandleException
 with open('appsettings.json', 'r') as json_file:
     appsettings = json.load(json_file)
 
+awsCredentials = appsettings["AWSCredentials"]
 
 class LoginUser:
     @staticmethod
@@ -182,8 +183,10 @@ class FaceDetection:
             HandleException.exceptionHandler(e)
 
 
-rekognitionClient = boto3.client('rekognition', aws_access_key_id=aws.access_key_id,
-                                 aws_secret_access_key=aws.secret_access_key, region_name=aws.region)
+rekognitionClient = boto3.client('rekognition',
+                      aws_access_key_id=awsCredentials['AccessKeyId'],
+                      aws_secret_access_key=awsCredentials['SecretAccessKey'],
+                      region_name=awsCredentials['Region'])
 
 
 class FaceID():

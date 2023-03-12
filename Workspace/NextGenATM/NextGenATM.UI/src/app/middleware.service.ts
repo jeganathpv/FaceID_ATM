@@ -185,7 +185,7 @@ export class MiddlewareService {
    * Checks if the service is running
    */
   checkHealth(){
-    return new Promise((resolve , reject) => {
+    return new Promise<void>((resolve , reject) => {
       this.http.get(this.baseurl + '/checkhealth').toPromise().then(active => {
         if(active === true)
           resolve();
