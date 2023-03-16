@@ -3,7 +3,7 @@ import face_recognition
 from PIL import Image
 import base64
 # AWS Lambda
-import csv_load as aws
+# import csv_load as aws
 import boto3
 import json
 import datetime
