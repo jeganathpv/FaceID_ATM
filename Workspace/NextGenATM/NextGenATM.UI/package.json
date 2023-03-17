@@ -14,15 +14,15 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "~8.2.4",
+    "@angular/animations": "~9.1.13",
     "@angular/cdk": "^9.1.0",
-    "@angular/common": "~8.2.4",
-    "@angular/compiler": "~8.2.4",
-    "@angular/core": "~8.2.4",
-    "@angular/forms": "~8.2.4",
-    "@angular/platform-browser": "~8.2.4",
-    "@angular/platform-browser-dynamic": "~8.2.4",
-    "@angular/router": "~8.2.4",
+    "@angular/common": "~9.1.13",
+    "@angular/compiler": "~9.1.13",
+    "@angular/core": "~9.1.13",
+    "@angular/forms": "~9.1.13",
+    "@angular/platform-browser": "~9.1.13",
+    "@angular/platform-browser-dynamic": "~9.1.13",
+    "@angular/router": "~9.1.13",
     "@ng-bootstrap/ng-bootstrap": "^5.2.1",
     "@zxing/ngx-scanner": "^3.0.0",
     "angularx-qrcode": "^2.1.0",
@@ -34,20 +34,20 @@
     "ngx-webcam": "^0.2.6",
     "primeicons": "^2.0.0",
     "primeng": "^9.0.0",
-    "rxjs": "~6.4.0",
+    "rxjs": "~6.6.7",
     "tslib": "^1.10.0",
-    "zone.js": "~0.9.1"
+    "zone.js": "~0.10.2"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.803.3",
-    "@angular/cli": "~8.3.3",
-    "@angular/compiler-cli": "~8.2.4",
-    "@angular/language-service": "~8.2.4",
+    "@angular-devkit/build-angular": "~0.901.15",
+    "@angular/cli": "~9.1.15",
+    "@angular/compiler-cli": "~9.1.13",
+    "@angular/language-service": "~9.1.13",
     "@types/electron": "^1.6.10",
     "@types/jasmine": "~3.3.8",
     "@types/jasminewd2": "~2.0.3",
-    "@types/node": "^8.9.5",
-    "codelyzer": "^5.0.0",
+    "@types/node": "^12.11.1",
+    "codelyzer": "^5.1.2",
     "electron": "^8.1.1",
     "electron-packager": "^14.2.1",
     "jasmine-core": "~3.4.0",
@@ -60,6 +60,9 @@
     "protractor": "~5.4.0",
     "ts-node": "~7.0.0",
     "tslint": "~5.15.0",
-    "typescript": "~3.5.3"
-  }
+    "typescript": "~3.8.3"
+  },
+  "exports": {
+    "./index.js": "./tslib.es6.js"
+}
 }
