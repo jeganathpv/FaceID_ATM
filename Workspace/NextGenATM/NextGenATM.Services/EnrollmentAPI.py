@@ -1,4 +1,5 @@
-from flask import Flask, jsonify, request
+import io
+from flask import Flask, jsonify, request, send_file
 from flask_restful import Api, Resource
 from flask_cors import CORS, cross_origin
 
@@ -53,15 +54,18 @@ class AccountController(Resource):
             custId[-3:], branchCode, accountNo)
         return jsonify({'Status': True, 'customerID': custId})
 
-    @app.route('/account/generateqrcard', methods=['POST'])
+    @app.route('/account/generateqrcard/<string:id>', methods=['GET'])
     @cross_origin(support_credentials=True)
-    def generateQRDetails():
-        json_data = request.get_json(force=True)
-        customerID = json_data['customerID']
+    def generateQRDetails(id):
+        customerID = str(id).strip()
         qrDetail = AccountService.fetchCustomerDetail(customerID)
-        qrCardString = AccountService.generateQrCard(qrDetail)
-        return jsonify({"card": qrCardString})
-
+        qrCardAsBytes = AccountService.generateQrCard(qrDetail)
+        return send_file(
+                io.BytesIO(qrCardAsBytes),
+                mimetype='image/png',
+                download_name='qrcard.png',
+                as_attachment=True
+            )
 
 class FaceIDController(Resource):
     @app.route('/faceid/detectface', methods=['POST'])
@@ -94,4 +98,4 @@ if __name__ == "__main__":
     api.add_resource(BankController)
     api.add_resource(AccountController)
     api.add_resource(FaceIDController)
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5010)

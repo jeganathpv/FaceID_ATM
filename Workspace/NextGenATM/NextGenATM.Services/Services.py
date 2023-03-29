@@ -105,8 +105,10 @@ class AccountService:
     def generateQrCard(qrDetail):
         """Generate QR Card using Helper"""
         try:
-            QRCardGenerator.generateQrCard(qrDetail)
-            return ImageToB64.getBase64String("backup/card/{}.png".format(qrDetail.customerID))
+            # QRCardGenerator.generateQrCard(qrDetail)
+            with open("backup/card/{}.png".format(qrDetail.customerID), 'rb') as f:
+                image_data = f.read()
+            return image_data
         except Exception as e:
             HandleException.exceptionHandler(e)
 
