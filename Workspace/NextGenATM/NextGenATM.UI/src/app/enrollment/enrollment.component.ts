@@ -102,15 +102,8 @@ export class EnrollmentComponent implements OnInit {
               this.statusMsg = "Indexing Done";
               this.enrollmentStep = 3;
               this.cardGenerating = true;
-              this.middlewareService
-                .generateQrCode(this.customer.customerID)
-                .subscribe((data: any) => {
-                  setTimeout(() => {
-                    this.cardinString = "data:image/png;base64," + data.card;
-                    this.cardGenerating = false;
-                  }, 3000);
-                });
-              this.imageLoading = false;
+              this.middlewareService.generateQrCode(this.customer.customerID)
+              this.cardGenerating = this.imageLoading = false;
             }
           });
       } else if (res.Status == 2) {

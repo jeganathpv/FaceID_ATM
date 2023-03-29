@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Bank } from './models';
 import { AuthState } from './models';
 import { BehaviorSubject } from 'rxjs';
+import { saveAs } from 'file-saver';
+
 
 @Injectable({
   providedIn: 'root'
@@ -116,7 +118,12 @@ export class MiddlewareService {
    * @param customerId the customer id of the current user
    */
   generateQrCode(customerId: string) {
-    return this.http.post(this.baseurl + "/account/generateqrcard", { "customerID": customerId });
+    return this.http.get(this.baseurl + `/account/generateqrcard/${customerId}`, { responseType: 'blob' })
+    .subscribe((response) => {
+      const blob = new Blob([response], { type: 'image/png' });
+      const filename = `${customerId}_card.png`;
+      saveAs(blob, filename);
+    })
   }
   
   /**
