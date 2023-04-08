@@ -38,14 +38,14 @@ export class UrlselectorComponent implements OnInit {
       });
       return;
     } else if (formValue.url.match(pattern)) {
-      if (formValue.url.includes("5000") || formValue.url.includes("5100")) {
+      if (formValue.url.includes("5010") || formValue.url.includes("5100")) {
         this.middlewareService.setBaseUrl(formValue.url);
         this.middlewareService
           .checkHealth()
           .then(() => {
-            this.router.navigate(['/atm-flow']);
+            // this.router.navigate(['/atm-flow']);
             //Switch comment while Packing
-            // this.router.navigate(["/enrollment"]);
+            this.router.navigate(["/enrollment"]);
           })
           .catch(() => {
             console.error("Service down");
