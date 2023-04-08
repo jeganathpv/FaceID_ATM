@@ -31,7 +31,7 @@
     "file-saver": "^2.0.5",
     "html2canvas": "^1.0.0-rc.5",
     "jquery": "^3.4.1",
-    "jspdf": "^1.5.3",
+    "jspdf": "^2.5.1",
     "ngx-webcam": "^0.2.6",
     "primeicons": "^2.0.0",
     "primeng": "^9.0.0",
